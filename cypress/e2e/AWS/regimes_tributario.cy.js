@@ -6,7 +6,7 @@ describe('Módulo - Regime Tributário - Retorna uma lista ', () => {
     cy.login()
     cy.refreshToken()
   });
-//
+
   describe('Módulo - Recursos', () => {
 
     it('Validar retorno 200', () => {
