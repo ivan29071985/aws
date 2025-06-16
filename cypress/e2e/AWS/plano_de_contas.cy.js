@@ -195,14 +195,15 @@ describe('Módulo - Plano de Contas', () => {
                 const token = Cypress.env('access_token');
 
                 cy.request({
-                    method: 'DELETE',
+                    method: 'POST',
                     url: '/api/v1/plano-de-contas/despesas',
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                    }
+                    },
+                    failOnStatusCode: false
                 }).then((response) => {
                     // Verifica se o status é 404
-                    expect(response.status).to.eq(200);
+                    expect(response.status).to.eq(404);
                 })
             })
         })
