@@ -43,7 +43,7 @@ describe('Módulo - Regime Tributário - Retorna uma lista ', () => {
       }).then((response) => {
         // Verifica se o status é 200
         expect(response.status).to.eq(404);
-
+////////modify
 
       });
     });
