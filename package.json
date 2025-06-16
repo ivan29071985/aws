@@ -1,0 +1,29 @@
+{
+  "name": "work_refactor_aws",
+  "version": "1.0.0",
+  "description": "Projeto de refatoração API para AWS",
+  "main": "index.js",
+  "author": "Ivan Barros",
+  "license": "MIT",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    
+    "allure:clear": "npx rimraf allure-results allure-report",
+    "allure:generate": "npx allure generate allure-results --clean",
+    "allure:open": "npx allure open allure-report",
+    
+    "test:step1": "npm run cypress:run",
+    "test:step2": "npm run allure:generate",
+    "test:step3": "npm run allure:open",
+    
+    "test:allure": "npm run allure:clear && npm run test:step1 && npm run test:step2 && npm run test:step3",
+    "test:allure:serve": "npm run cypress:run && npx allure serve allure-results"
+  },
+  "devDependencies": {
+    "@mmisty/cypress-allure-adapter": "^3.2.3",
+    "allure-commandline": "^2.24.1",
+    "cypress": "^12.2.0",
+    "rimraf": "^5.0.10"
+  }
+}
