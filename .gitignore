@@ -1,0 +1,93 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+database.json
+
+# Logs
+logs/
+*.log
+log/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+*.lcov
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Build directories
+build/
+dist/
+out/
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+
+# Cache
+.cache/
+.parcel-cache/
+.npm
+.eslintcache
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Testing
+.nyc_output
+test-results/
+
+# Uploads
+uploads/
+public/uploads/
+
+# Config files (que podem ter dados sensíveis)
+config/local.json
+config/production.json
+
+# Backup files
+*.bak
+*.backup
