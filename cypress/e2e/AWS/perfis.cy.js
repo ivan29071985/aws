@@ -9,7 +9,7 @@ describe('Módulo - Perfis - Retorna uma lista de parceiros institucional', () =
 
   describe('Módulo - Perfis', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/perfis', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -32,7 +32,7 @@ describe('Módulo - Perfis - Retorna uma lista de parceiros institucional', () =
       })
     })
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/perfis', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -51,7 +51,7 @@ describe('Módulo - Perfis - Retorna uma lista de parceiros institucional', () =
 
   describe('Módulo - Perfis - recursos', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/perfis/${perfilId}/recursos`', () => {
       const token = Cypress.env('access_token');
       const perfilId = 2;
 
@@ -107,7 +107,7 @@ describe('Módulo - Perfis - Retorna uma lista de parceiros institucional', () =
       });
     });
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/perfis/${perfilId}/recursos`', () => {
       const token = Cypress.env('access_token');
       const perfilId = 2;
 

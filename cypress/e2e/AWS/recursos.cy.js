@@ -9,7 +9,7 @@ describe('Módulo - Recursos - Retorna uma lista de todos os recursos de um perf
 
   describe('Módulo - Recursos', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/recursos', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -27,7 +27,7 @@ describe('Módulo - Recursos - Retorna uma lista de todos os recursos de um perf
       });
     });
 
-    it('Validar retorno 401', () => {
+    it('Validar retorno 401 - /api/v1/recursos', () => {
       cy.request({
         method: 'GET',
         url: '/api/v1/recursos', // URL do seu endpoint

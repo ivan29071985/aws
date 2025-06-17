@@ -9,7 +9,7 @@ describe('Módulo - Plano de Contas', () => {
     //
     describe('Plano de Contas - Retorna todos os planos de contas', () => {
 
-        it('Validar retorno 200', () => {
+        it('Validar retorno 200 - /api/v1/plano-de-contas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -44,7 +44,7 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404', () => {
+        it('Validar retorno 404 - /api/v1/plano-de-contas', () => {
             const token = Cypress.env('access_toke');
 
             cy.request({
@@ -65,7 +65,7 @@ describe('Módulo - Plano de Contas', () => {
 
     describe('Plano de Contas - Tipo Procedimento - Retorna os planos de contas para tipos de procedimentos', () => {
 
-        it('Validar retorno 200', () => {
+        it('Validar retorno 200 - /api/v1/plano-de-contas/tipo-procedimento', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -102,7 +102,7 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404', () => {
+        it('Validar retorno 404 - /api/v1/plano-de-contas/tipo-procedimento', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -121,7 +121,7 @@ describe('Módulo - Plano de Contas', () => {
 
     describe('Plano de Contas - Receitas - Retorna os planos de contas de tipo operação receita', () => {
 
-        it('Validar retorno 200', () => {
+        it('Validar retorno 200 - /api/v1/plano-de-contas/receitas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -148,7 +148,7 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404', () => {
+        it('Validar retorno 404 - /api/v1/plano-de-contas/receitas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -166,7 +166,7 @@ describe('Módulo - Plano de Contas', () => {
     })
 
     describe('Plano de Contas - Despesas - Retorna os planos de contas de tipo operação despesa', () => {
-        it('Validar retorno 200', () => {
+        it('Validar retorno 200 - /api/v1/plano-de-contas/despesas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -193,7 +193,7 @@ describe('Módulo - Plano de Contas', () => {
             })
         })
 
-        it('Validar retorno 404', () => {
+        it('Validar retorno 404 - /api/v1/plano-de-contas/despesas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({

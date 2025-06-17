@@ -9,7 +9,7 @@ describe('Módulo - Parcerias', () => {
 
   describe('Módulo - Parcerias - All - Retorna uma lista de parceiros', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/parcerias/all', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -34,7 +34,7 @@ describe('Módulo - Parcerias', () => {
       })
     })
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/parcerias/all', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -53,7 +53,7 @@ describe('Módulo - Parcerias', () => {
 
   describe('Módulo - Parcerias - Parceiros - Retorna uma lista de parceiros', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/parcerias/parceiros', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -101,7 +101,7 @@ describe('Módulo - Parcerias', () => {
       })
     })
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/parcerias/parceiros', () => {
 
       const token = Cypress.env('access_token')
       cy.request({

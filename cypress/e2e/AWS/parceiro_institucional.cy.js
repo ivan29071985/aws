@@ -9,7 +9,7 @@ describe('Módulo - Parceiro Institucional', () => {
 
   describe('Módulo - Parceiro Institucional', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/parceiroInstitucional', () => {
       const token = Cypress.env('access_token');
 
       cy.request({
@@ -64,7 +64,7 @@ describe('Módulo - Parceiro Institucional', () => {
       });
     });
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/parceiroInstitucional', () => {
       const token = Cypress.env('access_token');
 
       cy.request({

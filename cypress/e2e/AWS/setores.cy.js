@@ -9,7 +9,7 @@ describe('Módulo - Setores - Retorna setores gerais ativos', () => {
 
   describe('Módulo - Setores', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/setores', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
@@ -47,7 +47,7 @@ describe('Módulo - Setores - Retorna setores gerais ativos', () => {
       });
     });
 
-    it('Validar retorno 401', () => {
+    it('Validar retorno 401 - /api/v1/setores', () => {
       cy.request({
         method: 'GET',
         url: '/api/v1/setores', // URL do seu endpoint

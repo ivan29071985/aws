@@ -9,7 +9,7 @@ describe('Módulo - Fuso Horário - Retorna uma lista de regime tributários', (
 
   describe('Módulo - Fuso Horário', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/fusohorario', () => {
       const token = Cypress.env('access_token');
 
       cy.request({
@@ -54,7 +54,7 @@ describe('Módulo - Fuso Horário - Retorna uma lista de regime tributários', (
       });
     });
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/fusohorario', () => {
 
       const token = Cypress.env('access_token')
       cy.request({

@@ -9,7 +9,7 @@ describe('Módulo - Regime Tributário', () => {
 //
   describe('Módulo - Regime Tributário - Retorna uma lista de regime tributários', () => {
 
-    it('Validar retorno 200', () => {
+    it('Validar retorno 200 - /api/v1/regimeTributario', () => {
       const token = Cypress.env('access_token');
 
       cy.request({
@@ -32,7 +32,7 @@ describe('Módulo - Regime Tributário', () => {
       });
     });
 
-    it('Validar retorno 404', () => {
+    it('Validar retorno 404 - /api/v1/regimeTributario', () => {
       const token = Cypress.env('access_toke');
 
       cy.request({

@@ -8,6 +8,7 @@ describe('Módulo - Tipo documentos', () => {
   });
 
   describe('Módulo - Tipo documentos', () => {
+    
     it('Validar retorno 200 - /api/v1/document-types', () => {
 
       const token = Cypress.env('access_token')
