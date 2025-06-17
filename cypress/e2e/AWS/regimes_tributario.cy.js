@@ -1,13 +1,13 @@
 /// <reference types= "cypress" /> 
 
-describe('Módulo - Regime Tributário - Retorna uma lista ', () => {
+describe('Módulo - Regime Tributário', () => {
 
   beforeEach(() => {
     cy.login()
     cy.refreshToken()
   });
 //
-  describe('Módulo - Recursos', () => {
+  describe('Módulo - Regime Tributário - Retorna uma lista de regime tributários', () => {
 
     it('Validar retorno 200', () => {
       const token = Cypress.env('access_token');
@@ -25,6 +25,7 @@ describe('Módulo - Regime Tributário - Retorna uma lista ', () => {
         // Verifica a estrutura dos dados
         response.body.forEach((regime) => {
           expect(regime).to.have.property('id');
+          expect(regime).to.have.property('regime')
 
 
         });
