@@ -268,7 +268,7 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
 
     describe('Módulo - Regiões - Atualizar região', () => {
 
-        it('Validar retorno 200 - /api/v1/regioes/${id}', () => {
+        it('Validar retorno 200 - PUT /api/v1/regioes/${id}', () => {
             const token = Cypress.env('access_token');  // Obter o token de acesso do Cypress.env()
 
             // Verifique se o token está disponível
@@ -278,6 +278,12 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
 
             const id = 33; // ID da região que queremos atualizar
 
+            // Gerar nome randômico para a região
+            const randomSuffix = Math.floor(Math.random() * 999999) + 1; // Número aleatório de 1 a 999999
+            const randomRegionName = `Região ${randomSuffix}`;
+
+            cy.log(`Nome da região gerado: ${randomRegionName}`);
+
             cy.request({
                 method: 'PUT',  // Método para atualizar os dados
                 url: `/api/v1/regioes/${id}`,  // URL do endpoint para acessar uma região específica
@@ -286,10 +292,14 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
                     'Content-Type': 'application/json'   // Tipo de conteúdo JSON
                 },
                 body: {
-                    "nome": "Região Norte"  // Novo nome da região
+                    "nome": randomRegionName  // Nome randômico da região
                 },
                 failOnStatusCode: false  // Não falhar automaticamente em status 4xx ou 5xx
             }).then((response) => {
+                // Debug para ver o que está retornando
+                cy.log(`Status: ${response.status}`);
+                cy.log(`Body: ${JSON.stringify(response.body)}`);
+
                 // Verificar se o status é 200 (requisição bem-sucedida)
                 expect(response.status).to.eq(200);
 
@@ -297,9 +307,10 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
                 expect(response.body).to.have.property('flagDeError', false);
                 expect(response.body).to.have.property('codigo', 200);
                 expect(response.body).to.have.property('mensagem', 'Regional alterada com sucesso.');
+
+                cy.log(`Região atualizada com sucesso: ${randomRegionName}`);
             });
         });
-
         it('Validar retorno 401 - /api/v1/regioes/${id}', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
 
