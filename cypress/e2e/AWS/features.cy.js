@@ -11,8 +11,7 @@ describe('Módulo - Features', () => {
 
   });
 
-  describe('Módulo - Features - Cria uma nova Feature', () => {
-
+  describe('Módulo - Features - Criar uma nova Feature', () => {
 
     it('Validar retorno 201 - /api/v1/features', () => {
       const token = Cypress.env('access_token');
@@ -352,7 +351,7 @@ describe('Módulo - Features', () => {
 
   describe('Módulo - Features - Remove uma Feature', () => {
 
-    it('Validar retorno 200 - /api/v1/features{id}', () => {
+    it('Validar retorno 200 - /api/v1/features/{id}', () => {
       const token = Cypress.env('access_token');
 
       cy.log(`🔍 Procurando pela feature criada: ${featureName}`);
