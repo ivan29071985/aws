@@ -9,8 +9,10 @@ describe('Módulo - Features', () => {
 
   describe.only('Módulo - Features - Cria uma nova Feature', () => {
 
-    let constFeatureName = null;
-    it.only('Validar retorno 200 - /api/v1/features', () => {
+    let featureId;
+    let featureName;
+
+    it.only('Validar retorno 201 - /api/v1/features', () => {
 
       const token = Cypress.env('access_token')
       const featureName = `QA-${Date.now()}`;
@@ -31,8 +33,17 @@ describe('Módulo - Features', () => {
       }).then((response) => {
         expect(response.status).to.eq(201);
 
-        constFeatureName = featureName;
-        cy.log(featureName)
+        // Vamos verificar toda a estrutura da resposta
+        cy.log('Retorno completo do body:', JSON.stringify(response.body));
+
+
+        // Se ainda não conseguir o ID, vamos usar o nome da feature
+        if (!featureId) {
+          cy.log('ID não encontrado na resposta');
+          featureId = featureName; // ou outro identificador
+        }
+
+        cy.log(`Feature criada: ${featureName} com ID: ${featureId}`);
       })
     })
 
