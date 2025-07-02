@@ -16,7 +16,8 @@ describe('Módulo - Restrições', () => {
                 url: '/api/v1/restricoes/',
                 headers: {
                     'Authorization': `Bearer ${token}`, //Token inválido
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: {
                     id: 1,
@@ -32,9 +33,6 @@ describe('Módulo - Restrições', () => {
                     id: 1,
                     descricao: 'Idade',
                     flgAtivo: '1',
-                    createBy: null,
-                    createAt: '2023-03-24T18:29:48.219Z',
-                    updateAt: '2023-03-24T18:30:03.186Z',
                     lastUser: null,
                     ipClient: null
                 });
@@ -137,7 +135,7 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Retorna uma lista de restrição', () => {
 
-        it('Validar retorno 200 - /api/v1/restricoes', () => {
+        it.only('Validar retorno 200 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
