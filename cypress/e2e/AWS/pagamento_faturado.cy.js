@@ -1,6 +1,6 @@
 /// <reference types= "cypress" /> 
 
-describe('Módulo - Pagamento Faturado', () => {
+describe.only('Módulo - Pagamento Faturado', () => {
 
     beforeEach(() => {
         cy.login()
@@ -14,7 +14,7 @@ describe('Módulo - Pagamento Faturado', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/pagamento-faturado',
+                url: '/api/v1/pagamento-faturado?page=1&limit=15&partnerId=1&statusId=1&startDate=20241130&endDate=20241230',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -22,6 +22,21 @@ describe('Módulo - Pagamento Faturado', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
+
+                const body = response.body;
+                expect(body).to.deep.equals({
+                    items: [],
+                    information: {
+                        totalInvoiced: 0
+                    },
+                    meta: {
+                        itemCount: 0,
+                        totalItems: 0,
+                        itemsPerPage: 15,
+                        currentPage: 1,
+                        totalPages: 0
+                    }
+                })
             })
         })
 
