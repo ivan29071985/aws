@@ -7,10 +7,10 @@ describe('Módulo - Features', () => {
     cy.refreshToken()
   });
 
-  describe('Módulo - Features - Cria uma nova Feature', () => {
+  describe.only('Módulo - Features - Cria uma nova Feature', () => {
 
-
-    it('Validar retorno 200 - /api/v1/features', () => {
+    let constFeatureName = null;
+    it.only('Validar retorno 200 - /api/v1/features', () => {
 
       const token = Cypress.env('access_token')
       const featureName = `QA-${Date.now()}`;
@@ -30,6 +30,9 @@ describe('Módulo - Features', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(201);
+
+        constFeatureName = featureName;
+        cy.log(featureName)
       })
     })
 
@@ -346,16 +349,15 @@ describe('Módulo - Features', () => {
     })
   })
 
-  describe('Módulo - Features - Remove uma Feature', () => {
+  describe.only('Módulo - Features - Remove uma Feature', () => {
 
-    it('Validar retorno 200 - /api/v1/features/{id}', () => {
+    it.only('Validar retorno 200 - /api/v1/features/{id}', () => {
 
       const token = Cypress.env('access_token');
-      let idDelete = 833;
 
       cy.request({
         method: 'DELETE',
-        url: `/api/v1/features/${idDelete}`,
+        url: `/api/v1/features/${constFeatureName}`, // Id da Feature recém criada no método POST
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
