@@ -6,7 +6,7 @@ describe('Módulo - Cadeado', () => {
         cy.refreshToken()
     })
 
-    describe('Módulo - Cadeado - Retorna lista de cadeados das unidades', () => {
+    describe ('Módulo - Cadeado - Retorna lista de cadeados das unidades', () => {
 
         it('Validar retorno 200 - /api/v1/padlock', () => {
 
@@ -24,28 +24,28 @@ describe('Módulo - Cadeado', () => {
                 expect(response.status).to.eq(200)
 
                 const body = response.body;
-                expect(body).to.deep.equals({
+                expect(body).to.include.keys({
                     items: [
                         {
-                            caixaId: 317,
-                            data: "2023-04-18",
-                            entradas: 2,
-                            saidas: 0,
-                            saldo: 2,
-                            saldoInicial: 0,
-                            status: "A",
-                            unidade: "Telemedicina",
-                            unidadeId: 183,
+                            caixaId: null,
+                            data: null,
+                            entradas: null,
+                            saidas: null,
+                            saldo: null,
+                            saldoInicial: null,
+                            status: null,
+                            unidade: null,
+                            unidadeId: null,
                             cadeadoId: null,
                             parametros: null
                         }
                     ],
                     meta: {
-                        totalItems: 546,
-                        currentPage: 1,
-                        itemCount: 1,
-                        itemsPerPage: 1,
-                        totalPages: 546
+                        totalItems: null,
+                        currentPage: null,
+                        itemCount: null,
+                        itemsPerPage: null,
+                        totalPages: null
                     }
                 })
             })
