@@ -1,14 +1,14 @@
 /// <reference types= "cypress" /> 
 
-describe('Módulo - Convênios', () => {
+describe.only('Módulo - Convênios', () => {
     beforeEach(() => {
         cy.login()
         cy.refreshToken()
     })
 
-    describe.skip('Módulo - Convênios - Cria um convênio', () => {
+    describe.only('Módulo - Convênios - Cria um convênio', () => {
 
-        it('Validar retorno 201 - /api/v1/convenios', () => {
+        it.only('Validar retorno 201 - /api/v1/convenios', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -53,9 +53,75 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201)
-                cy.log('Retorno completo do body:', JSON.stringify(response.body));
 
+                // Verifica se o ID existe e é um número
+                expect(response.body.data.created.id).to.be.a('number');
+                cy.writeFile('cypress/fixtures/idConvenios.json', { id: response.body.data.created.id })
 
+                const created = response.body.data.created;
+                const item = created.items[0];
+
+                // Valida estrutura do primeiro item
+                expect(item).to.include.all.keys(
+                    'nome',
+                    'razaoSocial',
+                    'cnpj',
+                    'parceria',
+                    'registroAns',
+                    'retornoConsulta',
+                    'diasRecebimento',
+                    'numGuiaAtual',
+                    'cep',
+                    'endereco',
+                    'numero',
+                    'complemento',
+                    'bairro',
+                    'cidade',
+                    'estado',
+                    'telefone',
+                    'email',
+                    'percentual2Procedimento',
+                    'percentual3Procedimento',
+                    'percentual4Procedimento',
+                    'unidCalculo',
+                    'valorCh',
+                    'valorUco',
+                    'valorM2Filme',
+                    'observacoes',
+                    'ativo'
+                )
+
+                // Valida estrutura do objeto principal
+                expect(created).to.include.all.keys(
+                    'nome',
+                    'razaoSocial',
+                    'cnpj',
+                    'parceria',
+                    'registroAns',
+                    'retornoConsulta',
+                    'diasRecebimento',
+                    'numGuiaAtual',
+                    'cep',
+                    'endereco',
+                    'numero',
+                    'complemento',
+                    'bairro',
+                    'cidade',
+                    'estado',
+                    'telefone',
+                    'email',
+                    'percentual2Procedimento',
+                    'percentual3Procedimento',
+                    'percentual4Procedimento',
+                    'unidCalculo',
+                    'valorCh',
+                    'valorUco',
+                    'valorM2Filme',
+                    'observacoes',
+                    'id',
+                    'ativo',
+                    'items'
+                );
             })
         })
 
@@ -554,19 +620,121 @@ describe('Módulo - Convênios', () => {
         })
     })
 
-    describe('Módulo - Convênios - Atualiza um convênio por id', () => {
+    describe.only('Módulo - Convênios - Atualiza um convênio por id', () => {
 
-        it('Validar retorno 200 - /api/v1/convenios/{id}', () => {
-            
+        it.only('Validar retorno 200 - /api/v1/convenios/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            // Lê o ID salvo do arquivo
+            cy.readFile('cypress/fixtures/idConvenios.json').then((data) => {
+                const idConvenios = data.id
+
+
+                cy.request({
+                    method: 'PATCH',
+                    url: `/api/v1/convenios/${idConvenios}`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application'
+                    },
+                    body: {
+                        "nome": "Teste",
+                        "cnpj": null,
+                        "parceria": null,
+                        "registroAns": null,
+                        "retornoConsulta": null,
+                        "diasRecebimento": null,
+                        "numGuiaAtual": null,
+                        "cep": null,
+                        "endereco": null,
+                        "numero": null,
+                        "complemento": null,
+                        "bairro": null,
+                        "cidade": null,
+                        "estado": null,
+                        "telefone": null,
+                        "email": null,
+                        "percentual2Procedimento": null,
+                        "percentual3Procedimento": null,
+                        "percentual4Procedimento": null,
+                        "unidCalculo": null,
+                        "valorCh": null,
+                        "valorUco": null,
+                        "valorM2Filme": null,
+                        "observacoes": null,
+                        "ativo": true,
+                        "materiais": null,
+                        "medicamentos": null,
+                        "taxas": null,
+                        "filmes": null,
+                        "procedimentos": null,
+                        "versaoTissId": null,
+                        "cbhpmId": null,
+                        "porteId": null,
+                        "planos": [
+                            {
+                                "valorCh": null,
+                                "valorFilme": null,
+                                "valorPortes": null,
+                                "valorUco": null
+                            }
+                        ],
+                        "contratos": [
+                            {
+                                "codigoOperadora": null,
+                                "unidadeId": null,
+                                "contaBancariaId": null
+                            }
+                        ]
+                    },
+                    failOnStatusCode: false,
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+
+                    // Verifica se o body tem os campos esperados
+                    expect(response.body).to.include.all.keys('data', 'id');
+
+                    // Verifica se o campo 'data' contém a chave 'message'
+                    expect(response.body.data).to.include.all.keys('message');
+
+                    cy.log(`Convenio com ID ${idConvenios} alterado com sucesso.`);
+                })
+            })
         })
-        
+
     })
 
-    describe('Módulo - Convênios - Exclui um convênio por id', () => {
+    describe.only('Módulo - Convênios - Exclui um convênio por id', () => {
 
-        it('Validar retorno 200 - /api/v1/convenios/{id}', () => {
-            
-        });
-        
+        it.only('Validar retorno 200 - /api/v1/convenios/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            // Lê o ID salvo do arquivo
+            cy.readFile('cypress/fixtures/idConvenios.json').then((data) => {
+                const idConvenios = data.id
+
+
+                cy.request({
+                    method: 'DELETE',
+                    url: `/api/v1/convenios/${idConvenios}`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application'
+                    },
+                    failOnStatusCode: false,
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+
+                    // Verifica se o body tem os campos esperados
+                    expect(response.body).to.include.all.keys('data', 'id');
+
+                    // Verifica se o campo 'data' contém a chave 'message'
+                    expect(response.body.data).to.include.all.keys('message');
+
+                    cy.log(`Convenio com ID ${idConvenios} excluído com sucesso.`);
+
+                })
+            })
+        })
     })
 })

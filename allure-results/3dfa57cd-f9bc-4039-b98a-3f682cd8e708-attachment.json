@@ -1,0 +1,2 @@
+Retorno completo do body:
+{created: true,data: {created: {,nome: null,razaoSocial: null,cnpj: null,parceria: null,registroAns: null,retornoConsulta: null,diasRecebimento: null,numGuiaAtual: null,cep: null,endereco: null,numero: null,complemento: null,bairro: null,cidade: null,estado: null,telefone: null,email: null,percentual2Procedimento: null,percentual3Procedimento: null,percentual4Procedimento: null,unidCalculo: null,valorCh: null,valorUco: null,valorM2Filme: null,observacoes: null,id: 187,ativo: false}}}

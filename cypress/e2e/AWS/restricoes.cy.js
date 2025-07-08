@@ -135,7 +135,7 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Retorna uma lista de restrição', () => {
 
-        it.only('Validar retorno 200 - /api/v1/restricoes', () => {
+        it('Validar retorno 200 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
 
             cy.request({

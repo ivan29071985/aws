@@ -3,7 +3,7 @@
 describe('Módulo - Canais', () => {
     beforeEach(() => {
         cy.login()
-    cy.refreshToken()
+        cy.refreshToken()
     })
 
     describe('Módulo - Canais - Retorna uma lista de Canais', () => {
@@ -24,8 +24,8 @@ describe('Módulo - Canais', () => {
 
                 const items = response.body;
                 items.forEach((item) => {
-                expect(item).to.have.property('id');
-                expect(item).to.have.property('nome')
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('nome')
                 })
             })
         })
@@ -129,7 +129,7 @@ describe('Módulo - Canais', () => {
                 method: 'GET',
                 url: '/api/v1/canais/origens',
                 headers: {
-                    'Authorization': `Bearer ${token}`, 
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
@@ -167,7 +167,7 @@ describe('Módulo - Canais', () => {
                 method: 'POST',// Método divergente
                 url: '/api/v1/canais/origens',
                 headers: {
-                    'Authorization': `Bearer ${token}`,  
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
