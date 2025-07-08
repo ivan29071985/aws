@@ -6,7 +6,7 @@ describe('Módulo - Convênios', () => {
         cy.refreshToken()
     })
 
-    describe.skip('Módulo - Convênios - Cria um convênio', () => {
+    describe('Módulo - Convênios - Cria um convênio', () => {
 
         it('Validar retorno 201 - /api/v1/convenios', () => {
             const token = Cypress.env('access_token');
@@ -274,7 +274,7 @@ describe('Módulo - Convênios', () => {
         })
     })
 
-    describe.skip('Módulo - Convênios - Retorna um lista de convênios com paginação', () => {
+    describe('Módulo - Convênios - Retorna um lista de convênios com paginação', () => {
 
         it('Validar retorno 200 - /api/v1/convenios', () => {
             const token = Cypress.env('access_token');
@@ -374,7 +374,7 @@ describe('Módulo - Convênios', () => {
         })
     })
 
-    describe.skip('Módulo - Convênios - Retorna um lista de convênios', () => {
+    describe('Módulo - Convênios - Retorna um lista de convênios', () => {
 
         it('Validar retorno 200 - /api/v1/convenios/all', () => {
             const token = Cypress.env('access_token');
