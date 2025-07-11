@@ -1,6 +1,6 @@
 /// <reference types= "cypress" /> 
 
-describe.only('Módulo - Unidades', () => {
+describe('Módulo - Unidades', () => {
 
     beforeEach(() => {
         cy.login()
@@ -629,8 +629,282 @@ describe.only('Módulo - Unidades', () => {
     describe('Módulo - Unidades - Vincula uma unidade a um profissional', () => {
         
         it('Validar retorno 201 - /api/v1/unidades/link-clinic-professional', () => {
-            
-        });
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+
+                const item = response.body;
+                expect(item).to.have.property('codigo');
+                expect(item).to.have.property('flagDeError');
+                expect(item).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, // Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+         it('Validar retorno 404 - /api/v1/unidades/link-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PATCH', // Método divergente
+                url: '/api/v1/unidades/link-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe('Módulo - Unidades - Desvincular uma unidade de um profissional', () => {
+        
+        it('Validar retorno 201 - /api/v1/unidades/unlink-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/unlink-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+
+                const item = response.body;
+                expect(item).to.have.property('codigo');
+                expect(item).to.have.property('flagDeError');
+                expect(item).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/unidades/unlink-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/unlink-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/unidades/unlink-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/unidades/unlink-clinic-professional',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, // Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/unidades/unlink-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/unidades/unlink-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/unidades/unlink-clinic-professional', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PATCH',
+                url: '/api/v1/unidades/unlink-clinic-professional',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "idProfissional": 3901
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe('Módulo - Unidades - Consultar agendamento do profissional por id', () => {
+    //Em construção
+        it('Validar retorno 200 - /api/v1/unidades/appointments/professional{id}', () => {
+            const token = Cypress.env('access_token');
+            const idProfissional = 3901;
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/unidades/appointments/professional{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type':  'application/json'
+                },
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const items = response.body;
+                items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('lembrete24h');
+                    expect(item).to.have.property('lembrete1h');
+                    expect(item).to.have.property('lembrete15min');
+                    expect(item).to.have.property('flagConfirmAppointment');
+                    expect(item).to.have.property('flgLinkExpirado');
+                    expect(item).to.have.property('clinica');
+                    expect(item).to.have.property('fkPaciente');
+                    expect(item).to.have.property('profissional_id');
+                    expect(item).to.have.property('especialidade_id');
+                    expect(item).to.have.property('statusAgendamento');
+                    expect(item).to.have.property('data');
+                    expect(item).to.have.property('horaInicio');
+                    expect(item).to.have.property('horaTermino');
+                    expect(item).to.have.property('encaixe');
+                    expect(item).to.have.property('retorno');
+                    expect(item).to.have.property('lastUser');
+                    expect(item).to.have.property('updatedAt');
+                    expect(item).to.have.property('ipClient');
+                    expect(item).to.have.property('enviarSms');
+                    expect(item).to.have.property('enviarEmail');
+                    expect(item).to.have.property('valorTotal');
+                    expect(item).to.have.property('repeticao');
+                    expect(item).to.have.property('repeticaoPeriodicidade');
+                    expect(item).to.have.property('repeticaoQuantidade');
+                    expect(item).to.have.property('repeticaoDataTermino');
+                    expect(item).to.have.property('observacao');
+                    expect(item).to.have.property('precificacaoId');
+                    expect(item).to.have.property('reschedulingCounter');
+                    expect(item).to.have.property('flgRescheduling');
+                    expect(item).to.have.property('createAt');
+                    expect(item).to.have.property('createdBy');
+                    expect(item).to.have.property('dataLimiteRetorno');
+                    expect(item).to.have.property('profissional_clinica_id');
+                    expect(item).to.have.property('flgConsultaAssistida');
+                    expect(item).to.have.property('agendamentoOrigemId');
+                    expect(item).to.have.property('checkIn');
+                    expect(item).to.have.property('retornoOrigemAgendamentoId');
+                    expect(item).to.have.property('oldStatus');
+                    expect(item).to.have.property('lastAttendance');
+                    expect(item).to.have.property('paymentSettled');
+                    expect(item).to.have.property('updateDateStatusPortal');
+                    expect(item).to.have.property('parceiro');
+                    expect(item).to.have.property('paidByProposal');
+                    expect(item).to.have.property('flagPrimeiraConsulta');
+                    expect(item).to.have.property('scheduleId');
+                    expect(item).to.have.property('scheduleGeneratedId');
+                    expect(item).to.have.property('flgNaoCompareceu');
+                    expect(item).to.have.property('flgOverbooking');
+                    expect(item).to.have.property('paymentIdFiserv');
+                    expect(item).to.have.property('optinJson');
+
+                    expect(item).to.have.property('profissionalId');
+                    expect(item.profissionalId).to.have.property('');
+                })
+            })
+        })
     })
 })
 
