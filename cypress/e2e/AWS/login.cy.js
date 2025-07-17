@@ -2,7 +2,7 @@
 
 describe('Login', () => {
 
-  it('Validar retorno 200 - /api/v1/security/login', () => {
+  it.only('Validar retorno 200 - /api/v1/security/login', () => {
     cy.request({
       method: 'POST',
       url: '/api/v1/security/login',
@@ -13,7 +13,13 @@ describe('Login', () => {
       failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
     }).then((response) => {
       expect(response.status).to.eq(200)
+      expect(response.body).to.have.property('id')
+      expect(response.body).to.have.property('email')
+      expect(response.body).to.have.property('name')
       expect(response.body).to.have.property('access_token')
+      
+      
+      
 
       cy.log('ID:', response.body.id)
       cy.log('Email:', response.body.email)

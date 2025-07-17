@@ -5,7 +5,7 @@ describe('Módulo - Cadeado', () => {
         cy.login()
         cy.refreshToken()
     })
-
+//
     describe ('Módulo - Cadeado - Retorna lista de cadeados das unidades', () => {
 
         it('Validar retorno 200 - /api/v1/padlock', () => {

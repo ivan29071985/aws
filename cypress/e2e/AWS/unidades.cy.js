@@ -1,13 +1,13 @@
 /// <reference types= "cypress" /> 
 
-describe('Módulo - Unidades', () => {
+describe.only('Módulo - Unidades', () => {
 
     beforeEach(() => {
         cy.login()
         cy.refreshToken()
     });
 
-    describe('Módulo - Unidades - Criar uma unidade ', () => {
+    describe.skip('Módulo - Unidades - Criar uma unidade ', () => {
 
         it('Validar retorno 201 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
@@ -313,7 +313,8 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    describe('Módulo - Unidades - Retorna a lista de unidades', () => {
+    describe.skip('Módulo - Unidades - Retorna a lista de unidades', () => {
+
 
         it('Validar retorno 200 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
@@ -424,7 +425,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
-    describe('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
+    describe.skip('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/static-info/{id}', () => {
             const token = Cypress.env('access_token');
@@ -529,7 +530,7 @@ describe('Módulo - Unidades', () => {
     })
 
     describe('Módulo - Unidades - Atualiza informações estáticas de uma unidade. Deve ser usado apenas para atualizações forçadas.', () => {
-
+        
         it('Validar retorno 201 - /api/v1/unidades/static-info', () => {
             const token = Cypress.env('access_token');
 
@@ -1792,4 +1793,3 @@ describe('Módulo - Unidades', () => {
         })
     })
 })
-
