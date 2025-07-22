@@ -66,9 +66,9 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe('Módulo - Usuários - Cria um usuário com os dados mínimos', () => {
+    describe.skip('Módulo - Usuários - Cria um usuário com os dados mínimos', () => {
 
-        it.only('Validar retorno 201 - /api/v1/user/create-first', () => {
+        it('Validar retorno 201 - /api/v1/user/create-first', () => {
             const token = Cypress.env('access_token');
 
             // Gera os valores dinâmicos e os armazena em variáveis
@@ -305,9 +305,9 @@ describe('Módulo - Usuários', () => {
         })
     })
 
-    describe('Módulo - Usuários - Alterar a senha do usuário', () => {
+    describe.skip('Módulo - Usuários - Alterar a senha do usuário', () => { //Em construção...............=>
 
-        it.only('Validar retorno 200 - /api/v1/user', () => { //Em construção...............=>
+        it('Validar retorno 200 - /api/v1/user', () => { 
             cy.readFile('cypress/fixtures/userData.json').then((user) => {
                 const { email, password } = user;
 
@@ -344,6 +344,255 @@ describe('Módulo - Usuários', () => {
                     })
                 })
             })
+        })
+
+        it('Validar retorno 400 - /api/v1/user', () => {
+            const token = Cypress.env('access_token');
+            cy.request({
+                method: 'PATCH',
+                url: '/api/v1/user',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parÂmetro no body
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+    })
+
+    describe.skip('Módulo - Usuários - Lista usuarios por clínica', () => {
+
+        it('Validar retorno 200 - /api/v1/user/by-clinic', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/user/by-clinic',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const items = response.body;
+                items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('nome');
+                    expect(item).to.have.property('unidadeId');
+                    expect(item).to.have.property('unidade');
+                    expect(item).to.have.property('funcionarioId');
+                })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/user/by-clinic', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/user/by-clinic/',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/user/by-clinic', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', // Método divergente
+                url: '/api/v1/user/by-clinic/',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe.skip('Módulo - Usuários - Retorna os grupos regras', () => {
+
+        it('Validar retorno 200 - /api/v1/user/grupo_regras', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/user/grupo_regras',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const items = response.body;
+                items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('grupo');
+                })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/user/grupo_regras', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/user/grupo_regras',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/user/grupo_regras', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', // Método divergente
+                url: '/api/v1/user/grupo_regras',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe('Módulo - Usuários - Criar a senha do usuário', () => {
+
+        it('Validar retorno 200 - /api/v1/user/change-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PATCH',
+                url: '/api/v1/user/change-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    email: "usuarioTesteAPI1753211020093@email.com",
+                    newPassword: "@Password5916",
+                    confirmPassword: "@Password5916"
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                expect(response.body).to.include.all.key(
+                    'codigo',
+                    'flagDeError',
+                    'mensagem'
+                )
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/user/change-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PATCH',
+                url: '/api/v1/user/change-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/user/change-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/user/change-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    email: "usuarioTesteAPI1753211020093@email.com",
+                    newPassword: "@Password5916",
+                    confirmPassword: "@Password5916"
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/user/change-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/user/change-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    email: "usuarioTesteAPI1753211020093@email.com",
+                    newPassword: "@Password5916",
+                    confirmPassword: "@Password5916"
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+          /**** >================ EM CONSTRUÇÃO <=========================================*/
+    describe('Módulo - Usuários - Envia recuperação de senha para o usuário', () => {
+
+        it('Validar retorno 200 - /api/v1/user/change-password', () => {
+            
+        })
+    })
+
+    describe('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
+        it('Validar retorno 200 - /api/v1/user/recovery-password', () => {
+            
+        })
+    })
+
+    describe('Módulo - Usuários - Recuperar senha', () => {
+        it('Validar retorno 200 - /api/v1/user/password-recover', () => {
+            
+        })
+    })
+
+    describe('Módulo - Usuários - Recuperar / Nova senha do usuário', () => {
+        it('Validar retorno 200 - /api/v1/user/password-recover', () => {
+            
         })
     })
 })
