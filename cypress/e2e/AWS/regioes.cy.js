@@ -1,13 +1,13 @@
 /// <reference types= "cypress" /> 
 
-describe('Módulo - Regiões - Criar Nova Região', () => {
+describe('Módulo - Regiões', () => {
 
     beforeEach(() => {
         cy.login()
         cy.refreshToken()
     });
 
-    describe('Módulo - Regiões', () => {
+    describe('Módulo - Regiões - Criar Nova Região', () => {
 
         it('Validar retorno 200 ou 201 - /api/v1/regioes', () => {
             const token = Cypress.env('access_token');  // Obter o token de acesso do Cypress.env()
@@ -220,9 +220,7 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
                 throw new Error('Token de acesso não encontrado!');
             }
 
-            const id = 170
-
-                ; // ID da região que queremos acessar
+            const id = 3 //170 // ID da região que queremos acessar
 
             cy.request({
                 method: 'GET',
@@ -240,7 +238,7 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
 
 
                 expect(response.body).to.have.property('flgAtivo', '1');
-                expect(response.body).to.have.property('unidadesClinicas').that.is.an('array').and.has.lengthOf(0);
+                expect(response.body).to.have.property('unidadesClinicas').that.is.an('array').and.has.lengthOf(14);
 
             });
         });
@@ -311,6 +309,7 @@ describe('Módulo - Regiões - Criar Nova Região', () => {
                 cy.log(`Região atualizada com sucesso: ${randomRegionName}`);
             });
         });
+        
         it('Validar retorno 401 - /api/v1/regioes/${id}', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
 

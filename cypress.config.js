@@ -15,7 +15,8 @@ module.exports = defineConfig({
       allureResultsPath: 'allure-results',
       allureReportLanguage: 'pt-BR'
     },
-    baseUrl: 'https://amei-homolog.amorsaude.com.br',
+    baseUrl: process.env.CYPRESS_BASE_URL || 'https://amei-homolog.amorsaude.com.br',
+    failOnStatusCode: false,
     video: false,
   },
 })

@@ -12,7 +12,7 @@ describe('Módulo - Features', () => {
   });
 
   describe('Módulo - Features - Criar uma nova Feature', () => {
-
+    
     it('Validar retorno 201 - /api/v1/features', () => {
       const token = Cypress.env('access_token');
       featureName = `QA-${Date.now()}`;
@@ -259,7 +259,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 200 - /api/v1/features/{id}', () => {
 
       const token = Cypress.env('access_token')
-      const idFeature = 932;
+      const idFeature = 405;
 
       cy.request({
         method: 'PATCH',
@@ -270,7 +270,7 @@ describe('Módulo - Features', () => {
         },
         body: {
           feature: 'QA-1750860022218',
-          isActive: 1,
+          isActive: 0,
           defaultValueForNewUnits: 1
         },
         failOnStatusCode: false,

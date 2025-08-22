@@ -6,7 +6,7 @@ describe('Módulo - Plano de Contas', () => {
         cy.login()
         cy.refreshToken()
     });
-    //
+    
     describe('Plano de Contas - Retorna todos os planos de contas', () => {
 
         it('Validar retorno 200 - /api/v1/plano-de-contas', () => {
@@ -78,7 +78,7 @@ describe('Módulo - Plano de Contas', () => {
                 // Verifica se o status é 200
                 expect(response.status).to.eq(200);
 
-                // Valida que a resposta é um array
+               // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
                 expect(response.body.length).to.be.greaterThan(0);
 
@@ -180,7 +180,7 @@ describe('Módulo - Plano de Contas', () => {
                 // Verifica se o status é 200
                 expect(response.status).to.eq(200);
 
-                // Valida que a resposta é um array
+               // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
                 expect(response.body.length).to.be.greaterThan(0);
 

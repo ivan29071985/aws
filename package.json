@@ -8,21 +8,23 @@
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "cypress:open:staging": "cross-env CYPRESS_BASE_URL=https://amei-staging.amorsaude.com.br cypress open",
+    "cypress:open:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress open",
+    "cypress:open:producao": "cross-env CYPRESS_BASE_URL=https://amei.amorsaude.com.br cypress open",
     
     "allure:clear": "npx rimraf allure-results allure-report",
     "allure:generate": "npx allure generate allure-results --clean",
     "allure:open": "npx allure open allure-report",
-    
     "test:step1": "npm run cypress:run",
     "test:step2": "npm run allure:generate",
     "test:step3": "npm run allure:open",
-    
     "test:allure": "npm run allure:clear && npm run test:step1 && npm run test:step2 && npm run test:step3",
     "test:allure:serve": "npm run cypress:run && npx allure serve allure-results"
   },
   "devDependencies": {
     "@mmisty/cypress-allure-adapter": "^3.2.3",
     "allure-commandline": "^2.24.1",
+    "cross-env": "^10.0.0",
     "cypress": "^12.2.0",
     "rimraf": "^5.0.10"
   }

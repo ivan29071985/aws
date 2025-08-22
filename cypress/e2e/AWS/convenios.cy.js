@@ -1005,7 +1005,7 @@ describe('Módulo - Convênios', () => {
                         //'Authorization': `Bearer ${token}`, // Token inválido
                         'Content-Type': 'application'
                     },
-                    failOnStatusCode: false,
+                    failOnStatusCode: false
                 }).then((response) => {
                     expect(response.status).to.eq(401);
                 })

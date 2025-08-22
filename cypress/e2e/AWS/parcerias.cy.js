@@ -104,6 +104,7 @@ describe('Módulo - Parcerias', () => {
     it('Validar retorno 404 - /api/v1/parcerias/parceiros', () => {
 
       const token = Cypress.env('access_token')
+
       cy.request({
         method: 'POST',
         url: '/api/v1/parcerias/parceiros', // URL do seu endpoint
@@ -117,5 +118,4 @@ describe('Módulo - Parcerias', () => {
       });
     })
   })
-
 })
