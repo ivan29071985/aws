@@ -3,7 +3,7 @@
 /// >>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<
 describe('Módulo - Lista Espera', () => {
 
-    describe.skip('Módulo - Lista Espera - Cria uma lista de espera', () => {
+    describe('Módulo - Lista Espera - Cria uma lista de espera', () => {
 
         it('Validar retorno 201 - /api/v1/lista-espera', () => {
             const token = Cypress.env('access_token');
@@ -140,14 +140,14 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
-    describe.only('Módulo - Lista Espera - Lista de Espera', () => {
+    describe('Módulo - Lista Espera - Lista de Espera', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: 'api/v1/lista-espera?especialidadeId=611&withoutProfessional=true&page=1&limit=10&search=43657772898&blockedGrid=1',
+                url: '/api/v1/lista-espera?especialidadeId=611&withoutProfessional=true&page=1&limit=10&search=43657772898&blockedGrid=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
