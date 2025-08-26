@@ -104,18 +104,360 @@ describe('Módulo - Propostas', () => {
             })
         })
     })
-    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe('Módulo - Propostas - Cadastrar uma proposta', () => {
+
+    describe.skip('Módulo - Propostas - Cadastrar uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas', () => {
+            const token = Cypress.env('access_token');
 
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250825",
+                    dataValidade: "20251024",
+                    profissionalId: 3601,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 70,
+                    valorTotalClinica: 70,
+                    procedimentos: [
+                        {
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        }
+                    ],
+                    parcela: {
+                        id: 1,
+                        dataVencimento: "20251024",
+                        dataRecebimento: "20251024",
+                        observacao: ".",
+                        valor: 70,
+                        valorRecebido: 0,
+                        numeroParcela: 1,
+                        vencimento: "20251024"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    cashback: 0,
+                    optin: {
+                        healthData: true
+                    }
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+
+                const objeto = response.body;
+                expect(objeto).to.have.property('proposal').to.include.all.keys(
+                    'id',
+                    'cdtMatricula',
+                    'dataProposta',
+                    'dataValidade',
+                    'fkUnidade',
+                    'valorTotal',
+                    'quantidadeParcela',
+                    'tipoIntervalo',
+                    'quantidadeIntervalo',
+                    'flagAtivo',
+                    'ipClient',
+                    'createdAt',
+                    'updatedAt',
+                    'lastUser',
+                    'origem',
+                    'parceiroId',
+                    'origemId',
+                    'valorTotalClinica',
+                    'fkStatusProposta',
+                    'fkEspecialidade',
+                    'fkProfissional',
+                    'fkProfissionalExterno',
+                    'campaignId',
+                    'patientId',
+                    'paymentIdFiserv',
+                )
+                // Variável que recebe o id proposta
+                const propostaId = objeto.proposal.id;
+                // Salva o ID para uso posterior
+                Cypress.env('propostaId', propostaId);
+                cy.log('ID salvo:', propostaId);
+
+
+                expect(objeto.proposal).to.have.property('itens').to.be.an('array');
+                expect(objeto.proposal.itens[0]).to.include.all.keys(
+                    'id',
+                    'executanteId',
+                    'executado',
+                    'quantidade',
+                    'valorUnitario',
+                    'valorTotal',
+                    'flagAtivo',
+                    'ipClient',
+                    'createdAt',
+                    'updatedAt',
+                    'createdBy',
+                    'lastUser',
+                    'lastExecutantId',
+                    'valorTotalClinica',
+                    'pagamentoParcial',
+                    'fkProposta',
+                    'fkProcedimento'
+                )
+
+                expect(objeto.proposal).to.have.property('parcela').to.include.all.keys(
+                    'id',
+                    'fkProposta',
+                    'numeroParcela',
+                    'dataVencimento',
+                    'dataRecebimento',
+                    'observacao',
+                    'valor',
+                    'valorRecebido',
+                    'flagAtivo',
+                    'ipClient',
+                    'createdAt',
+                    'updatedAt',
+                    'createdBy',
+                    'lastUser',
+                    'formaLiquidacao'
+                )
+
+                expect(objeto).to.have.property('webHookPayload');
+                expect(objeto.webHookPayload).to.have.property('unique_code');
+
+                expect(objeto.webHookPayload).to.have.property('procedures').to.be.an('array');
+                expect(objeto.webHookPayload.procedures[0]).to.includes.all.keys(
+                    'item',
+                    'name',
+                    'price_particular_partner',
+                    'price_card'
+                )
+
+                expect(objeto.webHookPayload).to.have.property('summary').to.includes.all.keys(
+                    'subtotal',
+                    'economy',
+                    'total',
+                    'provider',
+                    'amorsaude',
+                    'cashback'
+                )
+
+                expect(objeto.webHookPayload).to.have.property('metadata').to.includes.all.keys(
+                    'user_id',
+                    'cashier_id',
+                    'unit_id',
+                    'timestamp'
+                )
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/propostas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parâmetro
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250825",
+                    dataValidade: "20251024",
+                    profissionalId: 3601,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 70,
+                    valorTotalClinica: 70,
+                    procedimentos: [
+                        {
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        }
+                    ],
+                    parcela: {
+                        id: 1,
+                        dataVencimento: "20251024",
+                        dataRecebimento: "20251024",
+                        observacao: ".",
+                        valor: 70,
+                        valorRecebido: 0,
+                        numeroParcela: 1,
+                        vencimento: "20251024"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    cashback: 0,
+                    optin: {
+                        healthData: true
+                    }
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/propostas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250825",
+                    dataValidade: "20251024",
+                    profissionalId: 3601,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 70,
+                    valorTotalClinica: 70,
+                    procedimentos: [
+                        {
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        }
+                    ],
+                    parcela: {
+                        id: 1,
+                        dataVencimento: "20251024",
+                        dataRecebimento: "20251024",
+                        observacao: ".",
+                        valor: 70,
+                        valorRecebido: 0,
+                        numeroParcela: 1,
+                        vencimento: "20251024"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    cashback: 0,
+                    optin: {
+                        healthData: true
+                    }
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/propostas',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250825",
+                    dataValidade: "20251024",
+                    profissionalId: 3601,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 70,
+                    valorTotalClinica: 70,
+                    procedimentos: [
+                        {
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        }
+                    ],
+                    parcela: {
+                        id: 1,
+                        dataVencimento: "20251024",
+                        dataRecebimento: "20251024",
+                        observacao: ".",
+                        valor: 70,
+                        valorRecebido: 0,
+                        numeroParcela: 1,
+                        vencimento: "20251024"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    cashback: 0,
+                    optin: {
+                        healthData: true
+                    }
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
         })
     })
-    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    describe.only('Módulo - Propostas - Retorna uma proposta por id', () => {
+    describe.skip('Módulo - Propostas - Retorna uma proposta por id', () => {
 
-        it.only('Validar retorno 200 - /api/v1/propostas/{id}', () => {
+        it('Validar retorno 200 - /api/v1/propostas/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -360,7 +702,727 @@ describe('Módulo - Propostas', () => {
                 expect(objeto).to.have.property('hasFilaColetaExames');
             })
         })
+
+        it('Validar retorno 400 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/{id}', // Sem parâmetro no body
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/392',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas/392',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
     })
+
+    describe.skip('Módulo - Propostas - Atualiza uma proposta por id', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: 'api/v1/propostas/21693',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250826",
+                    dataValidade: "20251024",
+                    profissionalId: 1821,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 75,
+                    valorTotalClinica: 75,
+                    procedimentos: [
+                        {
+                            id: 21694,
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        },
+                        {
+                            id: null,
+                            procedimentoId: 20357,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 5,
+                            valorTotal: 5,
+                            valorTotalClinica: 5
+                        }
+                    ],
+                    parcela: {
+                        id: 18095,
+                        dataVencimento: "19700101",
+                        dataRecebimento: "19700101",
+                        observacao: ".",
+                        valor: 0,
+                        vencimento: "19700101"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    campaignId: null,
+                    cashback: 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const objeto = response.body;
+
+                // Validação de campos principais
+                expect(objeto).to.have.property('flagDeError');
+                expect(objeto).to.have.property('codigo');
+                expect(objeto).to.have.property('mensagem');
+                expect(objeto).to.have.property('webHookPayload');
+
+                // Validação do webHookPayload
+                const payload = objeto.webHookPayload;
+                expect(payload).to.have.property('unique_code');
+                expect(payload).to.have.property('procedures').to.be.an('array');
+
+                // Validação dos procedimentos
+                expect(payload.procedures[0]).to.include.all.keys(
+                    'item',
+                    'name',
+                    'price_particular_partner',
+                    'price_card'
+                )
+                // Validação do summary
+                expect(payload).to.have.property('summary').to.include.all.keys(
+                    'subtotal',
+                    'economy',
+                    'total',
+                    'provider',
+                    'amorsaude',
+                    'cashback'
+                )
+                // Validação do metadata
+                expect(payload).to.have.property('metadata').to.include.all.keys(
+                    'user_id',
+                    'cashier_id',
+                    'unit_id',
+                    'timestamp'
+                )
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: 'api/v1/propostas/21693',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: 'api/v1/propostas/21693',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250826",
+                    dataValidade: "20251024",
+                    profissionalId: 1821,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 75,
+                    valorTotalClinica: 75,
+                    procedimentos: [
+                        {
+                            id: 21694,
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        },
+                        {
+                            id: null,
+                            procedimentoId: 20357,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 5,
+                            valorTotal: 5,
+                            valorTotalClinica: 5
+                        }
+                    ],
+                    parcela: {
+                        id: 18095,
+                        dataVencimento: "19700101",
+                        dataRecebimento: "19700101",
+                        observacao: ".",
+                        valor: 0,
+                        vencimento: "19700101"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    campaignId: null,
+                    cashback: 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: 'api/v1/propostas/21693',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    pacienteId: 245352,
+                    parceiroId: 41,
+                    cdtMatricula: "SP103094455",
+                    dataProposta: "20250826",
+                    dataValidade: "20251024",
+                    profissionalId: 1821,
+                    especialidadeId: 611,
+                    status: 1,
+                    valorTotal: 75,
+                    valorTotalClinica: 75,
+                    procedimentos: [
+                        {
+                            id: 21694,
+                            procedimentoId: 20715,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 70,
+                            valorTotal: 70,
+                            valorTotalClinica: 70
+                        },
+                        {
+                            id: null,
+                            procedimentoId: 20357,
+                            executanteId: 420,
+                            executado: "0",
+                            pagamentoParcial: "0",
+                            quantidade: 1,
+                            valorUnitario: 5,
+                            valorTotal: 5,
+                            valorTotalClinica: 5
+                        }
+                    ],
+                    parcela: {
+                        id: 18095,
+                        dataVencimento: "19700101",
+                        dataRecebimento: "19700101",
+                        observacao: ".",
+                        valor: 0,
+                        vencimento: "19700101"
+                    },
+                    profissaoExternoId: null,
+                    profissionalExterno: "",
+                    codigoExterno: "",
+                    campaignId: null,
+                    cashback: 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+    })
+
+    describe.skip('Módulo - Propostas - Excluir uma proposta por id', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/propostas/21593',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/propostas/{id}', // Sem parâmetro
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/propostas/21593',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas/21593',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe.skip('Módulo - Propostas - Retorna uns procedimentos pagos', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/procedimentos/pagas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/procedimentos/pagas?paciente=1&page=1&limit=10',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                const item = response.body;
+                expect(item).to.have.property('items').to.be.an('array');
+                expect(item).to.have.property('meta').to.includes.all.keys(
+                    'totalItems',
+                    'currentPage',
+                    'itemCount',
+                    'itemsPerPage',
+                    'totalPages'
+                )
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/procedimentos/pagas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/procedimentos/pagas',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/procedimentos/pagas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas/procedimentos/pagas?paciente=1&page=1&limit=10',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe.skip('Módulo - Propostas - Atualiza uma parcela da proposta por id', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/parcela/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/parcela/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    propostaItemId: 1,
+                    executado: "1",
+                    id: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/propostas/parcela/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/parcela/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/parcela/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/parcela/21595',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    propostaItemId: 1,
+                    executado: "1",
+                    id: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/propostas/parcela/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/propostas/parcela/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    propostaItemId: 1,
+                    executado: "1",
+                    id: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/parcela/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST', // Método divergente
+                url: '/api/v1/propostas/parcela/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    propostaItemId: 1,
+                    executado: "1",
+                    id: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe.skip('Módulo - Propostas - Atualiza o status da proposta', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/status/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/status/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/propostas/status/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/status/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/status/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/status/21595',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/propostas/status/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/propostas/status/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/status/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST', // Método divergente
+                url: '/api/v1/propostas/status/21595',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe.skip('Módulo - Propostas - Cancela uma proposta', () => {
+
+        it('Validar retorno 200 - api/v1/propostas/cancel/{id}', () => {
+            const token = Cypress.env('access_token');
+            // Variável que vai reutilizar a proposta recém criada
+            const propostaId = Cypress.env('propostaId');
+            
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/propostas/cancel/${propostaId}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                expect(response.body).to.have.property('newCancelStatus');
+                expect(response.body).to.have.property('message')
+            })
+        })
+
+        it('Validar retorno 400 - api/v1/propostas/cancel/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: 'api/v1/propostas/cancel/{id}}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - api/v1/propostas/cancel/{id}', () => {
+            const token = Cypress.env('access_token');
+        
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/propostas/cancel/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - api/v1/propostas/cancel/{id}', () => {
+            const token = Cypress.env('access_token');
+    
+            cy.request({
+                method: 'POST', // Método divergente
+                url: 'api/v1/propostas/cancel/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Propostas - Retorna lista de eventos de uma proposta', () => {
+        
+    });
 })
 
 
