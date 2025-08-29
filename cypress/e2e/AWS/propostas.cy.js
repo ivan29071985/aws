@@ -1352,7 +1352,7 @@ describe('Módulo - Propostas', () => {
             const token = Cypress.env('access_token');
             // Variável que vai reutilizar a proposta recém criada
             const propostaId = Cypress.env('propostaId');
-            
+
 
             cy.request({
                 method: 'DELETE',
@@ -1388,7 +1388,7 @@ describe('Módulo - Propostas', () => {
 
         it('Validar retorno 401 - api/v1/propostas/cancel/{id}', () => {
             const token = Cypress.env('access_token');
-        
+
             cy.request({
                 method: 'DELETE',
                 url: '/api/v1/propostas/cancel/{id}',
@@ -1404,7 +1404,7 @@ describe('Módulo - Propostas', () => {
 
         it('Validar retorno 404 - api/v1/propostas/cancel/{id}', () => {
             const token = Cypress.env('access_token');
-    
+
             cy.request({
                 method: 'POST', // Método divergente
                 url: 'api/v1/propostas/cancel/{id}',
@@ -1419,12 +1419,207 @@ describe('Módulo - Propostas', () => {
         })
     })
 
+    describe.skip('Módulo - Propostas - Retorna lista de eventos de uma proposta', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/executantes/list', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/executantes/list',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const items = response.body;
+                items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('razaoSocial');
+                    expect(item).to.have.property('nomeFantasia');
+                })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/propostas/executantes/list', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/propostas/executantes/list',
+                headers: {
+                    // 'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/propostas/executantes/list', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', // método divergente
+                url: '/api/v1/propostas/executantes/list',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe('Módulo - Propostas - Retorna lista de eventos de uma proposta', () => {
+    describe.skip('Módulo - Propostas - Receber parcela de uma proposta', () => {
+
+        it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas/parcela/recebimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    propostaId: 21364,
+                    dataRecebimento: "20250829",
+                    valorRecebido: 70,
+                    //contaCorrenteId: null,
+                    formaLiquidacaoId: 1,
+                    parcelas: 1
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+
+                const body = response.body;
+                expect(body).to.include.all.keys(
+                    'id',
+                    'cdtMatricula',
+                    'dataProposta',
+                    'dataValidade',
+                    'fkUnidade',
+                    'valorTotal',
+                    'quantidadeParcela',
+                    'tipoIntervalo',
+                    'quantidadeIntervalo',
+                    'flagAtivo',
+                    'ipClient',
+                    'createdAt',
+                    'updatedAt',
+                    'lastUser',
+                    'origem',
+                    'parceiroId',
+                    'origemId',
+                    'valorTotalClinica',
+                    'fkStatusProposta',
+                    'fkEspecialidade',
+                    'fkProfissional',
+                    'fkProfissionalExterno',
+                    'patientId',
+                    'paymentIdFiserv'
+                )
+            })
+        })
+    })
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe.skip('Módulo - Propostas - Pagamento de uma proposta por cartão', () => {
+
+        it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento/cartao', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/propostas/parcela/recebimento/cartao',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    unidadeId: 483,
+                    propostaId: 21370,
+                    parcelaId: 1,
+                    valor: 100,
+                    dataPagamento: "20250829",
+                    quantidadeParcelas: 2,
+                    flagUseFiserv: true
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+            })
+        })
+    })
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Propostas - Atualiza o evento do recebimento em cartão pela adquirente FiServ', () => {
         
-    });
+        it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento/resposta-cartao-fiserv', () => {
+            
+        });
+    })
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Cancela o recebimento de uma proposta', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/parcela/recebimento/{parcelaRecebimentoId}', () => {
+        });
+    })
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Gerar recibo pelo Id da parcela', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/{propostaId}/recibo', () => {
+        });
+    })
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Retorna lista de eventos de uma proposta', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/{id}/historico', () => {
+        })
+    })
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe.only('Módulo - Prospostas - Proposal Schedule', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/schedule/link-proposal-schedule-id', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/propostas/schedule/link-proposal-schedule-id?proposalId=21328',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    scheduleId: 21328
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('message');
+            })
+        })
+    })
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Retorna lista de propostas paga por procedimentos', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/paid/procedures', () => {
+        })
+    })
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     describe('Módulo - Prospostas - Receber parcela de uma proposta faturada', () => {
+
+        it('Validar retorno 200 - /api/v1/propostas/parcela/recebimento/faturado', () => {
+        })
+    })
 })
 
 
 
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
