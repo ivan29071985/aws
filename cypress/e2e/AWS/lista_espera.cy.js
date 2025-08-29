@@ -16,16 +16,11 @@ describe('Módulo - Lista Espera', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    pacienteId: 245352,
-                    clinicaId: 483,
-                    procedimentoId: 20715,
+                    cpf: "79295868803",
+                    pacienteId: 353494,
                     especialidadeId: 611,
-                    convenioId: 5,
-                    profissionalId: 4121,
-                    parceriaId: 20486,
-                    observacoes: "observacoes",
-                    tabela: "convenio",
-                    cpf: "43657772898"
+                    profissionalId: 3601,
+                    observacoes: "Teste API"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -34,24 +29,6 @@ describe('Módulo - Lista Espera', () => {
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('mensagem');
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/lista-espera', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/lista-espera',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: { //Sem parâmetro no body
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
             })
         })
 

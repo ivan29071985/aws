@@ -7,9 +7,9 @@ describe('Módulo - Perfil de Acesso', () => {
     cy.refreshToken()
   });
 
-  describe.only('Módulo - Perfil de Acesso - Cria um novo Perfil de acesso', () => {
+  describe('Módulo - Perfil de Acesso - Cria um novo Perfil de acesso', () => {
 
-    it.only('Validar retorno 201 - /api/v1/perfil-acesso', () => {
+    it('Validar retorno 201 - /api/v1/perfil-acesso', () => {
       const token = Cypress.env('access_token');
       const perfilCriado = "testeQa";
 
@@ -130,9 +130,9 @@ describe('Módulo - Perfil de Acesso', () => {
     })
   })
 
-  describe.only('Módulo - Perfil de Acesso - Lista Perfis de acesso', () => {
+  describe('Módulo - Perfil de Acesso - Lista Perfis de acesso', () => {
 
-    it.only('Validar retorno 200 - /api/v1/perfil-acesso', () => {
+    it('Validar retorno 200 - /api/v1/perfil-acesso', () => {
       const token = Cypress.env('access_token');
 
       cy.readFile('cypress/fixtures/perfil-acesso.json').then((data) => {
@@ -312,9 +312,9 @@ describe('Módulo - Perfil de Acesso', () => {
     })
   })
 
-  describe.only('Módulo - Perfil de Acesso - Atualiza o Perfil de acesso', () => {
+  describe('Módulo - Perfil de Acesso - Atualiza o Perfil de acesso', () => {
 
-    it.only('Validar retorno 200 - /api/v1/perfil-acesso/{id}', () => {
+    it('Validar retorno 200 - /api/v1/perfil-acesso/{id}', () => {
       const token = Cypress.env('access_token');
 
       cy.readFile('cypress/fixtures/perfil-acesso.json').then((data) => {

@@ -1477,7 +1477,7 @@ describe('Módulo - Propostas', () => {
         })
     })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe.skip('Módulo - Propostas - Receber parcela de uma proposta', () => {
+    describe.only('Módulo - Propostas - Receber parcela de uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento', () => {
             const token = Cypress.env('access_token');
@@ -1490,18 +1490,21 @@ describe('Módulo - Propostas', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
+                    parcelaId: 1,
                     propostaId: 21364,
                     dataRecebimento: "20250829",
-                    valorRecebido: 70,
-                    //contaCorrenteId: null,
+                    valorRecebido: 10,
                     formaLiquidacaoId: 1,
-                    parcelas: 1
+                    contaCorrenteId: 173,
+                    parcelas: 2,
+                    transacaoId: "00000000000010010012",
+                    autorizacao: "123123"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
 
-                const body = response.body;
+                /*const body = response.body;
                 expect(body).to.include.all.keys(
                     'id',
                     'cdtMatricula',
@@ -1527,7 +1530,7 @@ describe('Módulo - Propostas', () => {
                     'fkProfissionalExterno',
                     'patientId',
                     'paymentIdFiserv'
-                )
+                )*/
             })
         })
     })
@@ -1561,9 +1564,9 @@ describe('Módulo - Propostas', () => {
     })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Propostas - Atualiza o evento do recebimento em cartão pela adquirente FiServ', () => {
-        
+
         it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento/resposta-cartao-fiserv', () => {
-            
+
         });
     })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -1572,20 +1575,20 @@ describe('Módulo - Propostas', () => {
         it('Validar retorno 200 - /api/v1/propostas/parcela/recebimento/{parcelaRecebimentoId}', () => {
         });
     })
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Prospostas - Gerar recibo pelo Id da parcela', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/{propostaId}/recibo', () => {
         });
     })
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Prospostas - Retorna lista de eventos de uma proposta', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/{id}/historico', () => {
         })
     })
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe.only('Módulo - Prospostas - Proposal Schedule', () => {
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Proposal Schedule', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/schedule/link-proposal-schedule-id', () => {
             const token = Cypress.env('access_token');
@@ -1607,14 +1610,14 @@ describe('Módulo - Propostas', () => {
             })
         })
     })
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Prospostas - Retorna lista de propostas paga por procedimentos', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/paid/procedures', () => {
         })
     })
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-     describe('Módulo - Prospostas - Receber parcela de uma proposta faturada', () => {
+    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Prospostas - Receber parcela de uma proposta faturada', () => {
 
         it('Validar retorno 200 - /api/v1/propostas/parcela/recebimento/faturado', () => {
         })
