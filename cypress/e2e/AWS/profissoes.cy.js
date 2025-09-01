@@ -21,7 +21,7 @@ describe('Módulo - Profissões', () => {
                 },
                 failOnStatusCode: false,
                 body: {
-                    descricao: "Técnico em análises clínicas"
+                    descricao: "teste2"
                 }
             }).then((response) => {
                 expect(response.status).to.eq(201);
@@ -51,7 +51,7 @@ describe('Módulo - Profissões', () => {
                     'Content-Type': 'application/json'
                 }, failOnStatusCode: false,
                 body: {
-                    descricao: "descricao" //body undefined ou já existe
+                     //sem parametro no body 
                 }
             }).then((response) => {
                 expect(response.status).to.eq(400);

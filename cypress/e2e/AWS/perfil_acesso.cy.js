@@ -136,15 +136,11 @@ describe('Módulo - Perfil de Acesso', () => {
       const token = Cypress.env('access_token');
 
       cy.readFile('cypress/fixtures/perfil-acesso.json').then((data) => {
-        const gr_descricao = data.gr_descricao;
+        const gr_descricao = data.perfilCriado;
 
         cy.request({
           method: 'GET',
-          url: '/api/v1/perfil-acesso',
-          qs: {
-            page: 1,
-            limit: 10
-          },
+          url: '/api/v1/perfil-acesso?page=1&limit=10',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

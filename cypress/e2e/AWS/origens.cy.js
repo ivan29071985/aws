@@ -14,7 +14,6 @@ describe('Módulo - Origens', () => {
 
             // Armazena valor "Teste API" na variável origemGerada
             const origemGerada = "Teste API";
-            cy.log('Origem criada:', origemGerada)
 
             cy.request({
                 method: 'POST',
@@ -138,11 +137,11 @@ describe('Módulo - Origens', () => {
             const token = Cypress.env('access_token');
 
             cy.readFile('cypress/fixtures/origem-criada.json').then((data) => {
-                const descricao = data.descricao.trim().toLowerCase();
+                const origemGerada = data.descricao
 
                 cy.request({
                     method: 'GET',
-                    url: '/api/v1/origins?limit=100', // ← aumenta limite se necessário
+                    url: '/api/v1/origins?limit=1000', // ← aumenta limite se necessário
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -150,6 +149,8 @@ describe('Módulo - Origens', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(200)
+
+                    const items = response.body.items;
 
                     // Valida array de items
                     const data = response.body.items[0];
@@ -170,21 +171,16 @@ describe('Módulo - Origens', () => {
                     expect(response.body.meta).to.have.property('itemsPerPage');
                     expect(response.body.meta).to.have.property('totalPages');
 
-                    // Log para debug
-                    cy.log('Buscando por descrição:', descricao);
-                    cy.log('Lista completa:', JSON.stringify(response.body.items));
-
-                    // Busca a origem na lista
-                    const origemEncontrada = response.body.items.find(item =>
-                        item.descricao?.trim().toLowerCase() === descricao);
+                    const origemEncontrada = items.find(item =>
+                        item.descricao?.trim().toLowerCase() === origemGerada.toLowerCase());
 
                     expect(origemEncontrada, 'Origem encontrada').to.not.be.undefined;
+                    cy.log('Origem criada:', JSON.stringify(response.body));
 
-                    // Salva o ID no mesmo arquivo
                     cy.writeFile('cypress/fixtures/origem-criada.json', {
                         descricao: origemEncontrada.descricao,
                         id: origemEncontrada.id
-                    })
+                    });
                 })
             })
         })

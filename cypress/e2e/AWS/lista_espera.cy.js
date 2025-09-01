@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-/// >>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<
 describe('Módulo - Lista Espera', () => {
 
     describe('Módulo - Lista Espera - Cria uma lista de espera', () => {
