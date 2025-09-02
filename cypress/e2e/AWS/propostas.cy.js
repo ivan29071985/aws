@@ -1477,7 +1477,7 @@ describe('Módulo - Propostas', () => {
         })
     })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe.only('Módulo - Propostas - Receber parcela de uma proposta', () => {
+    describe('Módulo - Propostas - Receber parcela de uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento', () => {
             const token = Cypress.env('access_token');

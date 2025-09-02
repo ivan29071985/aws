@@ -55,3 +55,38 @@ Cypress.Commands.add('GeradorCnpj', () => {
   return cy.wrap(gerarCnpj());
 });
 
+// Comando de login - gera o token inicial - Exlcusivo para o módulo Versão API
+Cypress.Commands.add('loginAsPaulo', () => {
+  return cy.request({
+    method: 'POST',
+    url: '/api/v1/security/login',
+    body: {
+      email: 'paulo.rick+1@amorsaude.com',
+      password: 'Amor@100'
+    }
+  }).then((response) => {
+    // Salva o token do Paulo separadamente
+    Cypress.env('access_token_paulo', response.body.access_token)
+    return response
+  })
+})
+
+// Comando de refresh token - atualiza o token - Exlcusivo para o módulo Versão API
+Cypress.Commands.add('refreshTokenAsPaulo', () => {
+  const token = Cypress.env('access_token_paulo')
+
+  return cy.request({
+    method: 'POST',
+    url: '/api/v1/security/refresh-token?clinicId=483',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    body: {
+      automated_test: 'automated_test'
+    }
+  }).then((response) => {
+    // Atualiza o token do Paulo
+    Cypress.env('access_token_paulo', response.body.access_token)
+    return response
+  })
+})
