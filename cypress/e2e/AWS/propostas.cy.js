@@ -1477,7 +1477,7 @@ describe('Módulo - Propostas', () => {
         })
     })
     /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe('Módulo - Propostas - Receber parcela de uma proposta', () => {
+    describe.only('Módulo - Propostas - Receber parcela de uma proposta', () => {
 
         it('Validar retorno 201 - /api/v1/propostas/parcela/recebimento', () => {
             const token = Cypress.env('access_token');
@@ -1490,15 +1490,13 @@ describe('Módulo - Propostas', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    parcelaId: 1,
-                    propostaId: 21364,
-                    dataRecebimento: "20250829",
-                    valorRecebido: 10,
-                    formaLiquidacaoId: 1,
-                    contaCorrenteId: 173,
-                    parcelas: 2,
-                    transacaoId: "00000000000010010012",
-                    autorizacao: "123123"
+                   propostaId:22528,
+                   dataRecebimento:"20250903",
+                   valorRecebido:22.25,
+                   contaCorrenteId:154,
+                   formaLiquidacaoId:8,
+                   parcelas:3,
+                   transacaoId:"1"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
