@@ -752,7 +752,7 @@ describe('Módulo - Parceiros', () => {
     })
 
     describe('Módulo - Parceiros - Lista todos os parceiros ativos', () => {
-        
+
         it('Validar retorno 200 - /api/v1/parceiros/all', () => {
             const token = Cypress.env('access_token');
 
@@ -766,12 +766,12 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200)
-                
+
                 response.body.forEach((item) => {
                     expect(item).to.have.property('id');
                     expect(item).to.have.property('name');
                 })
-            })      
+            })
         })
 
         it('Validar retorno 401 - /api/v1/parceiros/all', () => {
@@ -787,7 +787,7 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })      
+            })
         })
 
         it('Validar retorno 404 - /api/v1/parceiros/all', () => {
@@ -803,12 +803,533 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(404)
-            })      
+            })
         })
     })
 
-    /// >>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<
-    describe.only('', () => {
-        /api/v1/parceiros/check-existing
-    });
+
+    describe('Módulo - Parceiros - Verifica se já existe um parceiro com os mesmos dados', () => {
+
+        it('Validar retorno 201 - /api/v1/parceiros/check-existing', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/parceiros/check-existing',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    tipoCobrancaId: 1,
+                    nome: "Teste QA",
+                    unidades: [{ "id": 483 }],
+                    id: 1163
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+                cy.log(JSON.stringify(response.body))
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/parceiros/check-existing', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/parceiros/check-existing',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/parceiros/check-existing', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/parceiros/check-existing',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    tipoCobrancaId: 1,
+                    nome: "Teste QA",
+                    unidades: [{ "id": 483 }],
+                    id: 1163
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/parceiros/check-existing', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/check-existing',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    tipoCobrancaId: 1,
+                    nome: "Teste QA",
+                    unidades: [{ "id": 483 }],
+                    id: 1163
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/parceiros/check-existing', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/parceiros/check-existing',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    tipoCobrancaId: 1,
+                    nome: "Teste QA",
+                    unidades: [{ "id": 483 }],
+                    id: 1163
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe('Módulo - Parceiros - Exibe os dados do parceiro', () => {
+
+        it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idParceiro = 1163;
+
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/parceiros/${idParceiro}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const item = response.body;
+                expect(item).to.include.all.keys(
+                    'id',
+                    'tipoId',
+                    'nome',
+                    'tabelaId',
+                    'abrangenciaId',
+                    'tipoCobrancaId',
+                    'prazoFaturamento',
+                    'dataBase',
+                    'flagAtivo',
+                    'createdAt',
+                    'updatedAt',
+                    'cnpj',
+                    'razaoSocial',
+                    'telefone',
+                    'email',
+                    'cep',
+                    'endereco',
+                    'numero',
+                    'bairro',
+                    'cidade',
+                    'estado',
+                    'nomeFantasia',
+                    'telefoneSecundario',
+                    'regiaoZona',
+                    'emailAlternativo',
+                    'complemento',
+                    'urlParceiro',
+                )
+
+                expect(item).to.have.property('canais').to.be.an('array')
+                item.canais.forEach((data) => {
+                    expect(data).to.have.property('id');
+                    expect(data).to.have.property('nome');
+                })
+
+                expect(item).to.have.property('unidades').to.be.an('array')
+                item.unidades.forEach((data) => {
+                    expect(data).to.have.property('id');
+                    expect(data).to.have.property('descricao');
+                    expect(data).to.have.property('endereco');
+                    expect(data).to.have.property('flgCentral');
+                    expect(data).to.have.property('feegowClinicId');
+                    expect(data).to.have.property('flgTelemedicina');
+                    expect(data).to.have.property('flgAmorCirurgias');
+                    expect(data).to.have.property('regiaoId');
+                    expect(data).to.have.property('flgAtivo');
+                    expect(data).to.have.property('flgAtivarTef');
+                    expect(data).to.have.property('razaoSocial');
+                    expect(data).to.have.property('cnpj');
+                    expect(data).to.have.property('cnes');
+                    expect(data).to.have.property('fkRegimeTributario');
+                    expect(data).to.have.property('fkUnidadeStatus');
+                    expect(data).to.have.property('consultor');
+                    expect(data).to.have.property('telefonePrincipal');
+                    expect(data).to.have.property('telefoneSecundario');
+                    expect(data).to.have.property('emailPrincipal');
+                    expect(data).to.have.property('emailSecundario');
+                    expect(data).to.have.property('cep');
+                    expect(data).to.have.property('numero');
+                    expect(data).to.have.property('complemento');
+                    expect(data).to.have.property('bairro');
+                    expect(data).to.have.property('regiaoZona');
+                    expect(data).to.have.property('observacao');
+                    expect(data).to.have.property('sigla');
+                    expect(data).to.have.property('fkFusoHorario');
+                    expect(data).to.have.property('fkTipoUnidade');
+                    expect(data).to.have.property('flgAgendaOnline');
+                    expect(data).to.have.property('sellerId');
+                    expect(data).to.have.property('flgAtivarSplit');
+                    expect(data).to.have.property('fkParceiroInstitucional');
+                    expect(data).to.have.property('dataInauguracao');
+                    expect(data).to.have.property('fkTipoSegmento');
+                    expect(data).to.have.property('status');
+                    expect(data).to.have.property('mcc');
+                    expect(data).to.have.property('latitude');
+                    expect(data).to.have.property('longitude');
+                })
+
+                expect(item).to.have.property('hasPricesTable')
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idParceiro = 1163;
+
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/parceiros/${idParceiro}`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idParceiro = 1163;
+
+            cy.request({
+                method: 'DELETE', //Metodo divergente
+                url: `/api/v1/parceiros/${idParceiro}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+
+        it('Validar retorno 500 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idParceiro = 1163;
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/{id}', //Sem parâmetro 
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(500);
+            })
+        })
+    })
+
+    describe('Módulo - Parceiros - Atualiza os dados do parceiro', () => {
+
+        it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/parceiros/1165',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    flagAtivo: "1",
+                    nome: "Teste QA2",
+                    canais: [{ "id": 3 }],
+                    unidades: [{ "id": 483 }],
+                    tipoId: 1,
+                    tabelaId: 3,
+                    abrangenciaId: 1,
+                    tipoCobrancaId: 1,
+                    prazoFaturamento: null,
+                    dataBase: null
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/parceiros/1165',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/parceiros/1165',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    flagAtivo: "1",
+                    nome: "Teste QA2",
+                    canais: [{ "id": 3 }],
+                    unidades: [{ "id": 483 }],
+                    tipoId: 1,
+                    tabelaId: 3,
+                    abrangenciaId: 1,
+                    tipoCobrancaId: 1,
+                    prazoFaturamento: null,
+                    dataBase: null
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // método divergente
+                url: '/api/v1/parceiros/1165',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    flagAtivo: "1",
+                    nome: "Teste QA2",
+                    canais: [{ "id": 3 }],
+                    unidades: [{ "id": 483 }],
+                    tipoId: 1,
+                    tabelaId: 3,
+                    abrangenciaId: 1,
+                    tipoCobrancaId: 1,
+                    prazoFaturamento: null,
+                    dataBase: null
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/parceiros/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', // método divergente
+                url: '/api/v1/parceiros/1165',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    flagAtivo: "1",
+                    nome: "Teste QA2",
+                    canais: [{ "id": 3 }],
+                    unidades: [{ "id": 483 }],
+                    tipoId: 1,
+                    tabelaId: 3,
+                    abrangenciaId: 1,
+                    tipoCobrancaId: 1,
+                    prazoFaturamento: null,
+                    dataBase: null
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Parceiros - Exibe as unidades do parceiro', () => {
+
+        it('Validar retorno 200 - /api/v1/parceiros/{id}/unidades', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/1165/unidades?regionaisIds=1&regionaisIds=2',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('unidades').to.be.an('array');
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/parceiros/{id}/unidades', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/1165/unidades?regionaisIds=1&regionaisIds=2',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/parceiros/{id}/unidades', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/parceiros/1165/unidades?regionaisIds=1&regionaisIds=2',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+
+        it('Validar retorno 500 - /api/v1/parceiros/{id}/unidades', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/{id}/unidades', // Sem parâmetro
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(500)
+            })
+        })
+    })
+
+    describe('Módulo - Parceiros - Lista os parceiros cadastrados para filtro', () => {
+
+        it('Validar retorno 200 - /api/v1/parceiros/lists/search', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/lists/search?limit=10&name=Teste%20QA',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                const item = response.body;
+                expect(item).to.be.an('array')
+                item.forEach((items) => {
+                    expect(items).to.have.property('id');
+                    expect(items).to.have.property('nome');
+                })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/parceiros/lists/search', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/parceiros/lists/search',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/parceiros/lists/search', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/parceiros/lists/search',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
 })
