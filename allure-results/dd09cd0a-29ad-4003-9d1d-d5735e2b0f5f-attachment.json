@@ -1,1 +1,0 @@
-GET, /api/v1/slots/list-slots-by-professional?idClinic=483&idSpecialty=611&idProfessional=3601&initialDate=20250831&finalDate=20250906&initialHour=00:00&endHour=23:59&fetchPolicy=network-only&cancelledAppointments=false

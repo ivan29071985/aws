@@ -90,3 +90,31 @@ Cypress.Commands.add('refreshTokenAsPaulo', () => {
     return response
   })
 })
+
+Cypress.Commands.add('gerarCpfValido', () => {
+
+    // Função simples para gerar CPF válido
+    const numeros = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
+
+    // Calcula primeiro dígito
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += numeros[i] * (10 - i);
+    }
+    let resto = (soma * 10) % 11;
+    const digito1 = resto === 10 ? 0 : resto;
+
+    // Calcula segundo dígito
+    soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += numeros[i] * (11 - i);
+    }
+    soma += digito1 * 2;
+    resto = (soma * 10) % 11;
+    const digito2 = resto === 10 ? 0 : resto;
+
+    // Monta o CPF completo
+    const cpf = numeros.join('') + digito1 + digito2;
+    return cy.wrap(cpf);
+}
+)
