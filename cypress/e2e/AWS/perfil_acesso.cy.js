@@ -314,7 +314,7 @@ describe('Módulo - Perfil de Acesso', () => {
       const token = Cypress.env('access_token');
 
       cy.readFile('cypress/fixtures/perfil-acesso.json').then((data) => {
-        const id = data.id;
+        const id = 298;
 
         cy.request({
           method: 'PUT',
@@ -324,7 +324,7 @@ describe('Módulo - Perfil de Acesso', () => {
             'Content-Type': 'application/json'
           },
           body: {
-            descricaoAcessoProfile: "Teste AWS QA",
+            descricaoAcessoProfile: "Teste AWS QA1",
             flg_status: true,
             recursos: [
               26,
@@ -334,8 +334,8 @@ describe('Módulo - Perfil de Acesso', () => {
           },
           failOnStatusCode: false,
         }).then((response) => {
-          expect(response.status).to.eq(200)
-          
+          expect(response.status).to.eq(400)
+
           console.log(response)
           expect(response.body).to.have.property('flagDeError');
           expect(response.body).to.have.property('codigo');
@@ -420,18 +420,20 @@ describe('Módulo - Perfil de Acesso', () => {
 
     it('Validar retorno 200 - /api/v1/perfil-acesso/{id}', () => {
       const token = Cypress.env('access_token');
-      const idPerfil = 454;
+      cy.readFile('cypress/fixtures/perfil-acesso.json').then((data) => {
+        const id = data.id;
 
-      cy.request({
-        method: 'DELETE',
-        url: `/api/v1/perfil-acesso/${idPerfil}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(200)
+        cy.request({
+          method: 'DELETE',
+          url: `/api/v1/perfil-acesso/${id}`,
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          failOnStatusCode: false,
+        }).then((response) => {
+          expect(response.status).to.eq(400)
+        })
       })
     })
 

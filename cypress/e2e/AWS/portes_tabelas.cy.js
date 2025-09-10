@@ -152,10 +152,12 @@ describe('Módulo - Portes Tabelas', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200);
-
-                expect(response.body).to.have.property('erro');
+                
+                expect(response.body).to.have.property('id');
+                expect(response.body).to.have.property('descricao');
                 expect(response.body).to.have.property('codigo');
-                expect(response.body).to.have.property('mensagem');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('uco');
             })
         })
 
