@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+
 describe('Módulo - Funcionários', () => {
     beforeEach(() => {
         cy.login();
@@ -439,7 +440,7 @@ describe('Módulo - Funcionários', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'DELETE', //Método divergente
+                method: 'POST', //Método divergente
                 url: '/api/v1/employees/grid?page=1&limit=10',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -777,9 +778,37 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
+            const token = Cypress.env('access_token');
+
+            // Gerar número aleatório de 1 a 1000
+            const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
+            // Gerar o email com número no nome
+            const email = `testeqa${numeroAleatorio}@gmail.com`;
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/employees/update-email/',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    employeeId: 1046,
+                    newEmail: email
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
@@ -792,8 +821,65 @@ describe('Módulo - Funcionários', () => {
             const sobrenome = `QA${numeroAleatorio}`;
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'POST',
+                url: '/api/v1/employees/update-email/',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    // Sem parâmetro no body
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/employees/update-email', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
+
+            // Gerar número aleatório de 1 a 1000
+            const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
+            // Gerar o email com número no nome
+            const email = `testeqa${numeroAleatorio}@gmail.com`;
+
+            // Gerar o sobrenome com número
+            const sobrenome = `QA${numeroAleatorio}`;
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/employees/update-email/',
+                headers: {
+                    // 'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    employeeId: idFuncionario,
+                    newEmail: email
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/employees/update-email', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
+
+            // Gerar número aleatório de 1 a 1000
+            const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
+            // Gerar o email com número no nome
+            const email = `testeqa${numeroAleatorio}@gmail.com`;
+
+            // Gerar o sobrenome com número
+            const sobrenome = `QA${numeroAleatorio}`;
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/employees/update-email/',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -801,7 +887,358 @@ describe('Módulo - Funcionários', () => {
                 body: {
                     employeeId: idFuncionario,
                     newEmail: email
-                }
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+    })
+
+    describe('Módulo - Funcionários - Inativa e ativa funcionário', () => {
+
+        it('Validar retorno 200 - /api/v1/employees/{id}/update-status', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1046;
+
+            cy.request({
+                method: 'PUT',
+                url: `/api/v1/employees/${idFunc}/update-status`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: "1 ativo / 0 inativo"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/employees/{id}/update-status', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1046;
+
+            cy.request({
+                method: 'PUT',
+                url: `/api/v1/employees/{id}}/update-status`,//sem parâmetro no body
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    //sem parâmetro no body
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/employees/{id}/update-status', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1046;
+
+            cy.request({
+                method: 'PUT',
+                url: `/api/v1/employees/${idFunc}/update-status`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: "1 ativo / 0 inativo"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/employees/{id}/update-status', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1046;
+
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/employees/${idFunc}/update-status`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: "1 ativo / 0 inativo"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/employees/{id}/update-status', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1046;
+
+            cy.request({
+                method: 'POST',
+                url: `/api/v1/employees/${idFunc}/update-status`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    status: "1 ativo / 0 inativo"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Funcionários - Vincular perfil ao funcionário', () => {
+
+        it('Validar retorno 200 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1045;
+
+            cy.request({
+                method: 'PUT',
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    unidadeId: 483,
+                    setorId: 1,
+                    funcaoId: 1,
+                    grupoRegrasId: 1
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1045;
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/employees/{id}/perfil',// sem parâmetro no body
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {// sem parâmetro no body
+
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1045;
+
+            cy.request({
+                method: 'PUT',
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    unidadeId: 483,
+                    setorId: 1,
+                    funcaoId: 1,
+                    grupoRegrasId: 1
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1045;
+
+            cy.request({
+                method: 'GET',//método divergente 
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    unidadeId: 483,
+                    setorId: 1,
+                    funcaoId: 1,
+                    grupoRegrasId: 1
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1045;
+
+            cy.request({
+                method: 'POST', //método divergente 
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    unidadeId: 483,
+                    setorId: 1,
+                    funcaoId: 1,
+                    grupoRegrasId: 1
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Funcionários - Consulta funcionário com perfil', () => {
+
+        it('Validar retorno 200 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                const items = response.body;
+                expect(items).to.have.property('id');
+                expect(items).to.have.property('nome');
+                expect(items).to.have.property('sobrenome');
+                expect(items).to.have.property('funcionarioUnidades').to.be.an('array')
+                items.funcionarioUnidades.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('unidadeId');
+                    expect(item).to.have.property('setorId');
+                    expect(item).to.have.property('funcaoId');
+                    expect(item).to.have.property('grupoRegrasId');
+                    expect(item).to.have.property('flagAtivo');
+                })
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/employees/{id}/perfil`, //sem parâmetro
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+            cy.request({
+                method: 'GET',
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/employees/{id}/perfil', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+
+            cy.request({
+                method: 'POST',
+                url: `/api/v1/employees/${idFunc}/perfil`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+
+        it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/employees/perfil/${idFunc}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                const items = response.body;
+                expect(items).to.have.property('codigo');
+                expect(items).to.have.property('flagDeError');
+                expect(items).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/employees/perfil/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFunc = 1047;
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/employees/{id}/perfil',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
             })
         })
     })
