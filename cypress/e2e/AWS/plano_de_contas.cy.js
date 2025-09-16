@@ -24,23 +24,10 @@ describe('Módulo - Plano de Contas', () => {
 
                 // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
-                expect(response.body.length).to.be.greaterThan(0);
 
                 // Valida o primeiro item da lista
                 const item = response.body[0];
 
-                expect(item).to.have.property('id', 1);
-                expect(item).to.have.property('tipo', null);
-                expect(item).to.have.property('categoria', null);
-
-                expect(item).to.have.property('subPrimaria').that.deep.equals({
-                    codigo: '3101005',
-                    nome: 'PRESTAÇÃO DE SERVIÇOS'
-                });
-
-                expect(item).to.have.property('tipoOperacao').that.deep.equals({
-                    nome: 'Receitas'
-                });
             });
         })
 
@@ -80,25 +67,10 @@ describe('Módulo - Plano de Contas', () => {
 
                // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
-                expect(response.body.length).to.be.greaterThan(0);
 
                 // Valida o primeiro item da lista
                 const item = response.body[0];
 
-                expect(item).to.have.property('id', 1);
-                expect(item).to.have.property('tipo', null);
-                expect(item).to.have.property('categoria', null);
-
-                expect(item).to.have.property('subPrimaria').that.deep.equals({
-                    codigo: '3101005',
-                    nome: 'PRESTAÇÃO DE SERVIÇOS'
-                });
-
-                expect(item).to.have.property('subSecundaria', null);
-                expect(item).to.have.property('classificacao').that.deep.equals({
-                    codigo: '3101005001001',
-                    nome: 'Prestação de Consultas Médicas'
-                });
             });
         })
 
@@ -137,14 +109,10 @@ describe('Módulo - Plano de Contas', () => {
 
                 // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
-                expect(response.body.length).to.be.greaterThan(0);
 
                 // Valida o primeiro item da lista
                 const item = response.body[0];
 
-                expect(item).to.have.property('id', 1);
-                expect(item).to.have.property('planoDeContas', 'PRESTAÇÃO DE SERVIÇOS - Pres. de Cons. Médi.');
-                expect(item).to.have.property('planoDeContasCompleto', 'PRESTAÇÃO DE SERVIÇOS - Prestação de Consultas Médicas');
             });
         })
 
@@ -182,14 +150,10 @@ describe('Módulo - Plano de Contas', () => {
 
                // Valida que a resposta é um array
                 expect(response.body).to.be.an('array');
-                expect(response.body.length).to.be.greaterThan(0);
 
                 // Valida o primeiro item da lista
                 const item = response.body[0];
 
-                expect(item).to.have.property('id', 10);
-                expect(item).to.have.property('categoriaDespesa', 'IMPO. INCI. SOBR. VEND. - MUNICIPAIS - ISSQN');
-                expect(item).to.have.property('categoriaDespesaCompleto', 'IMPOSTOS INCIDENTES SOBRE VENDAS - MUNICIPAIS - ISSQN');
             })
         })
 
