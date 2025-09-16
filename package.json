@@ -11,7 +11,7 @@
     "cypress:open:staging": "cross-env CYPRESS_BASE_URL=https://amei-staging.amorsaude.com.br cypress open",
     "cypress:open:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress open",
     "cypress:open:producao": "cross-env CYPRESS_BASE_URL=https://amei.amorsaude.com.br cypress open",
-    
+   
     "allure:clear": "npx rimraf allure-results allure-report",
     "allure:generate": "npx allure generate allure-results --clean",
     "allure:open": "npx allure open allure-report",
@@ -20,7 +20,11 @@
     "test:step3": "npm run allure:open",
     "test:allure": "npm run allure:clear && npm run test:step1 && npm run test:step2 && npm run test:step3",
     "test:allure:serve": "npm run cypress:run && npx allure serve allure-results",
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> 5174db1c5bbecd091491768ab5871a05cc5f4adc
     "test:perfil-acesso": "cypress run --spec 'cypress/e2e/AWS/perfil_acesso.cy.js'",
     "test:origens": "cypress run --spec 'cypress/e2e/AWS/origens.cy.js'",
     "test:cartao-todos": "cypress run --spec 'cypress/e2e/AWS/cartao_de_todos.cy.js'",
@@ -31,10 +35,17 @@
     "test:fuso-horario": "cypress run --spec 'cypress/e2e/AWS/fuso_horario.cy.js'",
     "test:tipo-documentos": "cypress run --spec 'cypress/e2e/AWS/tipo_documentos.cy.js'",
     "test:portes-tabelas": "cypress run --spec 'cypress/e2e/AWS/portes_tabelas.cy.js'",
+<<<<<<< HEAD
     
     "test:postgres": "cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
     "test:modulos": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
     
+=======
+   
+    "test:postgres": "cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
+    "test:modulos": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
+   
+>>>>>>> 5174db1c5bbecd091491768ab5871a05cc5f4adc
     "test:modulos:allure": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npm run allure:generate && npm run allure:open",
     "test:postgres:allure": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npm run allure:generate && npm run allure:open",
     "test:modulos:allure:serve": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npx allure serve allure-results"
