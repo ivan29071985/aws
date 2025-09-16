@@ -497,3 +497,7 @@ describe('Módulo - Cadeado', () => {
         })
     })
 })
+
+
+
+// TESTE
