@@ -8,43 +8,29 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Cria uma restrição', () => {
 
-        it('Validar retorno 200 - /api/v1/restricoes', () => {
+        it('Validar retorno 201 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
+            const restricao = `Teste API ${Date.now()}`;
 
             cy.request({
                 method: 'POST',
                 url: '/api/v1/restricoes/',
                 headers: {
-                    'Authorization': `Bearer ${token}`, //Token inválido
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
                 },
                 body: {
-                    id: 1,
-                    descricao: 'Idade',
+                    descricao: restricao
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                expect(response.status).to.eq(201)
                 // Validar estrutura do body
-                expect(response.body).to.have.property('items').that.is.an('array').with.length(1);
-
-                expect(response.body.items[0]).to.deep.include({
-                    id: 1,
-                    descricao: 'Idade',
-                    flgAtivo: '1',
-                    lastUser: null,
-                    ipClient: null
-                });
-
-                expect(response.body).to.have.property('meta');
-                expect(response.body.meta).to.deep.equal({
-                    itemCount: 1,
-                    totalItems: 3,
-                    itemsPerPage: 1,
-                    currentPage: 1,
-                    totalPages: 3
-                })
+                expect(response.body).to.include.all.keys(
+                    'codigo',
+                    'flagDeError',
+                    'mensagem'
+                )
             })
         })
 
@@ -148,6 +134,19 @@ describe('Módulo - Restrições', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200)
+
+                const body = response.body;
+                expect(body).to.have.property('items').to.be.an('array')
+                body.items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('descricao');
+                    expect(item).to.have.property('flgAtivo');
+                    expect(item).to.have.property('createBy');
+                    expect(item).to.have.property('createAt');
+                    expect(item).to.have.property('updateAt');
+                    expect(item).to.have.property('lastUser');
+                    expect(item).to.have.property('ipClient');
+                })
             })
         })
 

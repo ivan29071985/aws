@@ -10,6 +10,7 @@
     "cypress:run": "cypress run",
     "cypress:open:staging": "cross-env CYPRESS_BASE_URL=https://amei-staging.amorsaude.com.br cypress open",
     "cypress:open:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress open",
+    "cypress:run:homologacao": "cross-env CYPRESS_BASE_URL=https://amei-homolog.amorsaude.com.br cypress run",
     "cypress:open:producao": "cross-env CYPRESS_BASE_URL=https://amei.amorsaude.com.br cypress open",
    
     "allure:clear": "npx rimraf allure-results allure-report",
@@ -31,6 +32,7 @@
     "test:fuso-horario": "cypress run --spec 'cypress/e2e/AWS/fuso_horario.cy.js'",
     "test:tipo-documentos": "cypress run --spec 'cypress/e2e/AWS/tipo_documentos.cy.js'",
     "test:portes-tabelas": "cypress run --spec 'cypress/e2e/AWS/portes_tabelas.cy.js'",
+
    
     "test:postgres": "cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
     "test:modulos": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",

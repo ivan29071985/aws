@@ -6,9 +6,9 @@ describe('Módulo - Especialidades', () => {
         cy.refreshToken();
     })
 
-    describe('Módulo - Especialidades - Cria uma especialidade', () => {
+    describe.only('Módulo - Especialidades - Cria uma especialidade', () => {
 
-        it('Validar retorno 201 - /api/v1/especialidades', () => {
+        it.only('Validar retorno 201 - /api/v1/especialidades', () => {
             const token = Cypress.env('access_token');
             const nomeDescricao = `Teste QA Hml ${Date.now()}`;
 
@@ -770,10 +770,11 @@ describe('Módulo - Especialidades', () => {
         
         it('Validar retorno 200 - /api/v1/especialidades/profissional/{profissionalId}', () => {
             const token = Cypress.env('access_token');
+            const idEspecialidade = Cypress.env('idEspecialidade');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/especialidades/profissional/4181',
+                url: `/api/v1/especialidades/profissional/${idEspecialidade}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

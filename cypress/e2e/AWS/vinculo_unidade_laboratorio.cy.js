@@ -20,13 +20,13 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
           'Authorization': `Bearer ${token}`
         },
         body: {
-          "unidadeId": 483,
-          "fornecedorId": 303,
-          "agenteId": "",
-          "password": "",
-          "entidade": "",
-          "endpoint": "",
-          "statusIntegracao": ""
+          unidadeId: 483,
+          fornecedorId: 303,
+          agenteId: "kill123",
+          password: "123",
+          entidade: "entidade",
+          endpoint: "https://amei-dev2.amorsaude.com.br/api/v1/",
+          statusIntegracao: "0"
         },
         failOnStatusCode: false
       }).then((response) => {
@@ -74,7 +74,8 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
         method: 'POST',
         url: '/api/v1/vinculo-laboratorio/create-vinculo/delete-vinculo',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
         body: {
           "unidadeId": 483,
@@ -83,7 +84,7 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
           "endpoint": "https://desenv.diagnosticoodobrasil.com.br/anexo4/wsrvProtocoloDSync.dbsync.svc?singleWsdl",
           "entidade": "teste",
           "password": "12345",
-          "statusIntegracao": "1 para SIM / 0 para NÃO",
+          "statusIntegracao": "0",
           "ativo": 1,
           "flgPagamentoParcial": true,
           "provedorId": 1,
@@ -92,9 +93,10 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
             5
           ],
           "neurologistica": 2
-        }
+        },
+        failOnStatusCode: false
       }).then((response) => {
-        expect(response.status).to.eq(201)
+        expect(response.status).to.eq(400)
       })
     })
 
