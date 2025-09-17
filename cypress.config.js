@@ -15,7 +15,7 @@ module.exports = defineConfig({
     failOnStatusCode: false,
     video: false,
     setupNodeEvents(on, config) {
-      configureAllureAdapterPlugins(on, config);
+      require('@mmisty/cypress-allure-adapter/plugins').configureAllureAdapterPlugins(on, config);
       return config;
     },
     supportFile: 'cypress/support/e2e.js', // ajuste se estiver em outro caminho ou use false se não tiver suporte
