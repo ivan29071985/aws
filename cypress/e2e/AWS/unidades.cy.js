@@ -1,13 +1,13 @@
 /// <reference types= "cypress" /> 
 
-describe.only('Módulo - Unidades', () => {
+describe('Módulo - Unidades', () => {
 
     beforeEach(() => {
         cy.login()
         cy.refreshToken()
     });
 
-    describe.skip('Módulo - Unidades - Criar uma unidade ', () => {
+    describe('Módulo - Unidades - Criar uma unidade ', () => {
 
         it('Validar retorno 201 - /api/v1/unidades', () => {
             const token = Cypress.env('access_token');
@@ -313,7 +313,7 @@ describe.only('Módulo - Unidades', () => {
         })
     })
 
-    describe.skip('Módulo - Unidades - Retorna a lista de unidades', () => {
+    describe('Módulo - Unidades - Retorna a lista de unidades', () => {
 
 
         it('Validar retorno 200 - /api/v1/unidades', () => {
@@ -425,7 +425,7 @@ describe.only('Módulo - Unidades', () => {
         })
     })
 
-    describe.skip('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
+    describe('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/static-info/{id}', () => {
             const token = Cypress.env('access_token');
@@ -640,7 +640,7 @@ describe.only('Módulo - Unidades', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "idProfissional": 3901
+                    "idProfissional": 5364
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -742,7 +742,7 @@ describe.only('Módulo - Unidades', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "idProfissional": 3901
+                    "idProfissional": 5364
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -838,7 +838,7 @@ describe.only('Módulo - Unidades', () => {
 
             cy.request({
                 method: 'GET',
-                url: 'api/v1/unidades/appointments/professional{id}?id=4121',
+                url: 'api/v1/unidades/appointments/professional{id}?id=5364',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

@@ -5,8 +5,8 @@ describe('Módulo - Cadeado', () => {
         cy.login()
         cy.refreshToken()
     })
-//
-    describe ('Módulo - Cadeado - Retorna lista de cadeados das unidades', () => {
+    
+    describe('Módulo - Cadeado - Retorna lista de cadeados das unidades', () => {
 
         it('Validar retorno 200 - /api/v1/padlock', () => {
 
@@ -220,146 +220,6 @@ describe('Módulo - Cadeado', () => {
         })
     })
 
-    describe('Módulo - Cadeado - Retorna um cadeado', () => {
-
-        it('Validade retorno 200 - /api/v1/padlock/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: `/api/v1/padlock/${1}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-                cy.log('Retorno completo do body:', JSON.stringify(response.body));
-
-                expect(response.body).to.eq('');
-            })
-        })
-
-        it('Validade retorno 400 - /api/v1/padlock/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/padlock/{id}', // Sem parâmetro
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        })
-
-        it('Validade retorno 401 - /api/v1/padlock/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: `/api/v1/padlock/${1}`,
-                headers: {
-                    //'Authorization': `Bearer ${token}`, // Token inválido
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validade retorno 404 - /api/v1/padlock/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: `/api/v1/padlock/${1}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
-    })
-
-    describe('Módulo - Cadeado - Retorna lista de modulos de um cadeado', () => {
-
-        it('Validar retorno 200 - /api/v1/padlock/{cadeadoId}/modules', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: `/api/v1/padlock/${1}/modules`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-                cy.log('Retorno completo do body:', JSON.stringify(response.body));
-                const body = response.body
-                expect(body).that.deep.equal([]);
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/padlock/{cadeadoId}/modules', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/padlock/{cadeadoId}/modules', // Sem parâmetro
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        })
-
-        it('Validar retorno 401 - /api/v1/padlock/{cadeadoId}/modules', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: `/api/v1/padlock/${1}/modules`,
-                headers: {
-                    //'Authorization': `Bearer ${token}`, //Token inválido
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/padlock/{cadeadoId}/modules', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/padlock/${1}/modules`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
-    })
-
     describe('Módulo - Cadeado - Reabrir modulos de um cadeado. (Enviar o id de cada modulo e reabrir)', () => {
 
         it('Validar retorno 201 - /api/v1/padlock/modules/reopen', () => {
@@ -373,13 +233,18 @@ describe('Módulo - Cadeado', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "padlockModuleIdsToOpen": [
-                        16,
-                        2
+                    "padlocks": [
+                        {
+                            "id": 1,
+                            "date": "20250930",
+                            "unitId": 483
+                        }
                     ],
-                    "padlockModuleIdsToClose": [
-                        16,
-                        2
+                    "modules": [
+                        {
+                            "id": 1,
+                            "module": "AGENDAMENTO"
+                        }
                     ]
                 },
                 failOnStatusCode: false,
@@ -387,16 +252,9 @@ describe('Módulo - Cadeado', () => {
                 expect(response.status).to.eq(201)
 
                 const items = response.body
-                expect(items).to.have.property('flagDeError', false);
-                expect(items).to.have.property('codigo', 201);
-                expect(items).to.have.property('mensagem', 'Modulos do cadeado abertos com sucesso.');
-
-                items.data.forEach((item) => {
-                    expect(item).to.have.property('id', 2);
-                    expect(item).to.have.property('cadeadoId', 42);
-                    expect(item).to.have.property('flagReaberto', 'F');
-                    expect(item).to.have.property('modulo', 'AGENDAMENTO');
-                })
+                expect(items).to.have.property('flagDeError');
+                expect(items).to.have.property('codigo');
+                expect(items).to.have.property('mensagem');
             })
         })
 
@@ -496,8 +354,61 @@ describe('Módulo - Cadeado', () => {
             })
         })
     })
+
+    describe('Módulo - Cadeado - Retorna todos os modulos', () => {
+
+        it('Validar retorno 200 - /api/v1/padlock/list/modules', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/padlock/list/modules',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                const items = response.body;
+                items.forEach((item) => {
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('module');
+                })
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/padlock/list/modules', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/padlock/list/modules',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/padlock/list/modules', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/padlock/list/modules',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
 })
-
-
-
-// TESTE

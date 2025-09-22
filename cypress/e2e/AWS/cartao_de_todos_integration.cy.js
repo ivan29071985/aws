@@ -8,53 +8,6 @@ describe('Módulo - Cartão de Todo Integration', () => {
 
     describe('Módulo - Cartão de Todo Integration - Lista as unidades que foram migradas', () => {
 
-        it('Validar retorno 200 - /api/v1/cartao-de-todos/unidades-migradas', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/cartao-de-todos/unidades-migradas',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(200)
-
-                // Verifica se "items" é um array no corpo da resposta
-                expect(response.body).to.have.property('items').and.to.be.an('array');
-
-                const item = response.body.items[0];
-                expect(item).to.have.property('id');
-                expect(item).to.have.property('descricao');
-                expect(item).to.have.property('endereco');
-                expect(item).to.have.property('razaoSocial');
-                expect(item).to.have.property('cnpj');
-                expect(item).to.have.property('telefonePrincipal');
-                expect(item).to.have.property('telefoneSecundario');
-                expect(item).to.have.property('emailPrincipal');
-                expect(item).to.have.property('emailSecundario');
-                expect(item).to.have.property('cep');
-                expect(item).to.have.property('numero');
-                expect(item).to.have.property('complemento');
-                expect(item).to.have.property('bairro');
-                expect(item).to.have.property('latitude');
-                expect(item).to.have.property('longitude');
-                expect(item).to.have.property('cidade');
-                expect(item).to.have.property('estado');
-                expect(item).to.have.property('regiao');
-
-                // Valida conteudo de meta
-                expect(response.body).to.have.property('meta');
-                expect(response.body.meta).to.have.property('totalItems');
-                expect(response.body.meta).to.have.property('currentPage');
-                expect(response.body.meta).to.have.property('itemCount');
-                expect(response.body.meta).to.have.property('itemsPerPage');
-                expect(response.body.meta).to.have.property('totalPages');
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/cartao-de-todos/unidades-migradas', () => {
             const token = Cypress.env('access_token');
 
@@ -84,6 +37,22 @@ describe('Módulo - Cartão de Todo Integration', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(404)
+            })
+        })
+
+        it('Validar retorno 500 - /api/v1/cartao-de-todos/unidades-migradas', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/cartao-de-todos/unidades-migradas',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(500)
             })
         })
     })

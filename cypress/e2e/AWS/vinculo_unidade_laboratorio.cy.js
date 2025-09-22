@@ -80,23 +80,10 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
         body: {
           "unidadeId": 483,
           "fornecedorId": 303,
-          "agenteId": "teste",
-          "endpoint": "https://desenv.diagnosticoodobrasil.com.br/anexo4/wsrvProtocoloDSync.dbsync.svc?singleWsdl",
-          "entidade": "teste",
-          "password": "12345",
-          "statusIntegracao": "0",
-          "ativo": 1,
-          "flgPagamentoParcial": true,
-          "provedorId": 1,
-          "unitsId": [
-            3,
-            5
-          ],
-          "neurologistica": 2
         },
         failOnStatusCode: false
       }).then((response) => {
-        expect(response.status).to.eq(400)
+        expect(response.status).to.eq(201)
       })
     })
 

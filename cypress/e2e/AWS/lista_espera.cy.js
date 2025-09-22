@@ -708,7 +708,7 @@ describe('Módulo - Lista Espera', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/lista-espera/1346',
+                url: '//api/v1/lista-espera/lista/motivo-cancelamento',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -718,32 +718,11 @@ describe('Módulo - Lista Espera', () => {
                 expect(response.status).to.eq(200)
                 cy.log(JSON.stringify(response.body))
 
-                const data = response.body
+                const items = response.body
+                items.forEach((data) => {
                 expect(data).to.have.property('id');
-                expect(data).to.have.property('tabela');
-                expect(data).to.have.property('status');
-                expect(data).to.have.property('observacoes');
-                expect(data).to.have.property('criadoPorId');
-                expect(data).to.have.property('criadoEm');
-                expect(data).to.have.property('unidadeId');
-                expect(data).to.have.property('updateBy');
-                expect(data).to.have.property('updateAt');
-                expect(data).to.have.property('deletedAt');
-                expect(data).to.have.property('deletedBy');
-                expect(data).to.have.property('descricaoMotivoCancelamento');
-                expect(data).to.have.property('pacienteId');
-                expect(data).to.have.property('procedimentoId');
-                expect(data).to.have.property('especialidadeId');
-                expect(data).to.have.property('convenioId');
-                expect(data).to.have.property('profissionalId');
-                expect(data).to.have.property('parceriaId');
-                expect(data).to.have.property('pacienteNome');
-                expect(data).to.have.property('pacienteSobrenome');
-                expect(data).to.have.property('pacienteDataNascimento');
-                expect(data).to.have.property('pacienteCelular');
-                expect(data).to.have.property('pacienteTelefone');
-                expect(data).to.have.property('pacienteCpf');
-                expect(data).to.have.property('pacienteEmail');
+                expect(data).to.have.property('description');
+                })
             })
         })
 

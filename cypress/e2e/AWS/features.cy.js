@@ -12,7 +12,7 @@ describe('Módulo - Features', () => {
   });
 
   describe('Módulo - Features - Criar uma nova Feature', () => {
-    
+
     it('Validar retorno 201 - /api/v1/features', () => {
       const token = Cypress.env('access_token');
       featureName = `QA-${Date.now()}`;
@@ -32,6 +32,7 @@ describe('Módulo - Features', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(201);
+        cy.log(JSON.stringify(response.body))
         cy.log(`✅ Feature ${featureName} criada com sucesso`);
       });
     });
@@ -119,6 +120,7 @@ describe('Módulo - Features', () => {
       }).then((response) => {
         expect(response.status).to.eq(200)
         const items = response.body;
+        
 
         items.forEach((item) => {
           expect(item).to.have.property('id');
@@ -126,7 +128,6 @@ describe('Módulo - Features', () => {
           expect(item).to.have.property('isActive');
           expect(item).to.have.property('defaultValueForNewUnits');
         })
-
       })
     })
 
@@ -259,7 +260,7 @@ describe('Módulo - Features', () => {
     it('Validar retorno 200 - /api/v1/features/{id}', () => {
 
       const token = Cypress.env('access_token')
-      const idFeature = 405;
+      const idFeature = 1953;
 
       cy.request({
         method: 'PATCH',
