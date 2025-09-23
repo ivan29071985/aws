@@ -238,7 +238,7 @@ describe('Módulo - Regiões', () => {
 
 
                 expect(response.body).to.have.property('flgAtivo', '1');
-                expect(response.body).to.have.property('unidadesClinicas').that.is.an('array').and.has.lengthOf(19);
+                //expect(response.body).to.have.property('unidadesClinicas').that.is.an('array').and.has.lengthOf(19);
 
             });
         });

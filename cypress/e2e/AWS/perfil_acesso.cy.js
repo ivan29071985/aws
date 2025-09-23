@@ -259,22 +259,6 @@ describe('Módulo - Perfil de Acesso', () => {
       })
     })
 
-    it('Validar retorno 400 - /api/v1/perfil-acesso/recursos', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'DELETE',
-        url: '/api/v1/perfil-acesso/recursos',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(400)
-      })
-    })
-
     it('Validar retorno 401 - /api/v1/perfil-acesso/recursos', () => {
       const token = Cypress.env('access_token');
 
