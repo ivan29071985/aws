@@ -138,7 +138,7 @@ describe('Módulo - Fechar Cadeado', () => {
         })
     })
 
-    describe.only('Módulo - Fechar Cadeado - Atualizar dias selecionados para fechamento/abertura de cadeado', () => {
+    describe('Módulo - Fechar Cadeado - Atualizar dias selecionados para fechamento/abertura de cadeado', () => {
         
         it('Validar retorno 200 - /api/v1/close-padlock/update-selected-days', () => {
             const token = Cypress.env('access_token');

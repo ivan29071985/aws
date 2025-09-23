@@ -6,9 +6,9 @@ describe('Módulo - Especialidades', () => {
         cy.refreshToken();
     })
 
-    describe.only('Módulo - Especialidades - Cria uma especialidade', () => {
+    describe('Módulo - Especialidades - Cria uma especialidade', () => {
 
-        it.only('Validar retorno 201 - /api/v1/especialidades', () => {
+        it('Validar retorno 201 - /api/v1/especialidades', () => {
             const token = Cypress.env('access_token');
             const nomeDescricao = `Teste QA Hml ${Date.now()}`;
 
