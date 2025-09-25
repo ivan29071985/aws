@@ -35,8 +35,11 @@
     "test:modulos": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js'",
     "test:modulos:allure": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npm run allure:generate && npm run allure:open",
     "test:modulos:allure:homologacao": "npm run allure:clear && cmd /c \"cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas,lista_espera,status_agendamento,classificacao_medica}.cy.js' || exit /b 0\" && npm run allure:generate && npm run allure:open",
+    
     "test:modulos:allure:staging": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas,lista_espera,status_agendamento,classificacao_medica}.cy.js' || exit /b 0\"  && npm run allure:generate && npm run allure:open",
+
     "test:modulos:allure:producao": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas,lista_espera,status_agendamento,classificacao_medica}.cy.js' || exit /b 0\"  && npm run allure:generate && npm run allure:open",
+
     "test:postgres:allure": "npm run allure:clear && cypress run --spec 'cypress/e2e/AWS/{recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npm run allure:generate && npm run allure:open",
     "test:modulos:allure:serve": "cypress run --spec 'cypress/e2e/AWS/{perfil_acesso,origens,cartao_de_todos,cartao_de_todos_integration,recursos,plano_de_contas,grupo_de_regras_acesso,fuso_horario,tipo_documentos,portes_tabelas}.cy.js' && npx allure serve allure-results",
 
