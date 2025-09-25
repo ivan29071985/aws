@@ -1,5 +1,6 @@
 /// <reference types="cypress"/>
 
+///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 describe('Módulo - Tabela Padrão', () => {
     beforeEach(() => {
         cy.login()
@@ -21,7 +22,10 @@ describe('Módulo - Tabela Padrão', () => {
                 body: {
                     dataInicio: "20250101",
                     dataFim: "20250130",
-                    nomeTabelaPreco: "Teste QA"
+                    nomeTabelaPreco: "Tabela Padrão QA",
+                    valorConsultaInicio: "40.99",
+                    ipClient: "null",
+                    createBy: "null"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -40,7 +44,7 @@ describe('Módulo - Tabela Padrão', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-            
+                    // sem parâmetro no body
                 },
                 failOnStatusCode: false,
             }).then((response) => {
