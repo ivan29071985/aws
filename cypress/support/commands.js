@@ -17,7 +17,7 @@ Cypress.Commands.add('login', () => {
 // Comando de refresh token - atualiza o token
 Cypress.Commands.add('refreshToken', () => {
   const token = Cypress.env('access_token')
-  
+
   return cy.request({
     method: 'POST',
     url: '/api/v1/security/refresh-token?clinicId=483',
@@ -46,8 +46,8 @@ Cypress.Commands.add('GeradorCnpj', () => {
       return resto < 2 ? 0 : 11 - resto;
     };
 
-    const dv1 = calcDv(n, [5,4,3,2,9,8,7,6,5,4,3,2]);
-    const dv2 = calcDv([...n, dv1], [6,5,4,3,2,9,8,7,6,5,4,3,2]);
+    const dv1 = calcDv(n, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+    const dv2 = calcDv([...n, dv1], [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
 
     return n.join('') + dv1 + dv2;
   }
@@ -93,28 +93,28 @@ Cypress.Commands.add('refreshTokenAsPaulo', () => {
 
 Cypress.Commands.add('gerarCpfValido', () => {
 
-    // Função simples para gerar CPF válido
-    const numeros = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
+  // Função simples para gerar CPF válido
+  const numeros = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
 
-    // Calcula primeiro dígito
-    let soma = 0;
-    for (let i = 0; i < 9; i++) {
-        soma += numeros[i] * (10 - i);
-    }
-    let resto = (soma * 10) % 11;
-    const digito1 = resto === 10 ? 0 : resto;
+  // Calcula primeiro dígito
+  let soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += numeros[i] * (10 - i);
+  }
+  let resto = (soma * 10) % 11;
+  const digito1 = resto === 10 ? 0 : resto;
 
-    // Calcula segundo dígito
-    soma = 0;
-    for (let i = 0; i < 9; i++) {
-        soma += numeros[i] * (11 - i);
-    }
-    soma += digito1 * 2;
-    resto = (soma * 10) % 11;
-    const digito2 = resto === 10 ? 0 : resto;
+  // Calcula segundo dígito
+  soma = 0;
+  for (let i = 0; i < 9; i++) {
+    soma += numeros[i] * (11 - i);
+  }
+  soma += digito1 * 2;
+  resto = (soma * 10) % 11;
+  const digito2 = resto === 10 ? 0 : resto;
 
-    // Monta o CPF completo
-    const cpf = numeros.join('') + digito1 + digito2;
-    return cy.wrap(cpf);
+  // Monta o CPF completo
+  const cpf = numeros.join('') + digito1 + digito2;
+  return cy.wrap(cpf);
 }
 )
