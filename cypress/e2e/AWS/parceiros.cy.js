@@ -824,7 +824,7 @@ describe('Módulo - Parceiros', () => {
                     tipoCobrancaId: 1,
                     nome: "Teste QA",
                     unidades: [{ "id": 483 }],
-                    id: 1163
+                    id: 534
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -922,7 +922,7 @@ describe('Módulo - Parceiros', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
-            const idParceiro = 1163;
+            const idParceiro = 534;
 
             cy.request({
                 method: 'GET',
@@ -933,89 +933,89 @@ describe('Módulo - Parceiros', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(200);
 
-               /* const item = response.body;
-                expect(item).to.include.all.keys(
-                    'id',
-                    'tipoId',
-                    'nome',
-                    'tabelaId',
-                    'abrangenciaId',
-                    'tipoCobrancaId',
-                    'prazoFaturamento',
-                    'dataBase',
-                    'flagAtivo',
-                    'createdAt',
-                    'updatedAt',
-                    'cnpj',
-                    'razaoSocial',
-                    'telefone',
-                    'email',
-                    'cep',
-                    'endereco',
-                    'numero',
-                    'bairro',
-                    'cidade',
-                    'estado',
-                    'nomeFantasia',
-                    'telefoneSecundario',
-                    'regiaoZona',
-                    'emailAlternativo',
-                    'complemento',
-                    'urlParceiro',
-                )
-
-                expect(item).to.have.property('canais').to.be.an('array')
-                item.canais.forEach((data) => {
-                    expect(data).to.have.property('id');
-                    expect(data).to.have.property('nome');
-                })
-
-                expect(item).to.have.property('unidades').to.be.an('array')
-                item.unidades.forEach((data) => {
-                    expect(data).to.have.property('id');
-                    expect(data).to.have.property('descricao');
-                    expect(data).to.have.property('endereco');
-                    expect(data).to.have.property('flgCentral');
-                    expect(data).to.have.property('feegowClinicId');
-                    expect(data).to.have.property('flgTelemedicina');
-                    expect(data).to.have.property('flgAmorCirurgias');
-                    expect(data).to.have.property('regiaoId');
-                    expect(data).to.have.property('flgAtivo');
-                    expect(data).to.have.property('flgAtivarTef');
-                    expect(data).to.have.property('razaoSocial');
-                    expect(data).to.have.property('cnpj');
-                    expect(data).to.have.property('cnes');
-                    expect(data).to.have.property('fkRegimeTributario');
-                    expect(data).to.have.property('fkUnidadeStatus');
-                    expect(data).to.have.property('consultor');
-                    expect(data).to.have.property('telefonePrincipal');
-                    expect(data).to.have.property('telefoneSecundario');
-                    expect(data).to.have.property('emailPrincipal');
-                    expect(data).to.have.property('emailSecundario');
-                    expect(data).to.have.property('cep');
-                    expect(data).to.have.property('numero');
-                    expect(data).to.have.property('complemento');
-                    expect(data).to.have.property('bairro');
-                    expect(data).to.have.property('regiaoZona');
-                    expect(data).to.have.property('observacao');
-                    expect(data).to.have.property('sigla');
-                    expect(data).to.have.property('fkFusoHorario');
-                    expect(data).to.have.property('fkTipoUnidade');
-                    expect(data).to.have.property('flgAgendaOnline');
-                    expect(data).to.have.property('sellerId');
-                    expect(data).to.have.property('flgAtivarSplit');
-                    expect(data).to.have.property('fkParceiroInstitucional');
-                    expect(data).to.have.property('dataInauguracao');
-                    expect(data).to.have.property('fkTipoSegmento');
-                    expect(data).to.have.property('status');
-                    expect(data).to.have.property('mcc');
-                    expect(data).to.have.property('latitude');
-                    expect(data).to.have.property('longitude');
-                })
-
-                expect(item).to.have.property('hasPricesTable')*/
+                 const item = response.body;
+                 expect(item).to.include.all.keys(
+                     'id',
+                     'tipoId',
+                     'nome',
+                     'tabelaId',
+                     'abrangenciaId',
+                     'tipoCobrancaId',
+                     'prazoFaturamento',
+                     'dataBase',
+                     'flagAtivo',
+                     'createdAt',
+                     'updatedAt',
+                     'cnpj',
+                     'razaoSocial',
+                     'telefone',
+                     'email',
+                     'cep',
+                     'endereco',
+                     'numero',
+                     'bairro',
+                     'cidade',
+                     'estado',
+                     'nomeFantasia',
+                     'telefoneSecundario',
+                     'regiaoZona',
+                     'emailAlternativo',
+                     'complemento',
+                     'urlParceiro',
+                 )
+ 
+                 expect(item).to.have.property('canais').to.be.an('array')
+                 item.canais.forEach((data) => {
+                     expect(data).to.have.property('id');
+                     expect(data).to.have.property('nome');
+                 })
+ 
+                 expect(item).to.have.property('unidades').to.be.an('array')
+                 item.unidades.forEach((data) => {
+                     expect(data).to.have.property('id');
+                     expect(data).to.have.property('descricao');
+                     expect(data).to.have.property('endereco');
+                     expect(data).to.have.property('flgCentral');
+                     expect(data).to.have.property('feegowClinicId');
+                     expect(data).to.have.property('flgTelemedicina');
+                     expect(data).to.have.property('flgAmorCirurgias');
+                     expect(data).to.have.property('regiaoId');
+                     expect(data).to.have.property('flgAtivo');
+                     expect(data).to.have.property('flgAtivarTef');
+                     expect(data).to.have.property('razaoSocial');
+                     expect(data).to.have.property('cnpj');
+                     expect(data).to.have.property('cnes');
+                     expect(data).to.have.property('fkRegimeTributario');
+                     expect(data).to.have.property('fkUnidadeStatus');
+                     expect(data).to.have.property('consultor');
+                     expect(data).to.have.property('telefonePrincipal');
+                     expect(data).to.have.property('telefoneSecundario');
+                     expect(data).to.have.property('emailPrincipal');
+                     expect(data).to.have.property('emailSecundario');
+                     expect(data).to.have.property('cep');
+                     expect(data).to.have.property('numero');
+                     expect(data).to.have.property('complemento');
+                     expect(data).to.have.property('bairro');
+                     expect(data).to.have.property('regiaoZona');
+                     expect(data).to.have.property('observacao');
+                     expect(data).to.have.property('sigla');
+                     expect(data).to.have.property('fkFusoHorario');
+                     expect(data).to.have.property('fkTipoUnidade');
+                     expect(data).to.have.property('flgAgendaOnline');
+                     expect(data).to.have.property('sellerId');
+                     expect(data).to.have.property('flgAtivarSplit');
+                     expect(data).to.have.property('fkParceiroInstitucional');
+                     expect(data).to.have.property('dataInauguracao');
+                     expect(data).to.have.property('fkTipoSegmento');
+                     expect(data).to.have.property('status');
+                     expect(data).to.have.property('mcc');
+                     expect(data).to.have.property('latitude');
+                     expect(data).to.have.property('longitude');
+                 })
+ 
+                 expect(item).to.have.property('hasPricesTable')
             })
         })
 
@@ -1054,14 +1054,14 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
-    describe.only('Módulo - Parceiros - Atualiza os dados do parceiro', () => {
+    describe('Módulo - Parceiros - Atualiza os dados do parceiro', () => {
 
-        it.only('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
+        it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/parceiros/1165',
+                url: '/api/v1/parceiros/534',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1069,8 +1069,16 @@ describe('Módulo - Parceiros', () => {
                 body: {
                     flagAtivo: "1",
                     nome: "Teste QA2",
-                    canais: [{ "id": 3 }],
-                    unidades: [{ "id": 483 }],
+                    canais: [
+                        {
+                            "id": 3
+                        }
+                    ],
+                    unidades: [
+                        {
+                            id: 483
+                        }
+                    ],
                     tipoId: 1,
                     tabelaId: 3,
                     abrangenciaId: 1,
@@ -1080,7 +1088,7 @@ describe('Módulo - Parceiros', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(500)
+                expect(response.status).to.eq(200)
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
@@ -1198,7 +1206,7 @@ describe('Módulo - Parceiros', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/parceiros/1165/unidades?regionaisIds=1&regionaisIds=2',
+                url: '/api/v1/parceiros/534/unidades?regionaisIds=1&regionaisIds=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

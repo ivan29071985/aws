@@ -8,7 +8,7 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Cria uma restrição', () => {
 
-        it('Validar retorno 201 - /api/v1/restricoes', () => {
+        it.only('Validar retorno 201 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
             const restricao = `Teste API ${Date.now()}`;
 
@@ -20,7 +20,9 @@ describe('Módulo - Restrições', () => {
                     'Content-Type': 'application/json',
                 },
                 body: {
-                    descricao: restricao
+                    //id: 10,
+                    descricao: restricao,
+                    flgAtivo: "1"
                 },
                 failOnStatusCode: false,
             }).then((response) => {

@@ -380,7 +380,7 @@ describe('Módulo - Acolhimentos', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/acolhimentos/iniciar/173155',
+                url: '/api/v1/acolhimentos/iniciar/153126',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -482,7 +482,7 @@ describe('Módulo - Acolhimentos', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/acolhimentos/list-appointments-by-status?date=20250924&page=1&perPage=10',
+                url: '/api/v1/acolhimentos/list-appointments-by-status?date=20250930&page=1&perPage=10',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -493,26 +493,27 @@ describe('Módulo - Acolhimentos', () => {
 
                 const body = response.body;
 
-                // Valida que body tem as chaves principais
-                expect(body).to.have.property('meta');
-                expect(body).to.have.property('data');
-                expect(body.data).to.be.an('array');
 
-                // Valida que cada item do array tem os campos esperados
+                expect(body).to.have.property('meta').to.include.all.keys(
+                    'page',
+                    'perPage',
+                    'total'
+                )
+                expect(body).to.have.property('data').to.be.an('array')
                 body.data.forEach((item) => {
-                    expect(item).to.have.all.keys(
-                        'procedimento',
-                        'dataAtendimentoISO',
-                        'flgNecessitaAcolhimento',
-                        'horaInicio',
-                        'horaChegada',
-                        'horaCheckIn',
-                        'pacienteIdade',
-                        'professional',
-                        'id',
-                        'statusId',
-                        'status'
-                    )
+                    expect(item).to.have.property('procedimento');
+                    expect(item).to.have.property('dataAtendimentoISO');
+                    expect(item).to.have.property('flgNecessitaAcolhimento');
+                    expect(item).to.have.property('horaInicio');
+                    expect(item).to.have.property('horaChegada');
+                    expect(item).to.have.property('horaCheckIn');
+                    expect(item).to.have.property('pacienteIdade');
+                    expect(item).to.have.property('professional');
+                    expect(item).to.have.property('professionalId');
+                    expect(item).to.have.property('id');
+                    expect(item).to.have.property('statusId');
+                    expect(item).to.have.property('status');
+                    expect(item).to.have.property('usuarioId');
                 })
             })
         })
@@ -533,7 +534,7 @@ describe('Módulo - Acolhimentos', () => {
             })
         })
 
-         it('Validar retorno 401 - /api/v1/acolhimentos/list-appointments-by-status', () => {
+        it('Validar retorno 401 - /api/v1/acolhimentos/list-appointments-by-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -549,7 +550,7 @@ describe('Módulo - Acolhimentos', () => {
             })
         })
 
-         it('Validar retorno 404 - /api/v1/acolhimentos/list-appointments-by-status', () => {
+        it('Validar retorno 404 - /api/v1/acolhimentos/list-appointments-by-status', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
