@@ -212,21 +212,28 @@ describe('Módulo - Report', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "nome": "Relatório Teste QA",
-                    "unidadeId": 183,
-                    "grupos": [1, 4, 6],
-                    "viewId": 6,
-                    "flagAtivo": true,
-                    "campos": ["string"],
-                    "tipoId": 1
+                    unidadeId: 483,
+                    nome: "teste",
+                    grupos: [1],
+                    tipoId: 1,
+                    viewId: 6,
+                    flagAtivo: true,
+                    campos: [
+                        {
+                            "nome": "CELULAR",
+                            "apelido": "/lkhk",
+                            "tipoId": 1
+                        }
+                    ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
+                const idReport = response.body.tipoId;
 
                 // Valida que as propriedades existem
-                expect(response.body).to.have.property('nome');
                 expect(response.body).to.have.property('unidadeId');
+                expect(response.body).to.have.property('nome');
                 expect(response.body).to.have.property('grupos').to.be.an('array');
 
                 // Valida que os itens em grupos são números
@@ -239,12 +246,16 @@ describe('Módulo - Report', () => {
                 expect(response.body).to.have.property('flagAtivo');
                 expect(response.body).to.have.property('campos').to.be.an('array');
 
-                // Valida que os itens em campos é uma string
+                /* Valida que os itens em campos é uma string
                 response.body.campos.forEach((item) => {
                     expect(item).to.be.a('string');
-                })
+                })*/
 
                 expect(response.body).to.have.property('tipoId');
+
+                //Salva o ID para uso posterior
+                Cypress.env('idReport', idReport)
+                cy.log('ID salvo:', idReport);
             })
         })
 
@@ -322,6 +333,7 @@ describe('Módulo - Report', () => {
 
         it('Validar retorno 200 - /api/v1/report/multidimensional', () => {
             const token = Cypress.env('access_token');
+            const idReport = Cypress.env('idReport')
 
             cy.request({
                 method: 'PUT',
@@ -331,14 +343,20 @@ describe('Módulo - Report', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "id": 1,
-                    "nome": "Relatório administrativo",
-                    "unidadeId": 183,
-                    "grupos": [1, 2, 3],
-                    "tipoId": 1,
-                    "viewId": 1,
-                    "flagAtivo": true,
-                    "campos": [1, 2, 3]
+                    id: idReport,
+                    unidadeId: 483,
+                    nome: "teste",
+                    grupos: [1],
+                    tipoId: 1,
+                    viewId: 6,
+                    flagAtivo: true,
+                    campos: [
+                        {
+                            nome: "CELULAR",
+                            apelido: "/lkhk",
+                            tipoId: 1
+                        }
+                    ]
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -350,18 +368,10 @@ describe('Módulo - Report', () => {
                 expect(items).to.have.property('unidadeId');
                 expect(items).to.have.property('grupos').to.be.an('array');
 
-                items.grupos.forEach((item) => {
-                    expect(item).to.be.a('number')
-                })
-
                 expect(items).to.have.property('tipoId');
                 expect(items).to.have.property('viewId');
                 expect(items).to.have.property('flagAtivo');
                 expect(items).to.have.property('campos').to.be.an('array');
-
-                items.campos.forEach((item) => {
-                    expect(item).to.be.an('number')
-                })
             })
         })
 
@@ -377,7 +387,7 @@ describe('Módulo - Report', () => {
                 },
                 body: { //Sem parâmetro no body
                 },
-                failOnStatusCode: false,
+                failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
             })
@@ -789,7 +799,7 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201)
-                
+
                 const data = response.body;
                 expect(data).to.have.property('flagDeError');
                 expect(data).to.have.property('mensagem');

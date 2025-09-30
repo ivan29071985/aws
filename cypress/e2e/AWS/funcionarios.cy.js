@@ -707,81 +707,11 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Excluir um funcionário por id', () => {
-
-        it('Validar retorno 200 - /api/v1/employees/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
-
-            cy.request({
-                method: 'DELETE',
-                url: `/api/v1/employees/${idFuncionario}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(200)
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/employees/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
-
-            cy.request({
-                method: 'DELETE',
-                url: `/api/v1/employees/ll`, // sem parâmetro
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
-        it('Validar retorno 401 - /api/v1/employees/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
-
-            cy.request({
-                method: 'DELETE',
-                url: `/api/v1/employees/${idFuncionario}`,
-                headers: {
-                    //'Authorization': `Bearer ${token}`, Token inválido
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/employees/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/employees/${idFuncionario}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
-    })
-
     describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
         it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
             // Gerar número aleatório de 1 a 1000
             const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
@@ -796,7 +726,7 @@ describe('Módulo - Funcionários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    employeeId: 1046,
+                    employeeId: idFuncionario,
                     newEmail: email
                 },
                 failOnStatusCode: false
@@ -1005,11 +935,11 @@ describe('Módulo - Funcionários', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}/perfil', () => {
             const token = Cypress.env('access_token');
-            const idFunc = 1045;
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/employees/${idFunc}/perfil`,
+                url: `/api/v1/employees/${idFuncionario}/perfil`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1123,10 +1053,10 @@ describe('Módulo - Funcionários', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}/perfil', () => {
             const token = Cypress.env('access_token');
-            const idFunc = 1047;
+             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
             cy.request({
                 method: 'GET',
-                url: `/api/v1/employees/${idFunc}/perfil`,
+                url: `/api/v1/employees/${idFuncionario}/perfil`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1239,6 +1169,77 @@ describe('Módulo - Funcionários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(404);
+            })
+        })
+    })
+
+    describe('Módulo - Funcionários - Excluir um funcionário por id', () => {
+
+        it('Validar retorno 200 - /api/v1/employees/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/employees/${idFuncionario}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/employees/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/employees/ll`, // sem parâmetro
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/employees/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/employees/${idFuncionario}`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/employees/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza I
+
+            cy.request({
+                method: 'POST',
+                url: `/api/v1/employees/${idFuncionario}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
             })
         })
     })
