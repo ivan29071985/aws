@@ -114,7 +114,7 @@ describe('Módulo - Funções', () => {
         })
     })
 
-    describe('Módulo - Funções - Retorna uma lisra de funções', () => {
+    describe('Módulo - Funções - Retorna uma lista de funções', () => {
         
         it('Validar retorno 200 - /api/v1/funcoes', () => {
             const token = Cypress.env('access_token');

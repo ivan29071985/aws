@@ -110,32 +110,33 @@ describe('Módulo - Funcionários', () => {
                         'Content-Type': 'application/json'
                     },
                     body: {
-                        nome: "Funcionario",
+                        status: "1",
+                        nome: "Julio",
                         sobrenome: sobrenome,
-                        foto: null,
+                        foto: "",
                         cpf: cpf,
-                        rg: "363450920",
-                        dataNascimento: "19800909",
-                        dataAdmissao: "20250101",
+                        rg: "42.418.401-1",
+                        dataNascimento: "1995-07-17",
                         dataDemissao: null,
+                        dataAdmissao: "2025-10-01",
                         tipoFuncionario: "Interno",
-                        origemExterno: "cVortex",
-                        cargo: "Assistente",
+                        origemExterno: "",
+                        cep: "13580-970",
                         sexoId: 1,
-                        setorId: 1,
-                        observacao: "testeAPI",
-                        celular: "1699007453",
-                        email: email,
-                        cep: "16680970",
-                        endereco: "Rua Osório Machado",
-                        numero: "322",
-                        complemento: null,
+                        setorId: 3,
+                        observacao: "",
+                        celular: "16992788783",
                         bairro: "Centro",
-                        municipioId: 1,
-                        usuarioUnidadeId: 1,
+                        email: email,
+                        endereco: "Rua São Paulo",
+                        numero: "121",
+                        complemento: "",
+                        funcaoId: 1,
                         perfilAcessoId: 1,
-                        funcaoId: 1
-                    },
+                        municipioId: 4918,
+                        usuarioUnidadeId: 483
+                    }
+                    ,
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(201);
@@ -564,38 +565,36 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/employees/${idFuncionario}`,
+                url: '/api/v1/employees/974',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    nome: "Olsen",
-                    sobrenome: sobrenome,
-                    foto: null,
-                    cpf: "35169138865",
-                    rg: "37631680-9",
-                    dataNascimento: "19860228",
-                    dataAdmissao: null,
+                    status: "0",
+                    nome: "asdasd",
+                    sobrenome: "Ramalho",
+                    foto: "",
+                    cpf: "75926211000",
+                    rg: "12312313",
+                    dataNascimento: null,
                     dataDemissao: null,
-                    tipoFuncionario: null,
-                    origemExterno: null,
-                    cargo: "Analista",
+                    dataAdmissao: null,
+                    tipoFuncionario: "Externo",
+                    origemExterno: "GT7",
+                    cep: "69065-130",
                     sexoId: 1,
-                    setorId: 3,
-                    observacao: null,
-                    celular: "16920004578",
-                    email: email,
-                    cep: "14021-644",
-                    endereco: "Rua Magid Antônio Calil",
-                    numero: "176",
-                    complemento: null,
-                    bairro: "Jardim Botânico",
-                    municipioId: 4,
-                    usuarioUnidadeId: 183,
-                    perfilAcessoId: 1,
-                    funcaoId: 1
-                },
+                    observacao: "",
+                    celular: "1234567890",
+                    bairro: "Cachoeirinha",
+                    email: "lucasclaudino@liv12311112e.com",
+                    endereco: "Avenida Codajás",
+                    numero: "105",
+                    complemento: "b",
+                    municipioId: 1565,
+                    usuarioUnidadeId: 483
+                }
+                ,
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
@@ -716,7 +715,7 @@ describe('Módulo - Funcionários', () => {
             // Gerar número aleatório de 1 a 1000
             const numeroAleatorio = Math.floor(Math.random() * 1000) + 1;
             // Gerar o email com número no nome
-            const email = `testeqa${numeroAleatorio}@gmail.com`;
+            const email = `${numeroAleatorio}@gmail.com`;
 
             cy.request({
                 method: 'POST',
@@ -726,7 +725,7 @@ describe('Módulo - Funcionários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    employeeId: idFuncionario,
+                    employeeId: 974,
                     newEmail: email
                 },
                 failOnStatusCode: false
@@ -939,7 +938,7 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'PUT',
-                url: `/api/v1/employees/${idFuncionario}/perfil`,
+                url: `/api/v1/employees/974/perfil`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1053,7 +1052,7 @@ describe('Módulo - Funcionários', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}/perfil', () => {
             const token = Cypress.env('access_token');
-             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
+            const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
             cy.request({
                 method: 'GET',
                 url: `/api/v1/employees/${idFuncionario}/perfil`,

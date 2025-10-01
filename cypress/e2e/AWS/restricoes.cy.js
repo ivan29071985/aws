@@ -8,7 +8,7 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Cria uma restrição', () => {
 
-        it.only('Validar retorno 201 - /api/v1/restricoes', () => {
+       /** it('Validar retorno 201 - /api/v1/restricoes', () => {  Cenário: Método POST no Endpoint Restrições foi descontinuado.  flgAtivo mockado como nulo
             const token = Cypress.env('access_token');
             const restricao = `Teste API ${Date.now()}`;
 
@@ -34,7 +34,7 @@ describe('Módulo - Restrições', () => {
                     'mensagem'
                 )
             })
-        })
+        })  */
 
         it('Validar retorno 400 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
