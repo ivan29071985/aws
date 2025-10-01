@@ -1134,11 +1134,12 @@ describe('Módulo - Funcionários', () => {
 
         it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
-            const idFunc = 1047;
+            const idFuncionario = Cypress.env('idFuncionario', idFuncionario)
+             
 
             cy.request({
                 method: 'DELETE',
-                url: `/api/v1/employees/perfil/${idFunc}`,
+                url: `/api/v1/employees/perfil/${idFuncionario}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

@@ -922,7 +922,7 @@ describe('Módulo - Parceiros', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
-            const idParceiro = 534;
+            const idParceiro = 241;
 
             cy.request({
                 method: 'GET',
@@ -1017,7 +1017,7 @@ describe('Módulo - Parceiros', () => {
  
                  expect(item).to.have.property('hasPricesTable')
             })
-        })
+        }) 
 
         it('Validar retorno 401 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
@@ -1041,7 +1041,7 @@ describe('Módulo - Parceiros', () => {
             const idParceiro = 1163;
 
             cy.request({
-                method: 'DELETE', //Metodo divergente
+                method: 'POST', //Metodo divergente
                 url: `/api/v1/parceiros/${idParceiro}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1061,7 +1061,7 @@ describe('Módulo - Parceiros', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/parceiros/534',
+                url: '/api/v1/parceiros/241',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1093,7 +1093,7 @@ describe('Módulo - Parceiros', () => {
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
             })
-        })
+        }) 
 
         it('Validar retorno 400 - /api/v1/parceiros/{id}', () => {
             const token = Cypress.env('access_token');
@@ -1206,7 +1206,7 @@ describe('Módulo - Parceiros', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/parceiros/534/unidades?regionaisIds=1&regionaisIds=1',
+                url: '/api/v1/parceiros/241/unidades?regionaisIds=1&regionaisIds=1',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -1216,7 +1216,7 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(200)
                 expect(response.body).to.have.property('unidades').to.be.an('array');
             })
-        })
+        }) 
 
         it('Validar retorno 401 - /api/v1/parceiros/{id}/unidades', () => {
             const token = Cypress.env('access_token');

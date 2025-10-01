@@ -222,7 +222,7 @@ describe('Módulo - Painel de Controle', () => {
 
     })
 
-    //describe('Modulo - Painel de Controle - Status', () => {
+    describe('Modulo - Painel de Controle - Status', () => {
 
         it('Validar retorno 200 - /api/v1/control-panel/status-tef/{clinicId}', () => {
             const token = Cypress.env('access_token')
@@ -278,6 +278,5 @@ describe('Módulo - Painel de Controle', () => {
                 expect(response.status).to.eq(404);
             })
         })
-    //})
-
+    })
 })
