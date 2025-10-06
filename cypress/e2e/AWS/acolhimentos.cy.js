@@ -375,7 +375,7 @@ describe('Módulo - Acolhimentos', () => {
 
     describe('Módulo - Acolhimentos - Muda status do agendamento', () => {
 
-        /**it('Validar retorno 200 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
+        it('Validar retorno 200 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -396,7 +396,7 @@ describe('Módulo - Acolhimentos', () => {
                 expect(body).to.have.property('flagDeError');
                 expect(body).to.have.property('mensagem');
             })
-        }) */
+        })
 
         it('Validar retorno 400 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
             const token = Cypress.env('access_token');

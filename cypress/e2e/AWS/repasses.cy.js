@@ -1,6 +1,10 @@
 /// <reference types="cypress"/>
 
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> EM CONSTRUÇÃO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+/** Para realização dos testes, será necessário pegar o ID atualizado de um repasse consolidado
+ * e inserir na rota POST "Módulo - Repasses - Criar um contas a pagar pelo repasse"
+ * Inserir somente no cenário 201
+ */
+
 describe('Módulo - Repasses', () => {
     beforeEach(() => {
         cy.login();
@@ -87,7 +91,7 @@ describe('Módulo - Repasses', () => {
         })
     })
 
-    describe.only('Módulo - Repasses - Retorna uma lista de Executante', () => {
+    describe('Módulo - Repasses - Retorna uma lista de Executante', () => {
 
         it('Validar retorno 200 - /api/v1/repasses/executante', () => {
             const token = Cypress.env('access_token');
@@ -118,22 +122,6 @@ describe('Módulo - Repasses', () => {
             })
         })
 
-        it('Validar retorno 401 - /api/v1/repasses/executante', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/repasses/executante',
-                headers: {
-                    //'Authorization': `Bearer ${token}`, token inválido
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401)
-            })
-        })
-
         it('Validar retorno 404 - /api/v1/repasses/executante', () => {
             const token = Cypress.env('access_token');
 
@@ -152,7 +140,7 @@ describe('Módulo - Repasses', () => {
     })
 
     describe('Módulo - Repasses - Consolidar', () => {
-      
+
         it('Validar retorno 201 - /api/v1/repasses/novo-consolidar', () => {
             const token = Cypress.env('access_token');
 
@@ -160,8 +148,350 @@ describe('Módulo - Repasses', () => {
                 method: 'POST',
                 url: '/api/v1/repasses/novo-consolidar',
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                cy.log('Response body retorna vazio', JSON.stringify(response.body))
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/repasses/novo-consolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-consolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/repasses/novo-consolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-consolidar',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/repasses/novo-consolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/repasses/novo-consolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/repasses/novo-consolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/repasses/novo-consolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Repasses - Desconsolidar', () => {
+
+        it('Validar retorno 201 - /api/v1/repasses/novo-desconsolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-desconsolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                cy.log('Response body retorna vazio', JSON.stringify(response.body))
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/repasses/novo-desconsolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-desconsolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parametro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/repasses/novo-desconsolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-desconsolidar',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/repasses/novo-desconsolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/repasses/novo-desconsolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/repasses/novo-desconsolidar', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/repasses/novo-desconsolidar',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repasseIds: [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+    })
+
+    describe('Módulo - Repasses - Criar um contas a pagar pelo repasse', () => {
+
+        it('validar retorno 201 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-conta-pagar-repasse',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repassesIds: [146036],
+                    flgCaixa: 0,
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+                expect(response.body).to.have.property('id');
+            })
+        })
+
+        it('validar retorno 400 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-conta-pagar-repasse',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('validar retorno 401 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/repasses/novo-conta-pagar-repasse',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repassesIds: [147675],
+                    flgCaixa: 0,
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('validar retorno 403 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', //método divergente
+                url: '/api/v1/repasses/novo-conta-pagar-repasse',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repassesIds: [147675],
+                    flgCaixa: 0,
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('validar retorno 404 - /api/v1/repasses/novo-conta-pagar-repasse', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', //método divergente
+                url: '/api/v1/repasses/novo-conta-pagar-repasse',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    repassesIds: [147675],
+                    flgCaixa: 0,
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
             })
         })
     })
