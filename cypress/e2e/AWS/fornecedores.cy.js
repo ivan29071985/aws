@@ -1,6 +1,6 @@
 /// <reference types="cypress"/>
 
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 describe('Módulo - Fornecedores', () => {
     beforeEach(() => {
         cy.login();
@@ -329,8 +329,9 @@ describe('Módulo - Fornecedores', () => {
             })
         })
     })
-    /*
-        describe.only('Módulo - Fornecedores - Vincular um fornecedor a uma cidade', () => {
+
+    /* POST
+    describe.only('Módulo - Fornecedores - Vincular um fornecedor a uma cidade', () => {
     
             it('Validar retorno 201 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
                 const token = Cypress.env('access_token');
@@ -363,10 +364,10 @@ describe('Módulo - Fornecedores', () => {
                     expect(response.status).to.eq(201)
                 })
             })
-        })
+    })
     
-        describe('Módulo - Fornecedores - update agente e senha', () => {
-        })*/
+    describe('Módulo - Fornecedores - update agente e senha', () => {
+    })
 
     describe.only('Módulo - Fornecedores - Atualizar unidades vinculadas a um fornecedor', () => {
 
@@ -396,6 +397,105 @@ describe('Módulo - Fornecedores', () => {
                 expect(response.status).to.eq(201)
             })
         });
+    })
+
+    describe('Módulo - Fornecedores - Desvincular um fornecedor a uma unidade', () => {
+    });*/
+
+    // GET
+    describe('Módulo - Fornecedores - Retorna uma lista de unidades vinculadas ao fornecedor', () => {  
+    })
+
+    // POST
+    describe('Módulo - Fornecedores - Cria um fornecedor', () => { 
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores sem pagina ate com referencia a procedimentos', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores por id do procedimento', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna um fornecedor com base no CNPJ buscado', () => {
+    })
+
+    //PUT
+    describe('Módulo - Fornecedores - Atuaiza um fornecedor', () => {
+    })
+
+    //DELETE
+    describe('Módulo - Fornecedores - Exclui um fornecedor', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna um fornecedor por id', () => {  
+    })
+    
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e procedimentos com preços vinculados', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
+    })
+
+    //POST
+    describe('Módulo - Fornecedores - Cria um fornecedor e procedimento com preço', () => {
+    })
+
+    //PUT
+    describe('Módulo - Fornecedores - Atualiza um fornecedor e procedimento com preço', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna os fornecedores que tem seller id', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna os dados de split de um fornecedor', () => {
+    })
+
+    //PUT
+    describe('Módulo - Fornecedores - Atualiza os dados de split de um fornecedor', () => {
+    })
+
+    //DELETE
+    describe('Módulo - Fornecedores - Delete o procedimento do fornecedor por id', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna os procedimentos do fornecedor cadastrado', () => {
+    })
+
+    //POST
+    describe('Módulo - Fornecedores - Cadastra os procedimentos do fornecedor', () => {
+    })
+
+    //GET
+    describe('Módulo - Fornecedores - Retorna os procedimentos do fornecedor, com paginação, buscando por parceiro E/OU nome E/OU grupo E/OU Tipo de procedimentos', () => {
+    })
+
+    //PUT
+    describe('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
+    })
+    
+    //DELETE
+    describe('Módulo - Fornecedores - Inativa o procedimento do fornecedor', () => {  
+    })
+
+    //PUT
+    describe('Módulo - Fornecedores - Atualiza o vinculo da unidade com o fornecedor', () => {  
     })
 })
 
