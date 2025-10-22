@@ -330,7 +330,7 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    /* POST
+    /* POST /// >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe.only('Módulo - Fornecedores - Vincular um fornecedor a uma cidade', () => {
     
             it('Validar retorno 201 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
@@ -483,7 +483,7 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    // POST
+    // POST /// >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Fornecedores - Cria um fornecedor', () => {
     })
 
@@ -690,15 +690,16 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    //GET
-    describe.only('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
+    //GET /// >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
 
-        it.only('Validar retorno 200 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
+        //"message": "Cannot read properties of undefined (reading 'fornecedorId')""statusCode": 400
+        it('Validar retorno 200 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
             const token = Cypress.env('access_token');
-            
+
             cy.request({
                 method: 'GET',
-                url: '/api/v1/fornecedores/list-dados-laboratorio-exame/20715',
+                url: '/api/v1/fornecedores/list-dados-laboratorio-exame?fornecedorId=292',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -708,30 +709,479 @@ describe('Módulo - Fornecedores', () => {
                 expect(response.status).to.eq(200)
             })
         })
+
+        it('Validar retorno 400 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/list-dados-laboratorio-exame', // Sem parâmetro
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/list-dados-laboratorio-exame',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/list-dados-laboratorio-exame',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
     })
 
     //GET
     describe('Módulo - Fornecedores - Retorna uma lista de fornecedores por id do procedimento', () => {
+
+        it('Validar retorno 200 - /api/v1/fornecedores/by-procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/by-procedimento?procedimentoId=20715&pricingId=3',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                cy.log('Response Body da API', JSON.stringify(response.body))
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/by-procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/by-procedimento',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/by-procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/by-procedimento?procedimentoId=20715&pricingId=3',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
     })
 
     //GET
     describe('Módulo - Fornecedores - Retorna um fornecedor com base no CNPJ buscado', () => {
+
+        it('Validar retorno 200 - /api/v1/fornecedores/search/{cnpj}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/search/30661945000115',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200)
+
+                const item = response.body;
+                expect(item).to.have.property('razaoSocial');
+                expect(item).to.have.property('nomeFantasia');
+                expect(item).to.have.property('cnpj');
+                expect(item).to.have.property('id');
+                expect(item).to.have.property('inscricaoEstadual');
+                expect(item).to.have.property('inscricaoMunicipal');
+                expect(item).to.have.property('cep');
+                expect(item).to.have.property('endereco');
+                expect(item).to.have.property('numero');
+                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('bairro');
+                expect(item).to.have.property('municipioId');
+                expect(item).to.have.property('municipio');
+                expect(item).to.have.property('uf');
+                expect(item).to.have.property('email');
+                expect(item).to.have.property('emailAlternativo');
+                expect(item).to.have.property('telefone');
+                expect(item).to.have.property('celular');
+                expect(item).to.have.property('flagRecebeParcial');
+                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('ativo');
+                expect(item).to.have.property('tipoPrestadorId');
+                expect(item).to.have.property('tipoPrestador');
+                expect(item).to.have.property('criadoEm');
+                expect(item).to.have.property('integracaoId');
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/search/{cnpj}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/search/{cnpj}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/search/{cnpj}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/search/{cnpj}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
     })
 
     //PUT
     describe('Módulo - Fornecedores - Atuaiza um fornecedor', () => {
+
+        it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "ativo": 1,
+                    "cnpj": "04517780309",
+                    "inscricaoEstadual": "",
+                    "inscricaoMunicipal": "",
+                    "nomeFantasia": "Ágata Stanisci",
+                    "razaoSocial": "Ágata Stanisci",
+                    "tipoPrestadorId": 1,
+                    "integracaoId": null,
+                    "observacao": "",
+                    "bairro": "Boa Vista",
+                    "complemento": "",
+                    "numero": 1111,
+                    "endereco": "Avenida João de Barros",
+                    "municipio": "Recife",
+                    "uf": "PE",
+                    "cep": "50050-902",
+                    "email": "agathastanisci@gmail.com",
+                    "emailAlternativo": "",
+                    "celular": "",
+                    "telefone": "(81) 98286-4202",
+                    "municipioId": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const item = response.body;
+                expect(item).to.have.property('razaoSocial');
+                expect(item).to.have.property('nomeFantasia');
+                expect(item).to.have.property('cnpj');
+                expect(item).to.have.property('id');
+                expect(item).to.have.property('inscricaoEstadual');
+                expect(item).to.have.property('inscricaoMunicipal');
+                expect(item).to.have.property('cep');
+                expect(item).to.have.property('endereco');
+                expect(item).to.have.property('numero');
+                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('bairro');
+                expect(item).to.have.property('municipioId');
+                expect(item).to.have.property('municipio');
+                expect(item).to.have.property('uf');
+                expect(item).to.have.property('email');
+                expect(item).to.have.property('emailAlternativo');
+                expect(item).to.have.property('telefone');
+                expect(item).to.have.property('celular');
+                expect(item).to.have.property('flagRecebeParcial');
+                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('ativo');
+                expect(item).to.have.property('tipoPrestadorId');
+                expect(item).to.have.property('tipoPrestador');
+                expect(item).to.have.property('criadoEm');
+                expect(item).to.have.property('integracaoId');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "ativo": 1,
+                    "cnpj": "04517780309",
+                    "inscricaoEstadual": "",
+                    "inscricaoMunicipal": "",
+                    "nomeFantasia": "Ágata Stanisci",
+                    "razaoSocial": "Ágata Stanisci",
+                    "tipoPrestadorId": 1,
+                    "integracaoId": null,
+                    "observacao": "",
+                    "bairro": "Boa Vista",
+                    "complemento": "",
+                    "numero": 1111,
+                    "endereco": "Avenida João de Barros",
+                    "municipio": "Recife",
+                    "uf": "PE",
+                    "cep": "50050-902",
+                    "email": "agathastanisci@gmail.com",
+                    "emailAlternativo": "",
+                    "celular": "",
+                    "telefone": "(81) 98286-4202",
+                    "municipioId": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "ativo": 1,
+                    "cnpj": "04517780309",
+                    "inscricaoEstadual": "",
+                    "inscricaoMunicipal": "",
+                    "nomeFantasia": "Ágata Stanisci",
+                    "razaoSocial": "Ágata Stanisci",
+                    "tipoPrestadorId": 1,
+                    "integracaoId": null,
+                    "observacao": "",
+                    "bairro": "Boa Vista",
+                    "complemento": "",
+                    "numero": 1111,
+                    "endereco": "Avenida João de Barros",
+                    "municipio": "Recife",
+                    "uf": "PE",
+                    "cep": "50050-902",
+                    "email": "agathastanisci@gmail.com",
+                    "emailAlternativo": "",
+                    "celular": "",
+                    "telefone": "(81) 98286-4202",
+                    "municipioId": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST', // Método divergente
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "ativo": 1,
+                    "cnpj": "04517780309",
+                    "inscricaoEstadual": "",
+                    "inscricaoMunicipal": "",
+                    "nomeFantasia": "Ágata Stanisci",
+                    "razaoSocial": "Ágata Stanisci",
+                    "tipoPrestadorId": 1,
+                    "integracaoId": null,
+                    "observacao": "",
+                    "bairro": "Boa Vista",
+                    "complemento": "",
+                    "numero": 1111,
+                    "endereco": "Avenida João de Barros",
+                    "municipio": "Recife",
+                    "uf": "PE",
+                    "cep": "50050-902",
+                    "email": "agathastanisci@gmail.com",
+                    "emailAlternativo": "",
+                    "celular": "",
+                    "telefone": "(81) 98286-4202",
+                    "municipioId": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
     })
 
-    //DELETE
+    //DELETE /// >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Fornecedores - Exclui um fornecedor', () => {
     })
 
     //GET
     describe('Módulo - Fornecedores - Retorna um fornecedor por id', () => {
+
+        it('Validar retorno 200 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+
+                const item = response.body;
+                expect(item).to.have.property('razaoSocial');
+                expect(item).to.have.property('nomeFantasia');
+                expect(item).to.have.property('cnpj');
+                expect(item).to.have.property('id');
+                expect(item).to.have.property('inscricaoEstadual');
+                expect(item).to.have.property('inscricaoMunicipal');
+                expect(item).to.have.property('cep');
+                expect(item).to.have.property('endereco');
+                expect(item).to.have.property('numero');
+                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('bairro');
+                expect(item).to.have.property('municipioId');
+                expect(item).to.have.property('municipio');
+                expect(item).to.have.property('uf');
+                expect(item).to.have.property('email');
+                expect(item).to.have.property('emailAlternativo');
+                expect(item).to.have.property('telefone');
+                expect(item).to.have.property('celular');
+                expect(item).to.have.property('flagRecebeParcial');
+                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('ativo');
+                expect(item).to.have.property('tipoPrestadorId');
+                expect(item).to.have.property('tipoPrestador');
+                expect(item).to.have.property('criadoEm');
+                expect(item).to.have.property('integracaoId');
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/296',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
     })
 
-    //GET
-    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e procedimentos com preços vinculados', () => {
+    //GET  /// PAREI AQUI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe.only('Módulo - Fornecedores - Retorna uma lista de fornecedores e procedimentos com preços vinculados', () => {
     })
 
     //GET
