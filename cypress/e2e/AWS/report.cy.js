@@ -121,7 +121,7 @@ describe('Módulo - Report', () => {
 
         it('Validar retorno 200 - /api/v1/report/multidimensional/{id}', () => {
             const token = Cypress.env('access_token');
-            const idRelatorio = 381;
+            const idRelatorio = 1;
 
             cy.request({
                 method: 'GET',

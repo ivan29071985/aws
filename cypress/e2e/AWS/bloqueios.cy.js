@@ -19,18 +19,18 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    dataInicio: 20251009,
-                    dataFim: 20251009,
-                    horaInicio: "23:00",
-                    horaFim: "23:50",
-                    diasSemana: [
+                    "dataInicio": 20251023,
+                    "dataFim": 20251023,
+                    "horaInicio": "22:30",
+                    "horaFim": "23:00",
+                    "diasSemana": [
                         4
                     ],
-                    especialidadeIds: [
+                    "especialidadeIds": [
                         611
                     ],
-                    descricao: "Teste",
-                    profissionalId: "4121"
+                    "descricao": "Teste",
+                    "profissionalId": "8470"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -157,7 +157,7 @@ describe('Módulo - Bloqueios', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/bloqueios?profissionalId=4121',
+                url: '/api/v1/bloqueios?profissionalId=8470',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
