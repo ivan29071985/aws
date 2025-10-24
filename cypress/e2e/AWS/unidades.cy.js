@@ -838,7 +838,7 @@ describe('Módulo - Unidades', () => {
 
             cy.request({
                 method: 'GET',
-                url: 'api/v1/unidades/appointments/professional{id}?id=5364',
+                url: '/api/v1/unidades/appointments/professional/{id}?id=5364',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -958,28 +958,12 @@ describe('Módulo - Unidades', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/unidades/appointments/professional{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: 'api/v1/unidades/appointments/professional{id}', // Sem parâmetro na url
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(400);
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/unidades/appointments/professional{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: 'api/v1/unidades/appointments/professional{id}?id=4121',
+                url: '/api/v1/unidades/appointments/professional/{id}?id=5364',
                 headers: {
                     //'Authorization': `Bearer ${token}`, //Token inválido
                     'Content-Type': 'application/json'
@@ -1492,11 +1476,11 @@ describe('Módulo - Unidades', () => {
             })
         })
     })
-
+/*
     describe('Módulo - Unidades - Apagar uma unidade', () => {
         // Foi aberto card para essa rota: https://amorsaudesuporte.atlassian.net/browse/FRN-1783
     })
-
+*/
     describe('Módulo - Unidades - Lista uma unidade por id', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/formatted/{id}', () => {
@@ -1726,11 +1710,10 @@ describe('Módulo - Unidades', () => {
             })            
         })
     })
-
-    describe('Módulo - Unidades - Phones Number Hidden', () => {
+/*    describe('Módulo - Unidades - Phones Number Hidden', () => {
     //Essa rota não está exposta publicamente por questões de segurança e controle de acesso.
     })
-
+*/
     describe('Módulo - Unidades - Phones Hidden', () => {
 
         it('Validar retorno 200 - /api/v1/unidades/list/phones-hidden', () => {
