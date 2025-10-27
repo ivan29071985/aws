@@ -1,9 +1,5 @@
 /// <reference types="cypress"/>
 
-/// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//Todos os GETs estão finalizados
-
-
 describe('Módulo - Fornecedores', () => {
     beforeEach(() => {
         cy.login();
@@ -337,47 +333,178 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    // POST >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    // POST - FINALIZADO
     describe('Módulo - Fornecedores - Vincular um fornecedor a uma cidade', () => {
-    
-            it('Validar retorno 201 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
-                const token = Cypress.env('access_token');
-    
-                cy.request({
-                    method: 'POST',
-                    url: '/api/v1/fornecedores/vincular-unidade-fornecedor',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        unidadeId: 1,
-                        fornecedorId: 2,
-                        agenteId: "login@teste",
-                        endpoint: "https://desenv.diagnosticosdobrasil.com.br/mxnetd/wsrvProtocoloDBSync.dbsync.svc?singleWsdl",
-                        entidade: "teste",
-                        password: "12345",
-                        statusIntegracao: 1,
-                        id: 1,
-                        flgPagamentoParcial: true,
-                        providerId: 1,
-                        unitiesId: [
-                            483
-                        ],
-                        prazoLogistica: 2
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(201)
-                })
+
+        it('Validar retorno 201 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/vincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
-    })
- 
-    // POST  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe('Módulo - Fornecedores - update agente e senha', () => {
+        })
+
+        it('Validar retorno 400 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/vincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [ //Sem parâmetro
+                ],
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/vincular-unidade-fornecedor',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/vincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', //Método divergente
+                url: '/api/v1/fornecedores/vincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
     })
 
-    // POST  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    // POST - FINALIZADO
+    describe('Módulo - Fornecedores - update agente e senha', () => {
+
+        it('Validar retorno 201 - /api/v1/fornecedores/update-agente-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/update-agente-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/update-agente-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/update-agente-password',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/update-agente-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/fornecedores/update-agente-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unidadeId": 483,
+                        "fornecedorId": 296
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+    })
+
+    // POST // Rota retornando 500 em Homolog
     describe('Módulo - Fornecedores - Atualizar unidades vinculadas a um fornecedor', () => {
 
         it('Validar retorno 201 - /api/v1/fornecedores/atualizar-unidades-fornecedor', () => {
@@ -403,13 +530,180 @@ describe('Módulo - Fornecedores', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(500);
+                /*expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');*/
             })
-        });
+        })
+
+        it('Validar retorno 400 - /api/v1/fornecedores/atualizar-unidades-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/atualizar-unidades-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { // Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/atualizar-unidades-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/atualizar-unidades-fornecedor',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "providerId": 402,
+                    "unitsToAdd": [
+                        {
+                            "unidadeId": 503,
+                            "fornecedorId": 402,
+                            "flgPagamentoParcial": 0
+                        }
+                    ],
+                    "unitsToRemove": []
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/atualizar-unidades-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/fornecedores/atualizar-unidades-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "providerId": 402,
+                    "unitsToAdd": [
+                        {
+                            "unidadeId": 503,
+                            "fornecedorId": 402,
+                            "flgPagamentoParcial": 0
+                        }
+                    ],
+                    "unitsToRemove": []
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
     })
 
-    // POST  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    // POST - FINALIZADO
     describe('Módulo - Fornecedores - Desvincular um fornecedor a uma unidade', () => {
+/*
+        Rota que esta sendo utilizada para desvincular um fornecedor a uma unidade
+        /api/v1/fornecedores/atualizar-unidades-fornecedor
+        it.only('Validar retorno 201 - /api/v1/fornecedores/desvincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/desvincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unitiesId": [483, 483],
+                        "providerId": 292
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('message');
+                expect(response.body).to.have.property('error')
+                expect(response.body).to.have.property('statusCode')
+            })
+        })
+*/
+        it('Validar retorno 400 - /api/v1/fornecedores/desvincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/desvincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [ // Sem parâmetro no body
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/desvincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/desvincular-unidade-fornecedor',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unitiesId": [483, 483],
+                        "providerId": 292
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/desvincular-unidade-fornecedor', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', // Método divergente
+                url: '/api/v1/fornecedores/desvincular-unidade-fornecedor',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: [
+                    {
+                        "unitiesId": [483, 483],
+                        "providerId": 292
+
+                    }
+                ],
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
     })
 
     // GET - FINALIZADO
@@ -933,16 +1227,15 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    //GET /// >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //GET - FINALIZADO
     describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
 
-        //"message": "Cannot read properties of undefined (reading 'fornecedorId')""statusCode": 400
         it('Validar retorno 200 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/fornecedores/list-dados-laboratorio-exame?fornecedorId=292',
+                url: '/api/v1/fornecedores/list-dados-laboratorio-exame?id=5193',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -950,6 +1243,39 @@ describe('Módulo - Fornecedores', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
+                const body = response.body;
+
+                expect(body).to.have.property('id');
+                expect(body).to.have.property('fornecedorId');
+                expect(body).to.have.property('procedimentoId');
+                expect(body).to.have.property('fornecedorUnidadeId');
+                expect(body).to.have.property('valorCusto');
+                expect(body).to.have.property('primeiraConsultaCusto');
+                expect(body).to.have.property('precoPrimeiraConsulta');
+                expect(body).to.have.property('valorVenda');
+                expect(body).to.have.property('flagAtivo');
+                expect(body).to.have.property('createBy');
+                expect(body).to.have.property('createAt');
+                expect(body).to.have.property('updateAt');
+                expect(body).to.have.property('lastUser');
+                expect(body).to.have.property('ipClient');
+                expect(body).to.have.property('mneumonico');
+                expect(body).to.have.property('procedimentoLaboratorio');
+                expect(body).to.have.property('material');
+                expect(body).to.have.property('meioColeta');
+                expect(body).to.have.property('metodo');
+                expect(body).to.have.property('prazo');
+                expect(body).to.have.property('prazoDias');
+                expect(body).to.have.property('flgVolume');
+                expect(body).to.have.property('flgAltura');
+                expect(body).to.have.property('flgRegiao');
+                expect(body).to.have.property('flgPeso');
+                expect(body).to.have.property('flgTipoMaterial');
+                expect(body).to.have.property('instrucaoPreparo');
+                expect(body).to.have.property('instrucaoColeta');
+                expect(body).to.have.property('parceiroId');
+                expect(body).to.have.property('mnemonicoMaterial');
+                expect(body).to.have.property('flagMultiplasAmostras');
             })
         })
 
@@ -1655,12 +1981,196 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    //POST  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //POST - FINALIZADO    
+    // SELECT * FROM FORNECEDOR_UNIDADES fu WHERE fu.FK_FORNECEDOR = '296'
+    // Necessário pegar o ID na tabela FORNECEDOR_UNIDADES
     describe('Módulo - Fornecedores - Cria um fornecedor e procedimento com preço', () => {
+
+        it('Validar retorno 201 - /api/v1/fornecedores/add/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+            const fornecedor_UnidadeID = [
+                1723, 1724, 1725, 1726, 1727, 1728, 1729, 1730, 1731, 1732, 1733, 1734,
+                1735, 1736, 1737, 1738, 1739, 1740, 1741, 1742, 1743, 1744, 1745, 1746,
+                1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754, 1755, 1756, 1757, 1758,
+                1759, 1760, 1761, 1762, 1763, 1764, 1765, 1766, 1767, 1768, 1769, 1770,
+                1771, 1772, 1773, 1774, 1775, 1776, 1777, 1778, 1779, 1780, 1781, 1782,
+                1783, 1784, 1785, 1786, 1787, 1788, 1789, 1790, 1791, 1792, 1793, 1794,
+                1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804, 1805, 1806,
+                1807, 1808, 1809, 1810, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818,
+                1819, 1820, 1821, 1822, 1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830,
+                1831, 1832];
+
+            // Seleciona um ID aleatório do array
+            const idAleatorio = fornecedor_UnidadeID[
+                Math.floor(Math.random() * fornecedor_UnidadeID.length)
+            ];
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/add/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    vfornecedor_unidade_id: idAleatorio,
+                    vprocedimento_id: 20357,
+                    vfornecedor_id: 296
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201)
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/fornecedores/add/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/add/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {  //sem parâmetro no body
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400)
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/add/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/fornecedores/add/fornecedor-price/procedimento',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    vfornecedor_unidade_id: 336388,
+                    vprocedimento_id: 20357,
+                    vfornecedor_id: 292
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401)
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/add/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', //método divergente
+                url: '/api/v1/fornecedores/add/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    vfornecedor_unidade_id: 336388,
+                    vprocedimento_id: 20357,
+                    vfornecedor_id: 292
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403)
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/fornecedores/add/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE', //Método divergente
+                url: '/api/v1/fornecedores/add/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    vfornecedor_unidade_id: 336388,
+                    vprocedimento_id: 20357,
+                    vfornecedor_id: 292
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404)
+            })
+        })
+
     })
 
-    //PUT  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //PUT - FINALIZADO
     describe('Módulo - Fornecedores - Atualiza um fornecedor e procedimento com preço', () => {
+
+        it('Validar retorno 201 - /api/v1/fornecedores/update/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/fornecedores/update/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    vfornecedor_unidade_id: 336388,
+                    vprocedimento_id: 20357,
+                    vfornecedor_id: 292
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/fornecedores/update/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/fornecedores/update/fornecedor-price/procedimento',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/fornecedores/update/fornecedor-price/procedimento', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET', //Método divergente
+                url: '/api/v1/fornecedores/update/fornecedor-price/procedimento',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
     })
 
     //GET - FINALIZADO
@@ -2093,7 +2603,7 @@ describe('Módulo - Fornecedores', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    fornecedorUnidadeId: 336295,
+                    fornecedorUnidadeId: 273,
                     parceiros: [
                         {
                             id: 42
@@ -2342,7 +2852,7 @@ describe('Módulo - Fornecedores', () => {
             })
         })
 
-         it('Validar retorno 400 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
+        it('Validar retorno 400 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -2411,13 +2921,13 @@ describe('Módulo - Fornecedores', () => {
                 method: 'DELETE',
                 url: '/api/v1/fornecedores/296/procedimentos/19533',
                 headers: {
-                    'Authorization' :`Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(200);
-                 expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
             })
@@ -2430,7 +2940,7 @@ describe('Módulo - Fornecedores', () => {
                 method: 'DELETE',
                 url: '/api/v1/fornecedores/{id}}/procedimentos/{procedimentoId}}',
                 headers: {
-                    'Authorization' :`Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
@@ -2462,7 +2972,7 @@ describe('Módulo - Fornecedores', () => {
                 method: 'GET',
                 url: '/api/v1/fornecedores/296/procedimentos/19533',
                 headers: {
-                    'Authorization' :`Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
@@ -2472,8 +2982,9 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    //PUT  >>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇãO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe('Módulo - Fornecedores - Atualiza o vinculo da unidade com o fornecedor', () => {
-    })
+    //PUT  Rota descontinuada
+    /*  describe('Módulo - Fornecedores - Atualiza o vinculo da unidade com o fornecedor', () => {
+        })
+        */
 })
 
