@@ -11,7 +11,7 @@ describe('Módulo - Locais de Atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento', () => {
             const token = Cypress.env('access_token');
-            const geraDescricao = Math.floor(Math.random() * 1000) + 1;
+            const geraDescricao = `descricao${Math.floor(Math.random() * 1000) + 1}`;
 
             cy.request({
                 method: 'POST',
@@ -21,20 +21,24 @@ describe('Módulo - Locais de Atendimento', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    descricao: `testeqa${geraDescricao}`,
-                    clinicaId: {
-                        id: 1
-                    },
-                    contaCorrentId: 135,
-                    flagCaixa: {}
+                    "descricao": geraDescricao,
+                    "clinicaId": {
+                        "id": 483
+                    }
                 },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(201);
 
-                expect(response.body).to.have.property('message');
-                expect(response.body).to.have.property('error');
-                expect(response.body).to.have.property('statusCode');
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+                expect(response.body).to.have.property('id');
+
+                // Salva o ID
+                const idLocal = response.body.id;
+                Cypress.env('idLocal', idLocal);
+                cy.log('ID salvo:', idLocal);
             })
         })
 
@@ -368,10 +372,12 @@ describe('Módulo - Locais de Atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
             const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
+            cy.log('ID:', idLocal)
 
             cy.request({
                 method: 'GET',
-                url: 'api/v1/locais-de-atendimento/200',
+                url: `api/v1/locais-de-atendimento/${idLocal}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -428,16 +434,20 @@ describe('Módulo - Locais de Atendimento', () => {
 
         it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
             const token = Cypress.env('access_token')
+            const idLocal = Cypress.env('idLocal');
+            cy.log('ID:', idLocal)
+
+            const geraDescricao = `descricao${Math.floor(Math.random() * 1000) + 1}`;
 
             cy.request({
                 method: 'PUT',
-                url: 'api/v1/locais-de-atendimento/430',
+                url: `api/v1/locais-de-atendimento/${idLocal}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    descricao: "testeqa899",
+                    descricao: geraDescricao,
                     clinicaId: {
                         id: 483
                     },
@@ -549,5 +559,77 @@ describe('Módulo - Locais de Atendimento', () => {
         })
     })
 
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Falta criar a rota DELETE /api/v1/locais-de-atendimento/{id} <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    describe('Módulo - Locais de Atendimento - Exclui um local de atendimento', () => {
+
+        it('Validar retorno 200 - /api/v1/locais-de-atendimento/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/locais-de-atendimento/${idLocal}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/locais-de-atendimento/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/locais-de-atendimento/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/locais-de-atendimento/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
+
+            cy.request({
+                method: 'DELETE',
+                url: `/api/v1/locais-de-atendimento/${idLocal}`,
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 404 - /api/v1/locais-de-atendimento/{id}', () => {
+            const token = Cypress.env('access_token');
+            const idLocal = Cypress.env('idLocal');
+
+            cy.request({
+                method: 'POST',
+                url: `/api/v1/locais-de-atendimento/${idLocal}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(404);
+            })
+        })
+    })
 })
