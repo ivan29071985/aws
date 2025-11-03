@@ -795,33 +795,329 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    describe.only('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
+    // Mock via intercept - integrando com a UI
+    describe('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
 
-        it.only('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
+        it('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
+            //Cria o mock da resposta
+            cy.intercept('POST', /\/api\/v1\/tabela-precos\/\d+/, {
+                statusCode: 201,
+                body: {
+                    mensagem: 'Procedimentos adicionados com sucesso (mock)',
+                    flagDeError: false,
+                    codigo: 1010,
+                },
+            }).as('postTabelaPrecoId');
+
+            cy.visit('https://amei-homolog.amorsaude.com.br/api/v1/tabela-precos/285')
+
+            cy.wait('@postTabelaPrecoId').then((intercept) => {
+                expect(intercept.response.statusCode).to.eq(201);
+                expect(intercept.response.body).to.have.property('mensagem').to.be.a('string')
+                expect(intercept.response.body.mensagem).to.include('mock');
+                expect(intercept.response.body).to.have.property('flagDeError').to.be.a('boolean')
+                expect(intercept.response.body.flagDeError).to.eq(false);
+                expect(intercept.response.body).to.have.property('codigo').to.be.a('number')
+                expect(intercept.response.body.codigo).to.eq(1010);
+            })
+        })
+    })
+
+    describe.only('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
+
+        it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'POST',
-                url: '/api/v1/tabela-precos/989',
+                method: 'PUT',
+                url: '/api/v1/tabela-precos/285',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: {
+                    "nome": "utt 555",
+                    "parceiroId": 225,
+                    "vigenciaInicio": "2024-10-01",
+                    "vigenciaTermino": "2024-12-13",
+                    "regionais": [
+                        {
+                            "id": 1
+                        },
+                        {
+                            "id": 2
+                        },
+                        {
+                            "id": 21
+                        },
+                        {
+                            "id": 22
+                        },
+                        {
+                            "id": 23
+                        },
+                        {
+                            "id": 24
+                        },
+                        {
+                            "id": 25
+                        },
+                        {
+                            "id": 26
+                        },
+                        {
+                            "id": 27
+                        },
+                        {
+                            "id": 28
+                        },
+                        {
+                            "id": 29
+                        },
+                        {
+                            "id": 30
+                        },
+                        {
+                            "id": 3
+                        },
+                        {
+                            "id": 31
+                        },
+                        {
+                            "id": 32
+                        }
+                    ],
+                    "unidades": [
+                        {
+                            "id": 483
+                        }
+                    ],
+                    "tipoProcedimentoId": null,
+                    "grupoProcedimentoId": null,
+                    "procedimentosIds": [
+                        28002
+                    ],
                     "procedimentos": [
-                        1,
-                        2
-                    ]
+                        {
+                            "id": 1501,
+                            "procedimento": {
+                                "id": 28002
+                            },
+                            "preco": 1229
+                        }
+                    ],
+                    "flagAtivo": "1",
+                    "flagPrimeiraConsulta": "0",
+                    "flagGestaoFranqueadora": 0
                 },
-                failOnStatusCode: false
+                failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(201)
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
-    })
 
-    describe('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
+        it('Validar retorno 400 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/tabela-precos/285',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //Sem parâmetro no body
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/tabela-precos/285',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, Token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "nome": "utt 555",
+                    "parceiroId": 225,
+                    "vigenciaInicio": "2024-10-01",
+                    "vigenciaTermino": "2024-12-13",
+                    "regionais": [
+                        {
+                            "id": 1
+                        },
+                        {
+                            "id": 2
+                        },
+                        {
+                            "id": 21
+                        },
+                        {
+                            "id": 22
+                        },
+                        {
+                            "id": 23
+                        },
+                        {
+                            "id": 24
+                        },
+                        {
+                            "id": 25
+                        },
+                        {
+                            "id": 26
+                        },
+                        {
+                            "id": 27
+                        },
+                        {
+                            "id": 28
+                        },
+                        {
+                            "id": 29
+                        },
+                        {
+                            "id": 30
+                        },
+                        {
+                            "id": 3
+                        },
+                        {
+                            "id": 31
+                        },
+                        {
+                            "id": 32
+                        }
+                    ],
+                    "unidades": [
+                        {
+                            "id": 483
+                        }
+                    ],
+                    "tipoProcedimentoId": null,
+                    "grupoProcedimentoId": null,
+                    "procedimentosIds": [
+                        28002
+                    ],
+                    "procedimentos": [
+                        {
+                            "id": 1501,
+                            "procedimento": {
+                                "id": 28002
+                            },
+                            "preco": 1229
+                        }
+                    ],
+                    "flagAtivo": "1",
+                    "flagPrimeiraConsulta": "0",
+                    "flagGestaoFranqueadora": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+
+        it('Validar retorno 403 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'GET',
+                url: '/api/v1/tabela-precos/285',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "nome": "utt 555",
+                    "parceiroId": 225,
+                    "vigenciaInicio": "2024-10-01",
+                    "vigenciaTermino": "2024-12-13",
+                    "regionais": [
+                        {
+                            "id": 1
+                        },
+                        {
+                            "id": 2
+                        },
+                        {
+                            "id": 21
+                        },
+                        {
+                            "id": 22
+                        },
+                        {
+                            "id": 23
+                        },
+                        {
+                            "id": 24
+                        },
+                        {
+                            "id": 25
+                        },
+                        {
+                            "id": 26
+                        },
+                        {
+                            "id": 27
+                        },
+                        {
+                            "id": 28
+                        },
+                        {
+                            "id": 29
+                        },
+                        {
+                            "id": 30
+                        },
+                        {
+                            "id": 3
+                        },
+                        {
+                            "id": 31
+                        },
+                        {
+                            "id": 32
+                        }
+                    ],
+                    "unidades": [
+                        {
+                            "id": 483
+                        }
+                    ],
+                    "tipoProcedimentoId": null,
+                    "grupoProcedimentoId": null,
+                    "procedimentosIds": [
+                        28002
+                    ],
+                    "procedimentos": [
+                        {
+                            "id": 1501,
+                            "procedimento": {
+                                "id": 28002
+                            },
+                            "preco": 1229
+                        }
+                    ],
+                    "flagAtivo": "1",
+                    "flagPrimeiraConsulta": "0",
+                    "flagGestaoFranqueadora": 0
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(403);
+            })
+        })
     })
 
     describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
