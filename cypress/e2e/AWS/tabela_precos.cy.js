@@ -795,35 +795,34 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    // Mock via intercept - integrando com a UI
     describe('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
-            //Cria o mock da resposta
-            cy.intercept('POST', /\/api\/v1\/tabela-precos\/\d+/, {
-                statusCode: 201,
-                body: {
-                    mensagem: 'Procedimentos adicionados com sucesso (mock)',
-                    flagDeError: false,
-                    codigo: 1010,
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/tabela-precos/1029',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
-            }).as('postTabelaPrecoId');
-
-            cy.visit('https://amei-homolog.amorsaude.com.br/api/v1/tabela-precos/285')
-
-            cy.wait('@postTabelaPrecoId').then((intercept) => {
-                expect(intercept.response.statusCode).to.eq(201);
-                expect(intercept.response.body).to.have.property('mensagem').to.be.a('string')
-                expect(intercept.response.body.mensagem).to.include('mock');
-                expect(intercept.response.body).to.have.property('flagDeError').to.be.a('boolean')
-                expect(intercept.response.body.flagDeError).to.eq(false);
-                expect(intercept.response.body).to.have.property('codigo').to.be.a('number')
-                expect(intercept.response.body.codigo).to.eq(1010);
+                body: {
+                    "procedimentos": [
+                        21382
+                    ]
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(201);
+                expect(response.body).to.have.property('codigo');
+                expect(response.body).to.have.property('flagDeError');
+                expect(response.body).to.have.property('mensagem');
             })
         })
     })
 
-    describe.only('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
+    describe('Módulo - Tabela de Preços - Atualiza os dados da tabela de preço', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
@@ -1120,6 +1119,38 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
-    describe('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
-    });
+    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
+
+        it('Validar retorno 200 ou 500 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            const requestOptions = {
+                method: 'DELETE',
+                url: '/api/v1/tabela-precos/4510',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                failOnStatusCode: false
+            };
+            // Aqui ele realmente faz o request
+            cy.request(requestOptions).then((response) => {
+                if (response.status === 200) {
+                    expect(response.status).to.eq(200);
+                    expect(response.body.codigo).to.be.a('number');
+                    expect(response.body.flagDeError).to.be.a('boolean');
+                    expect(response.body.mensagem).to.be.a('string');
+                    cy.log('Requisição bem-sucedida (200)');
+                } else if (response.status === 500) {
+                    expect(response.status).to.eq(500);
+                    expect(response.body.message).to.eq('Falha ao remover o procedimento.');
+                    expect(response.body.error).to.eq('Internal Server Error');
+                    expect(response.body.statusCode).to.eq(500);
+                    cy.log('Erro interno do servidor (500)');
+                } else {
+                    throw new Error(`Status inesperado: ${response.status}`);
+                }
+            })
+        })
+    })
 })
