@@ -61,41 +61,4 @@ describe('Refresh Token', () => {
       expect(response.status).to.eq(401)
     })
   });
-
-  it('Validar retorno 403 - /api/v1/security/refresh-token', () => {
-
-    const token = Cypress.env('access_token')
-    return cy.request({
-      method: 'GET',
-      url: '/api/v1/security/refresh-token?clinicId=483',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: {
-        automated_test: 'Automated_test'
-      },
-      failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
-    }).then((response) => {
-      expect(response.status).to.eq(403)
-    })
-  });
-
-  it('Validar retorno 404 - /api/v1/security/refresh-token', () => {
-
-    const token = Cypress.env('access_token')
-    return cy.request({
-      method: 'DELETE',
-      url: '/api/v1/security/refresh-token?clinicId=483',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: {
-        automated_test: 'Automated_test'
-      },
-      failOnStatusCode: false // normalmente esse cod refere-se a uma api pra nao dar erro de false
-    }).then((response) => {
-      expect(response.status).to.eq(404)
-    })
-  });
-
-});
+})

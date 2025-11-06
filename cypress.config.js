@@ -3,12 +3,17 @@ const { configureAllureAdapterPlugins } = require('@mmisty/cypress-allure-adapte
 
 const ENV = process.env.CYPRESS_ENV || 'homolog';
 
-// const baseUrls = {
+// const baseUrlsAntiga = {
 //   homolog: 'https://amei-homolog.amorsaude.com.br',
 //   staging: 'https://amei-staging.amorsaude.com.br',
 //   prod: 'https://amei.amorsaude.com.br'
 // };
 
+// const baseUrls = {
+//   dev: 'https://dev-amei.amorsaude.tech/',
+//   stg: 'https://stg-amei.amorsaude.tech',
+//   prd: 'https://amei.amorsaude.com.br'
+// };
 
 const baseUrls = {
 homolog: 'http://localhost:3011'

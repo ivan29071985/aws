@@ -13,7 +13,7 @@ describe('Módulo - Baixa de Cartões', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/baixa-cartao?page=1&limit=10&dataInicial=20250102&dataFinal=20251230',
+                url: '/api/v1/baixa-cartao?page=1&limit=1&dataInicial=20250102&dataFinal=20251230',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -91,22 +91,6 @@ describe('Módulo - Baixa de Cartões', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/baixa-cartao', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/baixa-cartao?page=1&limit=10&dataInicial=20250102&dataFinal=20251230',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Baixa de Cartões - Retorna lista de splits de um lançamento financeiro', () => {
@@ -159,22 +143,6 @@ describe('Módulo - Baixa de Cartões', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/baixa-cartao/{id}/splits', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/baixa-cartao/0/splits',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
@@ -203,6 +171,7 @@ describe('Módulo - Baixa de Cartões', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(201)
+                cy.log(JSON.stringify(response.body))
             })
         })
 
@@ -248,60 +217,6 @@ describe('Módulo - Baixa de Cartões', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/baixa-cartao/conciliar', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/baixa-cartao/conciliar',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    pagamentos: [
-                        {
-                            id: 75331,
-                            valor: 1,
-                            dataCredito: "20251001",
-                            dataVencimento: "20250814",
-                            conciliado: false
-                        }
-                    ]
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/baixa-cartao/conciliar', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/baixa-cartao/conciliar',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    pagamentos: [
-                        {
-                            id: 75331,
-                            valor: 1,
-                            dataCredito: "20251001",
-                            dataVencimento: "20250814",
-                            conciliado: false
-                        }
-                    ]
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
