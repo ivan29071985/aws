@@ -11,7 +11,7 @@ const ENV = process.env.CYPRESS_ENV || 'homolog';
 
 
 const baseUrls = {
-homolog: 'https://dev-amei.amorsaude.tech'
+homolog: 'http://localhost:3011'
 };
 
 module.exports = defineConfig({
