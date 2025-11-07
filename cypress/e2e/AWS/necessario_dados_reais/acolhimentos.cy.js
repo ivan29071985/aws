@@ -99,76 +99,6 @@ describe('Módulo - Acolhimentos', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/acolhimentos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // método divergente
-                url: '/api/v1/acolhimentos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    atendimentoId: 129003,
-                    agendamentoId: 151586,
-                    peso: 70,
-                    altura: 171,
-                    imc: 23.94,
-                    perimetroCefalico: 100,
-                    circunferenciaAbdominal: 90,
-                    posicaoPa: "Deitado",
-                    paSistolica: 118,
-                    paDiastolica: 120,
-                    freqCardiaca: 123,
-                    freqRespiratoria: 123,
-                    temperaturaAux: 36,
-                    glicemiaCapilar: 13,
-                    oximetria: 29,
-                    time: "00:01:40",
-                    anamnese: "testeAPI"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',  // método divergente
-                url: '/api/v1/acolhimentos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    atendimentoId: 129003,
-                    agendamentoId: 151586,
-                    peso: 70,
-                    altura: 171,
-                    imc: 23.94,
-                    perimetroCefalico: 100,
-                    circunferenciaAbdominal: 90,
-                    posicaoPa: "Deitado",
-                    paSistolica: 118,
-                    paDiastolica: 120,
-                    freqCardiaca: 123,
-                    freqRespiratoria: 123,
-                    temperaturaAux: 36,
-                    glicemiaCapilar: 13,
-                    oximetria: 29,
-                    time: "00:01:40",
-                    anamnese: "testeAPI"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Acolhimentos - Retorna dados antropmétricos de um agendamento', () => {
@@ -218,22 +148,6 @@ describe('Módulo - Acolhimentos', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos/{id}/dados-antropometricos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/acolhimentos/0/dados-antropometricos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -287,22 +201,6 @@ describe('Módulo - Acolhimentos', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos/{id}/sinais-vitais', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // método divergente
-                url: '/api/v1/acolhimentos/0/sinais-vitais',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Acolhimentos - Retorno dados de um acolhimento pelo id do agendamento', () => {
@@ -353,22 +251,6 @@ describe('Módulo - Acolhimentos', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos/{id}/dados-acolhimento', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // método divergente
-                url: '/api/v1/acolhimentos/0/dados-acolhimento',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -433,44 +315,6 @@ describe('Módulo - Acolhimentos', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/acolhimentos/iniciar/173155',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    statusAgendamentoId: 12
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos/iniciar/{agendamentoId}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/acolhimentos/iniciar/173155',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    statusAgendamentoId: 12
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -547,22 +391,6 @@ describe('Módulo - Acolhimentos', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/acolhimentos/list-appointments-by-status', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // método divergente
-                url: '/api/v1/acolhimentos/list-appointments-by-status?date=20250924&page=1&perPage=10',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

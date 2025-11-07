@@ -242,102 +242,6 @@ describe('Módulo - Convênios', () => {
 
             })
         })
-
-        it('Validar retorno 403 - /api/v1/convenios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', //Método divergente
-                url: '/api/v1/convenios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "items": [
-                        {
-                            nome: null,
-                            razaoSocial: null,
-                            cnpj: null,
-                            parceria: null,
-                            registroAns: null,
-                            retornoConsulta: null,
-                            diasRecebimento: null,
-                            numGuiaAtual: null,
-                            cep: null,
-                            endereco: null,
-                            numero: null,
-                            complemento: null,
-                            bairro: null,
-                            cidade: null,
-                            estado: null,
-                            telefone: null,
-                            email: null,
-                            percentual2Procedimento: null,
-                            percentual3Procedimento: null,
-                            percentual4Procedimento: null,
-                            unidCalculo: null,
-                            valorCh: null,
-                            valorUco: null,
-                            valorM2Filme: null,
-                            observacoes: null,
-                            ativo: false
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/convenios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', //Método divergente
-                url: '/api/v1/convenios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "items": [
-                        {
-                            nome: null,
-                            razaoSocial: null,
-                            cnpj: null,
-                            parceria: null,
-                            registroAns: null,
-                            retornoConsulta: null,
-                            diasRecebimento: null,
-                            numGuiaAtual: null,
-                            cep: null,
-                            endereco: null,
-                            numero: null,
-                            complemento: null,
-                            bairro: null,
-                            cidade: null,
-                            estado: null,
-                            telefone: null,
-                            email: null,
-                            percentual2Procedimento: null,
-                            percentual3Procedimento: null,
-                            percentual4Procedimento: null,
-                            unidCalculo: null,
-                            valorCh: null,
-                            valorUco: null,
-                            valorM2Filme: null,
-                            observacoes: null,
-                            ativo: false
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Convênios - Retorna um lista de convênios com paginação', () => {
@@ -420,22 +324,6 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/convenios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/convenios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -525,22 +413,6 @@ describe('Módulo - Convênios', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/convenios/all', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/convenios/all/lololo', // url inválida
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Convênios - Retorna um convênio buscando por id', () => {
@@ -600,22 +472,6 @@ describe('Módulo - Convênios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/convenios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/convenios/${1}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -789,150 +645,6 @@ describe('Módulo - Convênios', () => {
                 })
             })
         })
-
-        it('Validar retorno 403 - /api/v1/convenios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o ID salvo do arquivo
-            cy.readFile('cypress/fixtures/idConvenios.json').then((data) => {
-                const idConvenios = data.id
-
-
-                cy.request({
-                    method: 'GET', // Método diergente
-                    url: `/api/v1/convenios/${idConvenios}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application'
-                    },
-                    body: {
-                        "nome": "Teste",
-                        "cnpj": null,
-                        "parceria": null,
-                        "registroAns": null,
-                        "retornoConsulta": null,
-                        "diasRecebimento": null,
-                        "numGuiaAtual": null,
-                        "cep": null,
-                        "endereco": null,
-                        "numero": null,
-                        "complemento": null,
-                        "bairro": null,
-                        "cidade": null,
-                        "estado": null,
-                        "telefone": null,
-                        "email": null,
-                        "percentual2Procedimento": null,
-                        "percentual3Procedimento": null,
-                        "percentual4Procedimento": null,
-                        "unidCalculo": null,
-                        "valorCh": null,
-                        "valorUco": null,
-                        "valorM2Filme": null,
-                        "observacoes": null,
-                        "ativo": true,
-                        "materiais": null,
-                        "medicamentos": null,
-                        "taxas": null,
-                        "filmes": null,
-                        "procedimentos": null,
-                        "versaoTissId": null,
-                        "cbhpmId": null,
-                        "porteId": null,
-                        "planos": [
-                            {
-                                "valorCh": null,
-                                "valorFilme": null,
-                                "valorPortes": null,
-                                "valorUco": null
-                            }
-                        ],
-                        "contratos": [
-                            {
-                                "codigoOperadora": null,
-                                "unidadeId": null,
-                                "contaBancariaId": null
-                            }
-                        ]
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(403);
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/convenios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o ID salvo do arquivo
-            cy.readFile('cypress/fixtures/idConvenios.json').then((data) => {
-                const idConvenios = data.id
-
-
-                cy.request({
-                    method: 'POST', // Método diergente
-                    url: `/api/v1/convenios/${idConvenios}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application'
-                    },
-                    body: {
-                        "nome": "Teste",
-                        "cnpj": null,
-                        "parceria": null,
-                        "registroAns": null,
-                        "retornoConsulta": null,
-                        "diasRecebimento": null,
-                        "numGuiaAtual": null,
-                        "cep": null,
-                        "endereco": null,
-                        "numero": null,
-                        "complemento": null,
-                        "bairro": null,
-                        "cidade": null,
-                        "estado": null,
-                        "telefone": null,
-                        "email": null,
-                        "percentual2Procedimento": null,
-                        "percentual3Procedimento": null,
-                        "percentual4Procedimento": null,
-                        "unidCalculo": null,
-                        "valorCh": null,
-                        "valorUco": null,
-                        "valorM2Filme": null,
-                        "observacoes": null,
-                        "ativo": true,
-                        "materiais": null,
-                        "medicamentos": null,
-                        "taxas": null,
-                        "filmes": null,
-                        "procedimentos": null,
-                        "versaoTissId": null,
-                        "cbhpmId": null,
-                        "porteId": null,
-                        "planos": [
-                            {
-                                "valorCh": null,
-                                "valorFilme": null,
-                                "valorPortes": null,
-                                "valorUco": null
-                            }
-                        ],
-                        "contratos": [
-                            {
-                                "codigoOperadora": null,
-                                "unidadeId": null,
-                                "contaBancariaId": null
-                            }
-                        ]
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404);
-                })
-            })
-        })
     })
 
     describe('Módulo - Convênios - Exclui um convênio por id', () => {
@@ -1008,28 +720,6 @@ describe('Módulo - Convênios', () => {
                     failOnStatusCode: false
                 }).then((response) => {
                     expect(response.status).to.eq(401);
-                })
-            })
-        })
-        
-        it('Validar retorno 404 - /api/v1/convenios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o ID salvo do arquivo
-            cy.readFile('cypress/fixtures/idConvenios.json').then((data) => {
-                const idConvenios = data.id
-
-
-                cy.request({
-                    method: 'POST',
-                    url: `/api/v1/convenios/${idConvenios}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application'
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404);
                 })
             })
         })

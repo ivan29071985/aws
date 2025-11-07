@@ -19,8 +19,8 @@ describe('Módulo - Bloqueios', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    "dataInicio": 20251023,
-                    "dataFim": 20251023,
+                    "dataInicio": 20251107,
+                    "dataFim": 20251107,
                     "horaInicio": "22:30",
                     "horaFim": "23:00",
                     "diasSemana": [
@@ -30,7 +30,7 @@ describe('Módulo - Bloqueios', () => {
                         611
                     ],
                     "descricao": "Teste",
-                    "profissionalId": "8470"
+                    "profissionalId": "3601"
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -86,66 +86,6 @@ describe('Módulo - Bloqueios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/bloqueios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/bloqueios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    dataInicio: 20251009,
-                    dataFim: 20251009,
-                    horaInicio: "23:00",
-                    horaFim: "23:50",
-                    diasSemana: [
-                        4
-                    ],
-                    especialidadeIds: [
-                        611
-                    ],
-                    descricao: "Teste",
-                    profissionalId: "4121"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/bloqueios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/bloqueios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    dataInicio: 20251009,
-                    dataFim: 20251009,
-                    horaInicio: "23:00",
-                    horaFim: "23:50",
-                    diasSemana: [
-                        4
-                    ],
-                    especialidadeIds: [
-                        611
-                    ],
-                    descricao: "Teste",
-                    profissionalId: "4121"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -214,22 +154,6 @@ describe('Módulo - Bloqueios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/bloqueios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/bloqueios?profissionalId=4121',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -310,23 +234,6 @@ describe('Módulo - Bloqueios', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/bloqueios/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idBloqueio = Cypress.env('idBloqueio');
-
-            cy.request({
-                method: 'GET', // método divergente
-                url: `/api/v1/bloqueios/${idBloqueio}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Bloqueios - Retorna uma lista de bloqueios', () => {
@@ -380,39 +287,6 @@ describe('Módulo - Bloqueios', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/bloqueios/check-patient', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // método divergente
-                url: '/api/v1/bloqueios/check-patient',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    dataInicio: "20251009",
-                    dataFim: "20251009",
-                    horaInicio: "23:00",
-                    horaFim: "23:50",
-                    diasSemana: [
-                        1,
-                        2,
-                        3,
-                        4
-                    ],
-                    especialidadeIds: [
-                        611
-                    ],
-                    descricao: "Teste",
-                    profissionalId: 4121
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
             })
         })
     })

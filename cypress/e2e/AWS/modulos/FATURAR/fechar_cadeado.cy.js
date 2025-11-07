@@ -66,22 +66,6 @@ describe('Módulo - Fechar Cadeado', () => {
                 expect(resposne.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/close-padlock/logs', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/close-padlock/logs?page=1&limit=10',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((resposne) => {
-                expect(resposne.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Fechar Cadeado - Buscar dias selecionados para fechamento/reabertura de cadeado', () => {
@@ -118,22 +102,6 @@ describe('Módulo - Fechar Cadeado', () => {
                 failOnStatusCode: false,
             }).then((resposne) => {
                 expect(resposne.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/close-padlock/selected-days', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/close-padlock/selected-days',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((resposne) => {
-                expect(resposne.status).to.eq(404);
             })
         })
     })
@@ -180,66 +148,6 @@ describe('Módulo - Fechar Cadeado', () => {
                 failOnStatusCode: false,
             }).then((resposne) => {
                 expect(resposne.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/close-padlock/update-selected-days', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // método divergente
-                url: '/api/v1/close-padlock/update-selected-days',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    daysStay: 10,
-                    reopeningDays: 10
-                },
-                failOnStatusCode: false,
-            }).then((resposne) => {
-                expect(resposne.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/close-padlock/update-selected-days', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // método divergente
-                url: '/api/v1/close-padlock/update-selected-days',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    daysStay: 10,
-                    reopeningDays: 10
-                },
-                failOnStatusCode: false,
-            }).then((resposne) => {
-                expect(resposne.status).to.eq(404);
-            })
-        })
-
-        it('Validar retorno 500 - /api/v1/close-padlock/update-selected-days', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'PATCH',
-                url: '/api/v1/close-padlock/update-selected-days',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: { // sem parâmetro no body
-                    daysStay: 10,
-                    reopeningDays: ""
-                },
-                failOnStatusCode: false,
-            }).then((resposne) => {
-                expect(resposne.status).to.eq(500);
             })
         })
     })

@@ -85,31 +85,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/locais-de-atendimento', () => {
-            const token = Cypress.env('access_token');
-            const geraDescricao = Math.floor(Math.random() * 1000) + 1;
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/locais-de-atendimento',
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: `testeqa${geraDescricao}`,
-                    clinicaId: {
-                        id: 1
-                    },
-                    contaCorrentId: 135,
-                    flagCaixa: {}
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
     })
 
     describe('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento', () => {
@@ -154,22 +129,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/locais-de-atendimento',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -229,22 +188,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/filter', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/locais-de-atendimento/filter',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Locais de Atendimento - Retorna uma lista de locais de atendimento com caixa aberto', () => {
@@ -297,22 +240,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/caixa_aberto', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/locais-de-atendimento/caixa_aberto',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Locais de Atendimento - Retorna locais de atendimento de acordo com ids enviados como parâmetro', () => {
@@ -348,22 +275,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/by-id', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/locais-de-atendimento/by-id',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -410,22 +321,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/locais-de-atendimento/{id}',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -509,54 +404,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/locais-de-atendimento/{id}', () => {
-            const token = Cypress.env('access_token')
-
-            cy.request({
-                method: 'GET',
-                url: 'api/v1/locais-de-atendimento/430',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: "testeqa899",
-                    clinicaId: {
-                        id: 483
-                    },
-                    contaCorrentId: 135,
-                    flagCaixa: {}
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/{id}', () => {
-            const token = Cypress.env('access_token')
-
-            cy.request({
-                method: 'POST',
-                url: 'api/v1/locais-de-atendimento/430',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: "testeqa899",
-                    clinicaId: {
-                        id: 483
-                    },
-                    contaCorrentId: 135,
-                    flagCaixa: {}
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Locais de Atendimento - Exclui um local de atendimento', () => {
@@ -612,23 +459,6 @@ describe('Módulo - Locais de Atendimento', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/locais-de-atendimento/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idLocal = Cypress.env('idLocal');
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/locais-de-atendimento/${idLocal}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })

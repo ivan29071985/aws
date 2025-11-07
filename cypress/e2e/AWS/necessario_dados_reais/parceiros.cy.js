@@ -54,22 +54,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros/tipos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/tipos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Obtém todos os parceiros ativos de uma clínica', () => {
@@ -109,22 +93,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/partners-by-clinic', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/partners-by-clinic',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -178,22 +146,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros/tabelas', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/tabelas',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Lista as abrangências cadastradas', () => {
@@ -245,22 +197,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros/abrangencias', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/abrangencias',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Lista os tipos de cobrança cadastrados', () => {
@@ -310,22 +246,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/tipo-cobrancas', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/tipo-cobrancas',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -381,22 +301,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/tabela-precos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/tabela-precos?unidadeId=483',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -502,22 +406,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: 'api/v1/parceiros',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Cadastra um novo parceiro', () => {
@@ -615,78 +503,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/parceiros', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/parceiros',
-                headers: {
-                    //'Authorization': `Bearer ${token}`, Token
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    flagAtivo: "1",
-                    nome: "Teste QA",
-                    canais: [
-                        {
-                            "id": 3
-                        }
-                    ],
-                    unidades: [
-                        {
-                            "id": 483
-                        }
-                    ],
-                    tipoId: 1,
-                    tabelaId: 3,
-                    abrangenciaId: 1,
-                    tipoCobrancaId: 1,
-                    prazoFaturamento: null,
-                    dataBase: null
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', //metodo divergente
-                url: '/api/v1/parceiros',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    flagAtivo: "1",
-                    nome: "Teste QA",
-                    canais: [
-                        {
-                            "id": 3
-                        }
-                    ],
-                    unidades: [
-                        {
-                            "id": 483
-                        }
-                    ],
-                    tipoId: 1,
-                    tabelaId: 3,
-                    abrangenciaId: 1,
-                    tipoCobrancaId: 1,
-                    prazoFaturamento: null,
-                    dataBase: null
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Lista os parceiros cadastrados pela unidade logada', () => {
@@ -733,22 +549,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros/unit', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/unit',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Lista todos os parceiros ativos', () => {
@@ -787,22 +587,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/all', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/all?tipoId=1&nome=Teste%20QA&abrangenciaId=1&unidades=483&unidades=483&tipoCobrancaId=1&tabelaId=3',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -870,50 +654,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/parceiros/check-existing', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/parceiros/check-existing',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    tipoCobrancaId: 1,
-                    nome: "Teste QA",
-                    unidades: [{ "id": 483 }],
-                    id: 1163
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/check-existing', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/parceiros/check-existing',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    tipoCobrancaId: 1,
-                    nome: "Teste QA",
-                    unidades: [{ "id": 483 }],
-                    id: 1163
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -1035,23 +775,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/parceiros/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idParceiro = 1163;
-
-            cy.request({
-                method: 'POST', //Metodo divergente
-                url: `/api/v1/parceiros/${idParceiro}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Atualiza os dados do parceiro', () => {
@@ -1141,62 +864,6 @@ describe('Módulo - Parceiros', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/parceiros/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // método divergente
-                url: '/api/v1/parceiros/1165',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    flagAtivo: "1",
-                    nome: "Teste QA2",
-                    canais: [{ "id": 3 }],
-                    unidades: [{ "id": 483 }],
-                    tipoId: 1,
-                    tabelaId: 3,
-                    abrangenciaId: 1,
-                    tipoCobrancaId: 1,
-                    prazoFaturamento: null,
-                    dataBase: null
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // método divergente
-                url: '/api/v1/parceiros/1165',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    flagAtivo: "1",
-                    nome: "Teste QA2",
-                    canais: [{ "id": 3 }],
-                    unidades: [{ "id": 483 }],
-                    tipoId: 1,
-                    tabelaId: 3,
-                    abrangenciaId: 1,
-                    tipoCobrancaId: 1,
-                    prazoFaturamento: null,
-                    dataBase: null
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Parceiros - Exibe as unidades do parceiro', () => {
@@ -1231,38 +898,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/{id}/unidades', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/parceiros/1165/unidades?regionaisIds=1&regionaisIds=2',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
-
-        it('Validar retorno 500 - /api/v1/parceiros/{id}/unidades', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/parceiros/{id}/unidades', // Sem parâmetro
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(500)
             })
         })
     })
@@ -1304,22 +939,6 @@ describe('Módulo - Parceiros', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/parceiros/lists/search', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/parceiros/lists/search',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

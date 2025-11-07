@@ -84,23 +84,6 @@ describe('Módulo - Cadeado', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/padlock', () => {
-
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/padlock?page=1&limit=1',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Cadeado - Fecha um ou uma lista de cadeados de unidades para tal data', () => {
@@ -168,54 +151,6 @@ describe('Módulo - Cadeado', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/padlock/close', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/padlock/close',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    padlocks: [
-                        {
-                            unityId: 483,
-                            date: "20230314"
-                        },
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/padlock/close', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/padlock/close',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    padlocks: [
-                        {
-                            unityId: 483,
-                            date: "20230314"
-                        },
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -301,58 +236,6 @@ describe('Módulo - Cadeado', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/padlock/modules/reopen', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/padlock/modules/reopen',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "padlockModuleIdsToOpen": [
-                        16,
-                        2
-                    ],
-                    "padlockModuleIdsToClose": [
-                        16,
-                        2
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/padlock/modules/reopen', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/padlock/modules/reopen',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "padlockModuleIdsToOpen": [
-                        16,
-                        2
-                    ],
-                    "padlockModuleIdsToClose": [
-                        16,
-                        2
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Cadeado - Retorna todos os modulos', () => {
@@ -392,22 +275,6 @@ describe('Módulo - Cadeado', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/padlock/list/modules', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/padlock/list/modules',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

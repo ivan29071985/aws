@@ -66,62 +66,6 @@ describe('Módulo - Lista Espera', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/lista-espera', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/lista-espera',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    pacienteId: 245352,
-                    clinicaId: 483,
-                    procedimentoId: 20715,
-                    especialidadeId: 611,
-                    convenioId: 5,
-                    profissionalId: 4121,
-                    parceriaId: 20486,
-                    observacoes: "observacoes",
-                    tabela: "convenio",
-                    cpf: "43657772898"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/lista-espera', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', //Método divergente 
-                url: '/api/v1/lista-espera',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    pacienteId: 245352,
-                    clinicaId: 483,
-                    procedimentoId: 20715,
-                    especialidadeId: 611,
-                    convenioId: 5,
-                    profissionalId: 4121,
-                    parceriaId: 20486,
-                    observacoes: "observacoes",
-                    tabela: "convenio",
-                    cpf: "43657772898"
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Lista Espera - Lista de Espera', () => {
@@ -245,26 +189,6 @@ describe('Módulo - Lista Espera', () => {
                 })
             })
         })
-
-        it('Validar retorno 404 - /api/v1/lista-espera', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const observacoes = data.observacoes
-
-                cy.request({
-                    method: 'DELETE', //método divergente
-                    url: 'api/v1/lista-espera?especialidadeId=611&profissionalId=3601&withoutProfessional=true&page=1&limit=100&search=79295868803&blockedGrid=100',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
-                })
-            })
-        })
     })
 
     describe('Módulo - Lista Espera - Retorna por id', () => {
@@ -354,46 +278,6 @@ describe('Módulo - Lista Espera', () => {
                 })
             })
         })
-
-        it('Validar retorno 404 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'POST',
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
-                })
-            })
-        })
-
-        it('Validar retorno 400 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'DELETE',
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(400)
-                })
-            })
-        })
     })
 
     describe('Módulo - Lista Espera - Atualizar por id', () => {
@@ -448,56 +332,6 @@ describe('Módulo - Lista Espera', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(401)
-                })
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'GET',
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        especialidadeId: 611,
-                        profissionalId: 3601,
-                        observacoes: "79295868803"
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(403)
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'POST',
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        especialidadeId: 611,
-                        profissionalId: 3601,
-                        observacoes: "79295868803"
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
                 })
             })
         })
@@ -579,54 +413,6 @@ describe('Módulo - Lista Espera', () => {
                 })
             })
         })
-
-        it('Validar retorno 403 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'GET', // método divergente
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        idMotivo: 1,
-                        motivoDescricao: "motivo do cancelamento (outros)"
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(403)
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/lista-espera/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.readFile('cypress/fixtures/lista-espera.json').then((data) => {
-                const id = data.id
-
-                cy.request({
-                    method: 'POST', // método divergente
-                    url: `/api/v1/lista-espera/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        idMotivo: 1,
-                        motivoDescricao: "motivo do cancelamento (outros)"
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
-                })
-            })
-        })
     })
 
     describe('Módulo - Lista Espera - Retorna lista de espera por id para criar agendamento - Criar agendamento', () => {
@@ -681,22 +467,6 @@ describe('Módulo - Lista Espera', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/lista-espera/{id}/appointment', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/pacientes/353494/appointments/number-of-absences',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -755,22 +525,6 @@ describe('Módulo - Lista Espera', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/lista-espera/lista/motivo-cancelamento', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/lista-espera',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

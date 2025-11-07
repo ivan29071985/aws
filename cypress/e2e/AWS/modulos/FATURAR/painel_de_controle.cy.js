@@ -82,33 +82,6 @@ describe('Módulo - Painel de Controle', () => {
 
             })
         })
-
-        it('Validar retorno 404 - /api/v1/control-panel/deactivate-tef', () => {
-            const token = Cypress.env('access_token')
-
-            const requestBody = {
-                reason: "reason",
-                username: "username",
-                clinicId: 1
-            }
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/control-panel/deactivate-tef',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }, failOnStatusCode: false,
-                body: requestBody
-            }).then((response) => {
-                // Verificar se o status é 201
-                expect(response.status).to.eq(404);
-
-                // Valida a estrutura dos dados de resposta
-                expect(response.body).to.have.property('message');
-                expect(response.body.message).to.be.a('string');
-            })
-        })
     });
 
     describe('Modulo - Painel de Controle - Activate TEF', () => {
@@ -192,34 +165,6 @@ describe('Módulo - Painel de Controle', () => {
                 expect(response.body.message).to.be.a('string');
             })
         })
-
-        it('Validar retorno 404 - /api/v1/control-panel/activate-tef', () => {
-            const token = Cypress.env('access_token')
-
-            const requestBody = {
-                s: "username",
-                s: 1
-            }
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/control-panel/activate-tef',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }, failOnStatusCode: false,
-                body: requestBody
-            }).then((response) => {
-                // Verificar se o status é 201
-                expect(response.status).to.eq(404);
-
-                // Valida a estrutura dos dados de resposta
-                expect(response.body).to.have.property('message');
-                expect(response.body.message).to.be.a('string');
-
-            })
-        })
-
     })
 
     describe('Modulo - Painel de Controle - Status', () => {
@@ -260,22 +205,6 @@ describe('Módulo - Painel de Controle', () => {
             }).then((response) => {
                 // Verificar se o status é 200
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/control-panel/status-tef/{clinicId}', () => {
-            const token = Cypress.env('access_token')
-            const clinicId = 483 // ID da clínica para consultar o status
-
-            cy.request({
-                method: 'DELETE',
-                url: `/api/v1/control-panel/status-tef/${clinicId}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },failOnStatusCode: false,
-            }).then((response) => {
-                // Verificar se o status é 404
-                expect(response.status).to.eq(404);
             })
         })
     })

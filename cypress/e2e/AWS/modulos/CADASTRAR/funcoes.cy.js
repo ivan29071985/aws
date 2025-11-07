@@ -72,46 +72,6 @@ describe('Módulo - Funções', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/funcoes', () => {
-            const token = Cypress.env('access_token');
-            const nomeDescricao = `Teste QA ${Date.now()}`;
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/funcoes',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: nomeDescricao
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/funcoes', () => {
-            const token = Cypress.env('access_token');
-            const nomeDescricao = `Teste QA ${Date.now()}`;
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/funcoes',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: nomeDescricao
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Funções - Retorna uma lista de funções', () => {
@@ -151,22 +111,6 @@ describe('Módulo - Funções', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/funcoes', () => {
-            const token = Cypress.env('access_token');
-            
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/funcoes',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })

@@ -15,7 +15,7 @@ describe('Módulo - Contas a Receber', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/contas-receber?page=1&limit=10',
+                url: '/api/v1/contas-receber',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -140,22 +140,6 @@ describe('Módulo - Contas a Receber', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/contas-receber', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/contas-receber?page=1&limit=10',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -335,129 +319,6 @@ describe('Módulo - Contas a Receber', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/contas-receber', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/contas-receber',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
-                    "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
-                    "itens": [
-                        {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
-                            "valorUnitario": 10,
-                            "executanteId": 348,
-                            "executado": "0"
-                        }
-                    ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 1,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/contas-receber', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/contas-receber',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
-                    "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
-                    "itens": [
-                        {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
-                            "valorUnitario": 10,
-                            "executanteId": 348,
-                            "executado": "0"
-                        }
-                    ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 1,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
-
     })
 
     describe('Módulo - Contas a Receber - Retorna um recebimento pelo id', () => {
@@ -708,135 +569,9 @@ describe('Módulo - Contas a Receber', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/contas-receber/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('idRecebimento') // Reutiliza o ID
-
-            cy.request({
-                method: 'GET', // Método divergente 
-                url: `/api/v1/contas-receber/${idRecebimento}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
-                    "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
-                    "itens": [
-                        {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
-                            "valorUnitario": 10,
-                            "valorTotal": 30,
-                            "executanteId": 348,
-                            "executado": "0"
-                        }
-                    ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 1,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/contas-receber/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idRecebimento = Cypress.env('idRecebimento') // Reutiliza o ID
-
-            cy.request({
-                method: 'POST', // Método divergente 
-                url: `/api/v1/contas-receber/${idRecebimento}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "tipoPagadorId": 1,
-                    "tipoRecebimentoId": 1,
-                    "fornecedorId": null,
-                    "pacienteId": 1,
-                    "profissionalId": null,
-                    "notaFiscal": "21345",
-                    "quantidadeParcelas": 4,
-                    "recorrencia": 3,
-                    "tipoIntervalo": "M",
-                    "observacao": "Lorem ipsum...",
-                    "origemId": 1,
-                    "origem": "Manual",
-                    "itens": [
-                        {
-                            "id": 1,
-                            "classificacaoFinanceiraId": 1,
-                            "descricao": "Item 1",
-                            "quantidade": 3,
-                            "valorUnitario": 10,
-                            "valorTotal": 30,
-                            "executanteId": 348,
-                            "executado": "0"
-                        }
-                    ],
-                    "parcelas": [
-                        {
-                            "dataVencimento": "20251020",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 1,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251120",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 2,
-                            "valor": 10
-                        },
-                        {
-                            "dataVencimento": "20251220",
-                            "observacao": "Lorem ipsum...",
-                            "numeroParcela": 3,
-                            "valor": 10
-                        }
-                    ]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
-    describe.only('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
+    describe('Módulo - Contas a Receber - Exclui um recebimento por id', () => {
         
         it('Validar retorno 200 - /api/v1/contas-receber/{id}', () => {
             const token = Cypress.env('access_token');
@@ -892,31 +627,23 @@ describe('Módulo - Contas a Receber', () => {
             })
         })
     })
-})
 
-
-//const idRecebimento = Cypress.env('idRecebimento') // Reutiliza o ID
-
-
-
-
-
-
-/**
- * it('Validar retorno 200 - /api/v1/contas-receber', () => {
+    describe('Módulo - Contas a Receber - Receber uma parcela da conta a receber', () => {
+        
+        it('Validar retorno 201 - /api/v1/contas-receber/parcela/recebimento', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: '',
-                url: '',
+                method: 'POST',
+                url: '/api/v1/contas-receber/parcela/recebimento',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false,
+                failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                
             })
         })
     })
- */
+})

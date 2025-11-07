@@ -52,24 +52,22 @@ describe('Módulo - Fuso Horário - Retorna uma lista de regime tributários', (
           cy.log(`Item ${index + 1}:`, JSON.stringify(item));
         });
       });
-    });
+    })
 
-    it('Validar retorno 404 - /api/v1/fusohorario', () => {
+    it('Validar retorno 401 - /api/v1/fusohorario', () => {
+      const token = Cypress.env('access_token');
 
-      const token = Cypress.env('access_token')
       cy.request({
-        method: 'POST',
+        method: 'GET',
         url: '/api/v1/fusohorario',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }, failOnStatusCode: false
+          //'Authorization': `Bearer ${token}` Token inválido
+        },
+        failOnStatusCode: false
       }).then((response) => {
-        // Verificar se o status é 404
-        expect(response.status).to.eq(404);
-
-      });
-    })   
-
+        expect(response.status).to.eq(401);
+      })
+    })
   })
 })
 

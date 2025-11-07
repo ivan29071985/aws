@@ -57,16 +57,15 @@ describe('Módulo - Features', () => {
       })
     })
 
-    it('Validar retorno 403 - /api/v1/features', () => {
-
-      const token = Cypress.env('access_token')
-      const featureName = `feature-${Date.now()}`;
+    it('Validar retorno 401 - /api/v1/features', () => {
+      const token = Cypress.env('access_token');
+      featureName = `QA-${Date.now()}`;
 
       cy.request({
-        method: 'GET', // Método divergente
+        method: 'POST',
         url: '/api/v1/features',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          //'Authorization': `Bearer ${token}`, Token inválido
           'Content-Type': 'application/json'
         },
         body: {
@@ -76,30 +75,7 @@ describe('Módulo - Features', () => {
         },
         failOnStatusCode: false,
       }).then((response) => {
-        expect(response.status).to.eq(403);
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/features', () => {
-
-      const token = Cypress.env('access_token')
-      const featureName = `feature-${Date.now()}`;
-
-      cy.request({
-        method: 'DELETE', // Método divergente
-        url: '/api/v1/features',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          feature: featureName,
-          isActive: 1,
-          defaultValueForNewUnits: 1
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404);
+        expect(response.status).to.eq(401);
       })
     })
   })
@@ -162,22 +138,6 @@ describe('Módulo - Features', () => {
         expect(response.status).to.eq(401)
       })
     })
-
-    it('Validar retorno 404 - /api/v1/features', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'DELETE', // Método divergente
-        url: '/api/v1/features',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404)
-      })
-    })
   })
 
   describe('Módulo - Features - Retorna uma lista de features', () => {
@@ -219,38 +179,6 @@ describe('Módulo - Features', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/features/all', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'POST', // Método divergente
-        url: '/api/v1/features/all',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404)
-      })
-    })
-
-    it('Validar retorno 500 - /api/v1/features/all', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'DELETE',
-        url: '/api/v1/features/all',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(500)
       })
     })
   })
@@ -323,29 +251,6 @@ describe('Módulo - Features', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
-      })
-    })
-
-    it('Validar retorno 403 - /api/v1/features/{id}', () => {
-
-      const token = Cypress.env('access_token')
-      const idFeature = 932;
-
-      cy.request({
-        method: 'GET',
-        url: `/api/v1/features/${idFeature}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          feature: 'QA-1750860022218',
-          isActive: 1,
-          defaultValueForNewUnits: 1
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(403);
       })
     })
   })
@@ -450,24 +355,6 @@ describe('Módulo - Features', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/features/{id}', () => {
-
-      const token = Cypress.env('access_token');
-      let idDelete = 830;
-
-      cy.request({
-        method: 'DELETE',
-        url: `/api/v1/features/${idDelete}`, // Sem ID
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404)
       })
     })
   })

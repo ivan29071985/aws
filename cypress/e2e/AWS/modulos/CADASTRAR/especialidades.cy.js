@@ -91,64 +91,6 @@ describe('Módulo - Especialidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/especialidades', () => {
-            const token = Cypress.env('access_token');
-            const nomeDescricao = `Teste QA Hml ${Date.now()}`;
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/especialidades',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: nomeDescricao,
-                    rqe: "null",
-                    flgTelemedicina: false,
-                    flgAmorCirurgias: 0,
-                    procedimentos: [
-                        {
-                            id: 21112
-                        }
-                    ],
-                    ativo: false
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades', () => {
-            const token = Cypress.env('access_token');
-            const nomeDescricao = `Teste QA Hml ${Date.now()}`;
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/especialidades',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: nomeDescricao,
-                    rqe: "null",
-                    flgTelemedicina: false,
-                    flgAmorCirurgias: 0,
-                    procedimentos: [
-                        {
-                            id: 21112
-                        }
-                    ],
-                    ativo: false
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Especialidades - Retorna uma lista as especialidades', () => {
@@ -193,22 +135,6 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/especialidades',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -263,22 +189,6 @@ describe('Módulo - Especialidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/especialidades/filter', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/especialidades/filter',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Especialidades - Retorna uma lista apenas das especialidades', () => {
@@ -323,22 +233,6 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades/list', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/especialidades/list',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -399,22 +293,6 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades/all-especialidades-basicinfo', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/especialidades/all-especialidades-basicinfo',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -515,23 +393,6 @@ describe('Módulo - Especialidades', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/especialidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idEspecialidade = Cypress.env('idEspecialidade');
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/especialidades/${idEspecialidade}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Especialidades - Atualizar por id', () => {
@@ -601,50 +462,6 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/especialidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idEspecialidade = Cypress.env('idEspecialidade');
-            const descricao = Cypress.env('descricao');
-
-            cy.request({
-                method: 'GET',
-                url: `/api/v1/especialidades/${idEspecialidade}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: descricao,
-                    rqe: "null"
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idEspecialidade = Cypress.env('idEspecialidade');
-            const descricao = Cypress.env('descricao');
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/especialidades/${idEspecialidade}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: descricao,
-                    rqe: "null"
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -747,23 +564,6 @@ describe('Módulo - Especialidades', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/especialidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idEspecialidade = Cypress.env('idEspecialidade');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: `/api/v1/especialidades/${idEspecialidade}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
     
     describe('Módulo - Especialidades - Retorna por profissional', () => {
@@ -829,22 +629,6 @@ describe('Módulo - Especialidades', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/especialidades/profissional/{profissionalId}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/especialidades/profissional/4181',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })

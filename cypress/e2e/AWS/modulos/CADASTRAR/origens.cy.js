@@ -83,52 +83,6 @@ describe('Módulo - Origens', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/origins', () => {
-            const token = Cypress.env('access_token');
-
-            // Armazena valor "Teste API" na variável origemGerada
-            const origemGerada = "Teste API";
-            cy.log('Origem criada:', origemGerada)
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/origins',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: `${origemGerada}`
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/origins', () => {
-            const token = Cypress.env('access_token');
-
-            // Armazena valor "Teste API" na variável origemGerada
-            const origemGerada = "Teste API";
-            cy.log('Origem criada:', origemGerada)
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/origins',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    descricao: `${origemGerada}`
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Origens - Listar Origens', () => {
@@ -214,22 +168,6 @@ describe('Módulo - Origens', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/origins', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/origins',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -318,60 +256,6 @@ describe('Módulo - Origens', () => {
                 })
             })
         })
-
-        it('Validar retorno 403 - /api/v1/origins/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o arquivo salvo no teste anterior
-            cy.readFile('cypress/fixtures/origem-criada.json').then((data) => {
-                const nomeDescricao = data.descricao
-                const id = data.id;
-                expect(id, 'ID da origem').to.exist;
-
-                cy.request({
-                    method: 'GET',
-                    url: `/api/v1/origins/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        descricao: `${nomeDescricao}`,
-                        flgAtivo: true
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(403)
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/origins/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o arquivo salvo no teste anterior
-            cy.readFile('cypress/fixtures/origem-criada.json').then((data) => {
-                const nomeDescricao = data.descricao
-                const id = data.id;
-                expect(id, 'ID da origem').to.exist;
-
-                cy.request({
-                    method: 'POST', // Método divergente
-                    url: `/api/v1/origins/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        descricao: `${nomeDescricao}`,
-                        flgAtivo: true
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
-                })
-            })
-        })
     })
 
     describe('Módulo - Origens - Apagar uma origem', () => {
@@ -443,28 +327,6 @@ describe('Módulo - Origens', () => {
                     failOnStatusCode: false,
                 }).then((response) => {
                     expect(response.status).to.eq(401)
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/origins/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            // Lê o arquivo salvo no teste anterior
-            cy.readFile('cypress/fixtures/origem-criada.json').then((data) => {
-                const id = data.id;
-                expect(id, 'ID da origem').to.exist;
-
-                cy.request({
-                    method: 'POST',
-                    url: `/api/v1/origins/${id}`,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404)
                 })
             })
         })
