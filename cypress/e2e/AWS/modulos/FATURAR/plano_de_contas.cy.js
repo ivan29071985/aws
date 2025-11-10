@@ -31,23 +31,20 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404 - /api/v1/plano-de-contas', () => {
-            const token = Cypress.env('access_toke');
+        it('Validar retorno 401 - /api/v1/plano-de-contas', () => {
+            const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'DELETE',
+                method: 'GET',
                 url: '/api/v1/plano-de-contas',
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }, failOnStatusCode: false
+                    //'Authorization': `Bearer ${token}` token inválido
+                },
+                failOnStatusCode: false
             }).then((response) => {
-                // Verifica se o status é 200
-                expect(response.status).to.eq(404);
-
-
-            });
+                expect(response.status).to.eq(401);
+            })
         })
-
     })
 
     describe('Plano de Contas - Tipo Procedimento - Retorna os planos de contas para tipos de procedimentos', () => {
@@ -74,19 +71,18 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404 - /api/v1/plano-de-contas/tipo-procedimento', () => {
+        it('Validar retorno 401 - /api/v1/plano-de-contas/tipo-procedimento', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'DELETE',
+                method: 'GET',
                 url: '/api/v1/plano-de-contas/tipo-procedimento',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    //'Authorization': `Bearer ${token}` token invalido
                 },
-                failOnStatusCode: false
+                failOnStatusCode: false,
             }).then((response) => {
-                // Verifica se o status é 404
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -116,19 +112,19 @@ describe('Módulo - Plano de Contas', () => {
             });
         })
 
-        it('Validar retorno 404 - /api/v1/plano-de-contas/receitas', () => {
+        it('Validar retorno 401 - /api/v1/plano-de-contas/receitas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'DELETE',
-                url: '/api/v1/plano-de-contas/tipo-procedimento',
+                method: 'GET',
+                url: '/api/v1/plano-de-contas/receitas',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
+                failOnStatusCode: false,
             }).then((response) => {
-                // Verifica se o status é 404
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -157,19 +153,19 @@ describe('Módulo - Plano de Contas', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/plano-de-contas/despesas', () => {
+        it('Validar retorno 401 - /api/v1/plano-de-contas/despesas', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'POST',
+                method: 'GET',
                 url: '/api/v1/plano-de-contas/despesas',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false
+                failOnStatusCode: false,
             }).then((response) => {
-                // Verifica se o status é 404
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })

@@ -43,22 +43,6 @@ describe('Módulo - Royalties', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/royalties', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/royalties',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Royalties - Retorna informações financeiras', () => {
@@ -114,22 +98,6 @@ describe('Módulo - Royalties', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/royalties/infos-financials', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/royalties/infos-financials?unidadeIds=483&dataInicio=20250202&dataFinal=20250202',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

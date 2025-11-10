@@ -62,24 +62,23 @@ describe('Módulo - Parceiro Institucional', () => {
           });
         }
       });
-    });
+    })
 
-    it('Validar retorno 404 - /api/v1/parceiroInstitucional', () => {
+    it('Validar retorno 401 - /api/v1/parceiroInstitucional', () => {
       const token = Cypress.env('access_token');
 
       cy.request({
-        method: 'PUT',
+        method: 'GET',
         url: '/api/v1/parceiroInstitucional',
         headers: {
-          'Authorization': `Bearer ${token}`
+          //'Authorization': `Bearer ${token}` Token inválido
         },
-        failOnStatusCode: false
+        failOnStatusCode: false,
       }).then((response) => {
 
         // Validar status code 200
-        expect(response.status).to.eq(404);
-      });
-    });
-
+        expect(response.status).to.eq(401);
+      })
+    })
   })
 })

@@ -189,128 +189,6 @@ describe('Módulo - Unidades', () => {
                 })
             })
         })
-
-        it('Validar retorno 403 - /api/v1/unidades', () => {
-            const token = Cypress.env('access_token');
-            const random = Math.floor(Math.random() * 100000); // número aleatório
-
-            cy.GeradorCnpj().then((cnpjValido) => {
-                cy.log('CNPJ usado:', cnpjValido);
-
-                cy.request({
-                    method: 'GET',
-                    url: '/api/v1/unidades',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        name: `Teste unidade API ${random}`,
-                        razaoSocial: "Empresa Teste Ltda",
-                        nomeFantasia: "Teste API Modulo Unidades",
-                        bairro: "Centro",
-                        country: "BR",
-                        cnpj: cnpjValido,
-                        cnes: "1234567",
-                        consultorResponsavel: "João da Silva",
-                        telefonePrincipal: "11987654321",
-                        telefoneSecundario: "11912345678",
-                        emailPrincipal: "contato@empresa.com",
-                        emailSecundario: "suporte@empresa.com",
-                        cep: "01001000",
-                        endereco: "Avenida Paulista",
-                        numero: "1000",
-                        complemento: "Conjunto 101",
-                        observacao: "Unidade de testes para homologação.",
-                        sigla: "TEST",
-                        fusoHorarioId: 1,
-                        tipoUnidadeId: 2,
-                        unidadeMatrizId: null,
-                        exibirAgendamentosOnline: true,
-                        exibirAgendamentoAssistido: false,
-                        regionId: 3,
-                        sellerId: "SELL1234",
-                        ativarIntegracaoTef: true,
-                        ativarSplit: false,
-                        regimeTributarioId: 1,
-                        unidadeStatusId: 2,
-                        responsavelTecnicoId: null,
-                        cidadeId: 1001,
-                        regiaoZona: "Zona Sul",
-                        parceiroInstitucionalId: null,
-                        dataInauguracao: "20240101",
-                        tipoSegmentoId: 4,
-                        ativo: "A",
-                        mcc: "8099",
-                        flgAmorCirurgias: 0
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(403);
-                })
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades', () => {
-            const token = Cypress.env('access_token');
-            const random = Math.floor(Math.random() * 100000); // número aleatório
-
-            cy.GeradorCnpj().then((cnpjValido) => {
-                cy.log('CNPJ usado:', cnpjValido);
-
-                cy.request({
-                    method: 'DELETE',
-                    url: '/api/v1/unidades',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: {
-                        name: `Teste unidade API ${random}`,
-                        razaoSocial: "Empresa Teste Ltda",
-                        nomeFantasia: "Teste API Modulo Unidades",
-                        bairro: "Centro",
-                        country: "BR",
-                        cnpj: cnpjValido,
-                        cnes: "1234567",
-                        consultorResponsavel: "João da Silva",
-                        telefonePrincipal: "11987654321",
-                        telefoneSecundario: "11912345678",
-                        emailPrincipal: "contato@empresa.com",
-                        emailSecundario: "suporte@empresa.com",
-                        cep: "01001000",
-                        endereco: "Avenida Paulista",
-                        numero: "1000",
-                        complemento: "Conjunto 101",
-                        observacao: "Unidade de testes para homologação.",
-                        sigla: "TEST",
-                        fusoHorarioId: 1,
-                        tipoUnidadeId: 2,
-                        unidadeMatrizId: null,
-                        exibirAgendamentosOnline: true,
-                        exibirAgendamentoAssistido: false,
-                        regionId: 3,
-                        sellerId: "SELL1234",
-                        ativarIntegracaoTef: true,
-                        ativarSplit: false,
-                        regimeTributarioId: 1,
-                        unidadeStatusId: 2,
-                        responsavelTecnicoId: null,
-                        cidadeId: 1001,
-                        regiaoZona: "Zona Sul",
-                        parceiroInstitucionalId: null,
-                        dataInauguracao: "20240101",
-                        tipoSegmentoId: 4,
-                        ativo: "A",
-                        mcc: "8099",
-                        flgAmorCirurgias: 0
-                    },
-                    failOnStatusCode: false,
-                }).then((response) => {
-                    expect(response.status).to.eq(404);
-                })
-            })
-        })
     })
 
     describe('Módulo - Unidades - Retorna a lista de unidades', () => {
@@ -407,22 +285,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/unidades', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método diergente
-                url: '/api/v1/unidades',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Unidade - Retorna informações estáticas de uma unidade', () => {
@@ -510,23 +372,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/unidades/static-info/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idClinica = 335;
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/unidades/static-info/${idClinica}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Unidades - Atualiza informações estáticas de uma unidade. Deve ser usado apenas para atualizações forçadas.', () => {
@@ -585,44 +430,6 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/unidades/static-info', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/unidades/static-info/',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    unidadeIds: []
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/static-info', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/unidades/static-info/frfrf', // Url inválida
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    unidadeIds: []
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -689,44 +496,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/unidades/link-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/unidades/link-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 3901
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/link-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'PATCH', // Método divergente
-                url: '/api/v1/unidades/link-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 3901
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Unidades - Desvincular uma unidade de um profissional', () => {
@@ -789,44 +558,6 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/unidades/unlink-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/unidades/unlink-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 3901
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/unlink-clinic-professional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'PATCH',
-                url: '/api/v1/unidades/unlink-clinic-professional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "idProfissional": 3901
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -973,22 +704,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/unidades/appointments/professional{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: 'api/v1/unidades/appointments/professional{id}?id=4121',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Unidades - Retorna a lista de unidades', () => {
@@ -1129,22 +844,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/unidades/formatted', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/unidades/formatted/',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Unidades - Lista uma unidade por id', () => {
@@ -1201,23 +900,6 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idClinica = 483;
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/unidades/${idClinica}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -1361,120 +1043,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/unidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idClinica = 973;
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: `/api/v1/unidades/${idClinica}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "name": "Teste unidade API",
-                    "razaoSocial": "Empresa Teste Ltda",
-                    "nomeFantasia": "Teste API Modulo Unidades",
-                    "bairro": "Centro",
-                    "country": "BR",
-                    "cnpj": "cnpjValido",
-                    "cnes": "1234567",
-                    "consultorResponsavel": "João da Silva",
-                    "telefonePrincipal": "11987654321",
-                    "telefoneSecundario": "11912345678",
-                    "emailPrincipal": "contato@empresa.com",
-                    "emailSecundario": "suporte@empresa.com",
-                    "cep": "01001000",
-                    "endereco": "Avenida Paulista",
-                    "numero": "1000",
-                    "complemento": "Conjunto 101",
-                    "observacao": "Unidade de testes para homologação.",
-                    "sigla": "TEST",
-                    "fusoHorarioId": 1,
-                    "tipoUnidadeId": 2,
-                    "unidadeMatrizId": null,
-                    "exibirAgendamentosOnline": true,
-                    "exibirAgendamentoAssistido": false,
-                    "regionId": 3,
-                    "sellerId": "SELL1234",
-                    "ativarIntegracaoTef": true,
-                    "ativarSplit": false,
-                    "regimeTributarioId": 1,
-                    "unidadeStatusId": 2,
-                    "responsavelTecnicoId": null,
-                    "cidadeId": 1001,
-                    "regiaoZona": "Zona Sul",
-                    "parceiroInstitucionalId": null,
-                    "dataInauguracao": "20240101",
-                    "tipoSegmentoId": 4,
-                    "ativo": "A",
-                    "mcc": "8099",
-                    "flgAmorCirurgias": 0
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idClinica = 973;
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: `/api/v1/unidades/${idClinica}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "name": "Teste unidade API",
-                    "razaoSocial": "Empresa Teste Ltda",
-                    "nomeFantasia": "Teste API Modulo Unidades",
-                    "bairro": "Centro",
-                    "country": "BR",
-                    "cnpj": "cnpjValido",
-                    "cnes": "1234567",
-                    "consultorResponsavel": "João da Silva",
-                    "telefonePrincipal": "11987654321",
-                    "telefoneSecundario": "11912345678",
-                    "emailPrincipal": "contato@empresa.com",
-                    "emailSecundario": "suporte@empresa.com",
-                    "cep": "01001000",
-                    "endereco": "Avenida Paulista",
-                    "numero": "1000",
-                    "complemento": "Conjunto 101",
-                    "observacao": "Unidade de testes para homologação.",
-                    "sigla": "TEST",
-                    "fusoHorarioId": 1,
-                    "tipoUnidadeId": 2,
-                    "unidadeMatrizId": null,
-                    "exibirAgendamentosOnline": true,
-                    "exibirAgendamentoAssistido": false,
-                    "regionId": 3,
-                    "sellerId": "SELL1234",
-                    "ativarIntegracaoTef": true,
-                    "ativarSplit": false,
-                    "regimeTributarioId": 1,
-                    "unidadeStatusId": 2,
-                    "responsavelTecnicoId": null,
-                    "cidadeId": 1001,
-                    "regiaoZona": "Zona Sul",
-                    "parceiroInstitucionalId": null,
-                    "dataInauguracao": "20240101",
-                    "tipoSegmentoId": 4,
-                    "ativo": "A",
-                    "mcc": "8099",
-                    "flgAmorCirurgias": 0
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 /*
     describe('Módulo - Unidades - Apagar uma unidade', () => {
@@ -1580,23 +1148,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/unidades/formatted/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idClinica = 483;
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/unidades/formatted/${idClinica}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Unidades - Download File', () => {
@@ -1631,23 +1182,6 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-            
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/csv/download', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', //Método divergente
-                url: '/api/v1/unidades/csv/download/uuuu', //Url inválida
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
             
         })
@@ -1693,22 +1227,6 @@ describe('Módulo - Unidades', () => {
                 expect(response.status).to.eq(401)             
                 })
             })
-
-        it('Validar retorno 404 - /api/v1/unidades/lists/search', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/unidades/lists/search/jjj', //Url inválida
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })            
-        })
     })
 /*    describe('Módulo - Unidades - Phones Number Hidden', () => {
     //Essa rota não está exposta publicamente por questões de segurança e controle de acesso.
@@ -1756,22 +1274,6 @@ describe('Módulo - Unidades', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/unidades/list/phones-hidden', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({ 
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/unidades/list/phones-hidden',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

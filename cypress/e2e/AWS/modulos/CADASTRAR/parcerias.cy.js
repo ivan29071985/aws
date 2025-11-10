@@ -34,20 +34,21 @@ describe('Módulo - Parcerias', () => {
       })
     })
 
-    it('Validar retorno 404 - /api/v1/parcerias/all', () => {
+    it('Validar retorno 401 - /api/v1/parcerias/all', () => {
 
       const token = Cypress.env('access_token')
       cy.request({
-        method: 'POST',
+        method: 'GET',
         url: '/api/v1/parcerias/all', // URL do seu endpoint
         headers: {
-          'Authorization': `Bearer ${token}`
-        }, failOnStatusCode: false
+          //'Authorization': `Bearer ${token}` Token inválido
+        },
+        failOnStatusCode: false,
       }).then((response) => {
-        // Verificar se o status é 404
-        expect(response.status).to.eq(404);
-
-      });
+        // Verificar se o status é 200
+        expect(response.status).to.eq(401);
+        })
+      })
     })
   })
 
@@ -100,22 +101,4 @@ describe('Módulo - Parcerias', () => {
         })
       })
     })
-
-    it('Validar retorno 404 - /api/v1/parcerias/parceiros', () => {
-
-      const token = Cypress.env('access_token')
-
-      cy.request({
-        method: 'POST',
-        url: '/api/v1/parcerias/parceiros', // URL do seu endpoint
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }, failOnStatusCode: false
-      }).then((response) => {
-        // Verificar se o status é 404
-        expect(response.status).to.eq(404);
-
-      });
-    })
   })
-})

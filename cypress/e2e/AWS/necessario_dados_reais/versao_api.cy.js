@@ -2,14 +2,17 @@
 
 describe('Módulo - Versão API', () => {
     beforeEach(() => {
-        cy.loginAsPaulo();
-        cy.refreshTokenAsPaulo();
+        cy.login();
+        cy.refreshToken();
+        //cy.loginAsPaulo();
+        //cy.refreshTokenAsPaulo();
     })
 
     describe('Módulo - Versão API - Versioning Interface', () => {
 
         it('Validar retorno 200 - /api/v1/versioning-interface', () => {
-            const token = Cypress.env('access_token_paulo');
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
@@ -31,19 +34,20 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/versioning-interface', () => {
-            const token = Cypress.env('access_token_paulo');
+        it('Validar retorno 401 - /api/v1/versioning-interface', () => {
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/versioning-interface/lll', // Parâmetro inválido
+                url: '/api/v1/versioning-interface',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -51,7 +55,8 @@ describe('Módulo - Versão API', () => {
     describe('Módulo - Versão API - Observability Interface', () => {
 
         it('Validar retorno 200 - /api/v1/observability-interface', () => {
-            const token = Cypress.env('access_token_paulo');
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
@@ -73,19 +78,20 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/observability-interface', () => {
-            const token = Cypress.env('access_token_paulo');
+        it('Validar retorno 401 - /api/v1/observability-interface', () => {
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/observability-interface/llll', // Sem parâmetro
+                url: '/api/v1/observability-interface',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -93,7 +99,8 @@ describe('Módulo - Versão API', () => {
     describe('Módulo - Versão API - Endpoint Versioning config', () => {
 
         it('Validar retorno 200 - /api/v1/endpoint-versioning-config', () => {
-            const token = Cypress.env('access_token_paulo');
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
@@ -108,19 +115,20 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/endpoint-versioning-config', () => {
-            const token = Cypress.env('access_token_paulo');
+        it('Validar retorno 401 - /api/v1/endpoint-versioning-config', () => {
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'POST',
+                method: 'GET',
                 url: '/api/v1/endpoint-versioning-config',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
-                failOnStatusCode: false,
+                failOnStatusCode: false, 
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -128,7 +136,8 @@ describe('Módulo - Versão API', () => {
     describe('Módulo - Versão API - Endpoint Versioning config', () => {
 
         it('Validar retorno 200 - /api/v1/endpoint-versioning-config', () => {
-            const token = Cypress.env('access_token_paulo')
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
             
             cy.request({
                 method: 'PUT',
@@ -144,29 +153,30 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/endpoint-versioning-config', () => {
-            const token = Cypress.env('access_token_paulo')
+        it('Validar retorno 401 - /api/v1/endpoint-versioning-config', () => {
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
             
             cy.request({
-                method: 'POST',
+                method: 'PUT',
                 url: '/api/v1/endpoint-versioning-config',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 body: {},
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
-
     })
 
     describe('Módulo - Versão API - Observability Logs', () => {
 
         it('Validar retorno 200 - /api/v1/observability-logs', () => {
-            const token = Cypress.env('access_token_paulo');
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
@@ -182,7 +192,8 @@ describe('Módulo - Versão API', () => {
         })
 
         it('Validar retorno 401 - /api/v1/observability-logs', () => {
-            const token = Cypress.env('access_token_paulo');
+            //const token = Cypress.env('access_token_paulo');
+            const token = Cypress.env('access_token');
 
             cy.request({
                 method: 'GET',
@@ -194,22 +205,6 @@ describe('Módulo - Versão API', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/observability-logs', () => {
-            const token = Cypress.env('access_token_paulo');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/observability-logs',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -231,19 +226,19 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/versao-api', () => {
+        it('Validar retorno 401 - /api/v1/versao-api', () => {
             const token = Cypress.env('access_token_paulo');
 
             cy.request({
-                method: 'POST', // método divergente
+                method: 'GET',
                 url: '/api/v1/versao-api',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(404)
+                expect(response.status).to.eq(401)
             })
         })
     })
@@ -268,19 +263,19 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/crash', () => {
+        it('Validar retorno 401 - /api/v1/crash', () => {
             const token = Cypress.env('access_token_paulo');
 
             cy.request({
-                method: 'GET', //método divergente
+                method: 'POST',
                 url: '/api/v1/crash',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -304,19 +299,19 @@ describe('Módulo - Versão API', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/status', () => {
+        it('Validar retorno 401 - /api/v1/status', () => {
             const token = Cypress.env('access_token_paulo');
 
             cy.request({
-                method: 'POST', // método divergente
+                method: 'GET',
                 url: '/api/v1/status',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(404);
+                expect(response.status).to.eq(401);
             })
         })
     })

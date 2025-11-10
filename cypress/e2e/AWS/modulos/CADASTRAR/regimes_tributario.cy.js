@@ -30,26 +30,23 @@ describe('Módulo - Regime Tributário', () => {
 
         });
       });
-    });
+    })
 
-    it('Validar retorno 404 - /api/v1/regimeTributario', () => {
-      const token = Cypress.env('access_toke');
+    it('Validar retorno 401 - /api/v1/regimeTributario', () => {
+      const token = Cypress.env('access_token');
 
       cy.request({
-        method: 'PUT',
+        method: 'GET',
         url: '/api/v1/regimeTributario',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }, failOnStatusCode: false
+          //'Authorization': `Bearer ${token}` token inválido
+        },
+        failOnStatusCode: false,
       }).then((response) => {
-        // Verifica se o status é 200
-        expect(response.status).to.eq(404);
-
-
-      });
-    });
-
-  });
-});
+        expect(response.status).to.eq(401);
+        })
+      })
+    })
+  })
 
 

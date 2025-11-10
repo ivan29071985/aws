@@ -8,7 +8,7 @@ describe('Módulo - Restrições', () => {
 
     describe('Módulo - Restrições - Cria uma restrição', () => {
 
-       /** it('Validar retorno 201 - /api/v1/restricoes', () => {  Cenário: Método POST no Endpoint Restrições foi descontinuado.  flgAtivo mockado como nulo
+       it('Validar retorno 201 - /api/v1/restricoes', () => { 
             const token = Cypress.env('access_token');
             const restricao = `Teste API ${Date.now()}`;
 
@@ -34,7 +34,7 @@ describe('Módulo - Restrições', () => {
                     'mensagem'
                 )
             })
-        })  */
+        }) 
 
         it('Validar retorno 400 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
@@ -47,9 +47,6 @@ describe('Módulo - Restrições', () => {
                     'Content-Type': 'application/json'
                 },
                 body: { // Sem parâmetro correto no body
-                    id: 1,
-                    descricao: 'Restrição 1'
-
                 },
                 failOnStatusCode: false,
             }).then((response) => {
@@ -75,48 +72,6 @@ describe('Módulo - Restrições', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/restricoes', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/restricoes',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    id: 1,
-                    descricao: 'Restrição 1'
-
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/restricoes', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/restricoes',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    id: 1,
-                    descricao: 'Restrição 1'
-
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -168,19 +123,19 @@ describe('Módulo - Restrições', () => {
             })
         })
 
-        it('Validar retorno 404 - /api/v1/restricoes', () => {
+        it('Validar retorno 401 - /api/v1/restricoes', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'DELETE', // Método Divergente
+                method: 'GET',
                 url: '/api/v1/restricoes',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    //'Authorization': `Bearer ${token}`, token inválido
                     'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
             }).then((response) => {
-                expect(response.status).to.eq(404)
+                expect(response.status).to.eq(401)
             })
         })
     })

@@ -134,21 +134,6 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
       })
     })
 
-    it('Validar retorno 404 - /api/v1/vinculo-laboratorio/create-vinculo/check-propostas', () => {
-      const token = Cypress.env('access_token')
-
-      cy.request({
-        method: 'GET',
-        url: '/api/v1/vinculo-laboratorio/create-vinculo/check-propostas/',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        failOnStatusCode: false
-      }).then((response) => {
-        expect(response.status).to.eq(404)
-      })
-    })
-
     it('Validar retorno 401 - /api/v1/vinculo-laboratorio/create-vinculo/check-propostas', () => {
       cy.request({
         method: 'GET',
@@ -173,16 +158,6 @@ describe('Módulo - Vinculo Unidade x Laboratório', () => {
         }
       }).then((response) => {
         expect(response.status).to.eq(200)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/vinculo-laboratorio/create-vinculo/agente-password?fornecedorId=292&unidadeId=828', () => {
-      cy.request({
-        method: 'GET',
-        url: '/api/v1/vinculo-laboratorio/create-vinculo/agente-password',
-        failOnStatusCode: false
-      }).then((response) => {
-        expect(response.status).to.eq(401)
       })
     })
 

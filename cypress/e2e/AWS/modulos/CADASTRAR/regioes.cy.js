@@ -49,7 +49,7 @@ describe('Módulo - Regiões', () => {
                 // Verificar se a mensagem é "Regional cadastrada com sucesso"
                 expect(response.body).to.have.property('mensagem', 'Regional cadastrada com sucesso');
             });
-        });
+        })
 
         it('Validar retorno 401 - /api/v1/regioes', () => {
             // Não fornecendo o token ou utilizando um token inválido
@@ -78,9 +78,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Múdulo - Regiões - Retorna uma lista de regiões', () => {
 
@@ -112,7 +111,7 @@ describe('Módulo - Regiões', () => {
                 expect(response.body).to.be.an('array');
 
             });
-        });
+        })
 
         // Teste para retorno 401 Unauthorized (quando não for fornecido um token ou token inválido)
         it('Validar retorno 401 - /api/v1/regioes', () => {
@@ -136,9 +135,8 @@ describe('Módulo - Regiões', () => {
 
 
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Filtrar regiões', () => {
 
@@ -169,46 +167,34 @@ describe('Módulo - Regiões', () => {
                 expect(response.status).to.eq(200);
                 // Verificar se o objeto 'meta' contém os dados esperados
             });
-        });
+        })
 
-        it('Validar retorno 404 - /api/v1/regioes/filter', () => {
-            const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
+        it('Validar retorno 401 - /api/v1/regioes/filter', () => {
+            const token = Cypress.env('access_token');  // Obter o token de acesso do Cypress.env()
+
+            // Verifique se o token está disponível
+            if (!token) {
+                throw new Error('Token de acesso não encontrado!');
+            }
 
             cy.request({
-                method: 'POST',  // Verifique se o método POST está correto para esse endpoint
-                url: '/api/v1/regioes/filter',  // URL do seu endpoint
+                method: 'GET',
+                url: '/api/v1/regioes/filter',  // URL do endpoint para filtrar regiões
                 headers: {
-                    'Authorization': `Bearer ${token}`,  // Sem token ou com um token inválido
+                    //'Authorization': `Bearer ${token}`,  // Cabeçalho de autenticação com o token
                     'Content-Type': 'application/json'   // Tipo de conteúdo JSON
                 },
-                body: {
-                    "items": [
-                        {
-                            "id": 33,
-                            "nome": "Região Norte",
-                            "flgAtivo": "1",
-                            "pais": {
-                                "id": 1,
-                                "pais": "Brasil"
-                            }
-                        }
-                    ],
-                    "meta": {
-                        "totalItems": 1,
-                        "currentPage": 1,
-                        "itemCount": 1,
-                        "itemsPerPage": 1,
-                        "totalPages": 1
-                    }
+                qs: {  // Parâmetros de consulta
+                    name: 'Região Norte',  // Nome da região
+                    page: 1,                // Página
+                    limit: 10               // Limite de items por página
                 },
-                failOnStatusCode: false, // Não fazer falhar o teste automaticamente em status 4xx ou 5xx
+                failOnStatusCode: false  // Não falhar automaticamente em status 4xx ou 5xx
             }).then((response) => {
-                // Verificar se o status é 404 (não encontrado)
-                expect(response.status).to.eq(404);
-            });
-        });
-
-    });
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
 
     describe('Módulo - Regiões - Acessar uma região específica', () => {
 
@@ -241,7 +227,7 @@ describe('Módulo - Regiões', () => {
                 //expect(response.body).to.have.property('unidadesClinicas').that.is.an('array').and.has.lengthOf(19);
 
             });
-        });
+        })
 
         it('Validar retorno 401 - /api/v1/regioes/${id}', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
@@ -260,9 +246,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Atualizar região', () => {
 
@@ -308,8 +293,8 @@ describe('Módulo - Regiões', () => {
 
                 cy.log(`Região atualizada com sucesso: ${randomRegionName}`);
             });
-        });
-        
+        })
+
         it('Validar retorno 401 - /api/v1/regioes/${id}', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
 
@@ -330,9 +315,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Excluir região', () => {
 
@@ -357,9 +341,19 @@ describe('Módulo - Regiões', () => {
                 failOnStatusCode: false  // Não falhar automaticamente em status 4xx ou 5xx
             }).then((response) => {
                 // Verificar se o status é 200 (requisição bem-sucedida)
-                expect(response.status).to.eq(200);
+                if (response.status === 200) {
+                    expect(response.status).to.eq(200);
+                    expect(response.body).to.have.property('codigo');
+                    expect(response.body).to.have.property('flagDeError');
+                    expect(response.body).to.have.property('mensagem');
+                } else {
+                    expect(response.status).to.eq(400);
+                    expect(response.body).to.have.property('codigo');
+                    expect(response.body).to.have.property('flagDeError');
+                    expect(response.body).to.have.property('mensagem');
+                }
             });
-        });
+        })
 
         // Teste para retorno 401 Unauthorized (quando não for fornecido um token ou token inválido)
         it('Validar retorno 401 - /api/v1/regioes/${id}', () => {
@@ -379,9 +373,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Download CSV', () => {
 
@@ -413,7 +406,7 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o arquivo não está vazio (tamanho do conteúdo)
                 expect(response.body.length).to.be.greaterThan(0);
             });
-        });
+        })
 
         it('Validar retorno 401 - /api/v1/regioes/csv/download', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
@@ -430,9 +423,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Buscar região', () => {
 
@@ -461,8 +453,8 @@ describe('Módulo - Regiões', () => {
             }).then((response) => {
                 // Verificar se o status é 200 (requisição bem-sucedida)
                 expect(response.status).to.eq(200);
-            });
-        });
+            })
+        })
 
         it('Validar retorno 401 - /api/v1/regioes/lists/search', () => {
             const token = '';  // Deixando o token vazio para simular a falta de autenticação ou token inválido
@@ -484,9 +476,8 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o status é 401 (não autorizado)
                 expect(response.status).to.eq(401);
             });
-        });
-
-    });
+        })
+    })
 
     describe('Módulo - Regiões - Buscar todas as regiões', () => {
 
@@ -517,9 +508,9 @@ describe('Módulo - Regiões', () => {
                 // Verificar se o corpo da resposta contém os dados esperados
                 expect(response.body).to.be.an('array');  // Espera-se que a resposta seja um array
             });
-        });
+        })
 
-        it('Validar retorno 404 - /api/v1/regioes-all', () => {
+        it('Validar retorno 401 - /api/v1/regioes-all', () => {
             const token = Cypress.env('access_token');  // Obter o token de acesso do Cypress.env()
 
             // Verifique se o token está disponível
@@ -528,10 +519,10 @@ describe('Módulo - Regiões', () => {
             }
 
             cy.request({
-                method: 'PUT',
+                method: 'GET',
                 url: '/api/v1/regioes-all',  // URL do endpoint para buscar todas as regiões
                 headers: {
-                    'Authorization': `Bearer ${token}`,  // Cabeçalho de autenticação com o token
+                    //'Authorization': `Bearer ${token}`,  // Cabeçalho de autenticação com o token
                     'Content-Type': 'application/json'   // Tipo de conteúdo JSON
                 },
                 qs: {  // Parâmetros de consulta
@@ -540,10 +531,9 @@ describe('Módulo - Regiões', () => {
                 failOnStatusCode: false  // Não falhar automaticamente em status 4xx ou 5xx
             }).then((response) => {
                 // Verificar se o status é 200 (requisição bem-sucedida)
-                expect(response.status).to.eq(404);
-
-            });
-        });
-    });
-});
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+})
 

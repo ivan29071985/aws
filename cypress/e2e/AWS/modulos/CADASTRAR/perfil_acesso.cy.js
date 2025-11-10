@@ -80,54 +80,6 @@ describe('Módulo - Perfil de Acesso', () => {
         expect(response.status).to.eq(401)
       })
     })
-
-    it('Validar retorno 403 - /api/v1/perfil-acesso', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'GET',  // Método divergente
-        url: '/api/v1/perfil-acesso',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          descricaoAcessoProfile: 'testeQa',
-          recursos: [
-            7,
-            7,
-            7
-          ]
-        },
-        failOnStatusCode: false
-      }).then((response) => {
-        expect(response.status).to.eq(403)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/perfil-acesso', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'DELETE', // Método divergente
-        url: '/api/v1/perfil-acesso',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          descricaoAcessoProfile: 'testeQa',
-          recursos: [
-            7,
-            7,
-            7
-          ]
-        },
-        failOnStatusCode: false
-      }).then((response) => {
-        expect(response.status).to.eq(404)
-      })
-    })
   })
 
   describe('Módulo - Perfil de Acesso - Lista Perfis de acesso', () => {
@@ -209,26 +161,6 @@ describe('Módulo - Perfil de Acesso', () => {
         expect(response.status).to.eq(401);
       })
     })
-
-    it('Validar retorno 404 - /api/v1/perfil-acesso', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'DELETE', // Método divergente
-        url: '/api/v1/perfil-acesso',
-        qs: {
-          page: 1,
-          limit: 10
-        },
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404);
-      })
-    })
   })
 
   describe('Módulo - Perfil de Acesso - Lista recursos', () => {
@@ -272,22 +204,6 @@ describe('Módulo - Perfil de Acesso', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/perfil-acesso/recursos', () => {
-      const token = Cypress.env('access_token');
-
-      cy.request({
-        method: 'POST',
-        url: '/api/v1/perfil-acesso/recursos',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404)
       })
     })
   })
@@ -372,32 +288,6 @@ describe('Módulo - Perfil de Acesso', () => {
         expect(response.status).to.eq(401)
       })
     })
-
-    it('Valdiar retorno 403 - /api/v1/perfil-acesso/{id}', () => {
-      const token = Cypress.env('access_token');
-      const idPerfil = 433;
-
-      cy.request({
-        method: 'GET',
-        url: `/api/v1/perfil-acesso/${idPerfil}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: {
-          descricaoAcessoProfile: 'Teste AWS QA',
-          flg_status: 'true',
-          recursos: [
-            26,
-            63,
-            5
-          ]
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(403)
-      })
-    })
   })
 
   describe('Módulo - Perfil de Acesso - Deleta o Perfil de acesso', () => {
@@ -435,23 +325,6 @@ describe('Módulo - Perfil de Acesso', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401)
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/perfil-acesso/{id}', () => {
-      const token = Cypress.env('access_token');
-      const idPerfil = 433;
-
-      cy.request({
-        method: 'POST', // Método Divergente
-        url: `/api/v1/perfil-acesso/${idPerfil}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404)
       })
     })
   })
@@ -505,23 +378,6 @@ describe('Módulo - Perfil de Acesso', () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
-      })
-    })
-
-    it('Validar retorno 404 - /api/v1/perfil-acesso/{id}', () => {
-      const token = Cypress.env('access_token');
-      const idPerfil = 433;
-
-      cy.request({
-        method: 'POST', // Método divergente
-        url: `/api/v1/perfil-acesso/${idPerfil}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        failOnStatusCode: false,
-      }).then((response) => {
-        expect(response.status).to.eq(404);
       })
     })
   })

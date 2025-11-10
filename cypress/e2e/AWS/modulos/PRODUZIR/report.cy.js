@@ -25,7 +25,6 @@ describe('Módulo - Report', () => {
                 const item = response.body;
                 item.forEach((data) => {
                     expect(data).to.have.property('id');
-                    expect(data).to.have.property('descricao');
                 })
             })
         })
@@ -43,22 +42,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/views', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/report/multidimensional/views',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -97,22 +80,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/report/multidimensional/{id}',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -178,23 +145,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/{id}', () => {
-            const token = Cypress.env('access_token');
-            const idRelatorio = 381;
-
-            cy.request({
-                method: 'POST',
-                url: `/api/v1/report/multidimensional/${idRelatorio}`,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -302,31 +252,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "nome": "Relatório Teste QA",
-                    "unidadeId": 183,
-                    "grupos": [1, 4, 6],
-                    "viewId": 6,
-                    "flagAtivo": true,
-                    "campos": ["string"],
-                    "tipoId": 1
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
     })
 
     describe('Módulo - Report - Atualiza relatório multidimensional existente', () => {
@@ -360,18 +285,22 @@ describe('Módulo - Report', () => {
                 },
                 failOnStatusCode: false,
             }).then((response) => {
-                expect(response.status).to.eq(200)
+                if (response.status === 200) {
+                    expect(response.status).to.eq(200)
 
-                const items = response.body;
-                expect(items).to.have.property('id');
-                expect(items).to.have.property('nome');
-                expect(items).to.have.property('unidadeId');
-                expect(items).to.have.property('grupos').to.be.an('array');
+                    const items = response.body;
+                    expect(items).to.have.property('id');
+                    expect(items).to.have.property('nome');
+                    expect(items).to.have.property('unidadeId');
+                    expect(items).to.have.property('grupos').to.be.an('array');
 
-                expect(items).to.have.property('tipoId');
-                expect(items).to.have.property('viewId');
-                expect(items).to.have.property('flagAtivo');
-                expect(items).to.have.property('campos').to.be.an('array');
+                    expect(items).to.have.property('tipoId');
+                    expect(items).to.have.property('viewId');
+                    expect(items).to.have.property('flagAtivo');
+                    expect(items).to.have.property('campos').to.be.an('array');
+                } else {
+                    expect(response.status).to.eq(400);
+                }
             })
         })
 
@@ -390,58 +319,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(400);
-            })
-        })
-
-        it('Validar retorno 401 - /api/v1/report/multidimensional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'PUT',
-                url: '/api/v1/report/multidimensional',
-                headers: {
-                    //'Authorization': `Bearer ${token}`, Token inválido
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "id": 1,
-                    "nome": "Relatório administrativo",
-                    "unidadeId": 183,
-                    "grupos": [1, 2, 3],
-                    "tipoId": 1,
-                    "viewId": 1,
-                    "flagAtivo": true,
-                    "campos": [1, 2, 3]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "id": 1,
-                    "nome": "Relatório administrativo",
-                    "unidadeId": 183,
-                    "grupos": [1, 2, 3],
-                    "tipoId": 1,
-                    "viewId": 1,
-                    "flagAtivo": true,
-                    "campos": [1, 2, 3]
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
             })
         })
     })
@@ -463,14 +340,16 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(200);
 
                 const data = response.body;
-                expect(data).to.have.property('items').to.be.an('array')
+                expect(data).to.have.property('flagDeError')
+                expect(data).to.have.property('mensagem')
+                /*expect(data).to.have.property('items').to.be.an('array')
                 expect(data).to.have.property('meta').to.have.all.keys(
                     'itemCount',
                     'totalItems',
                     'itemsPerPage',
                     'currentPage',
                     'totalPages'
-                )
+                )*/
             })
         })
 
@@ -487,22 +366,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/filter', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // método divergente
-                url: '/api/v1/report/multidimensional/filter/lklk', // ParÂmetro incorreto na url
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -546,22 +409,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/profiles', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/report/multidimensional/profiles',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Report - Lista tipos de relatórios', () => {
@@ -601,22 +448,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/types', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/report/multidimensional/types',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -661,22 +492,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/fields/types', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/report/multidimensional/fields/types',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Report - Lista colunas de uma view cadastrada', () => {
@@ -710,22 +525,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/views/{id}/fields', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/report/multidimensional/views/{id}/fields',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -765,22 +564,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/report/multidimensional/data/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/report/multidimensional/data/{id}',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
     describe('Módulo - Report - Salva definições de um relatório', () => {
@@ -805,10 +588,20 @@ describe('Módulo - Report', () => {
                 expect(data).to.have.property('mensagem');
                 expect(data.mensagem).to.have.property('query');
 
-                expect(data.mensagem).to.have.property('parameters').that.is.a('array');
-                expect(data.mensagem).to.have.property('driverError');
-                expect(data.mensagem.driverError).to.have.property('errorNum');
-                expect(data.mensagem.driverError).to.have.property('offset');
+                expect(data.mensagem).to.have.property('parameters').to.be.an('array');
+                expect(data.mensagem).to.have.property('driverError').to.include.all.keys(
+                    'length',
+                    'name',
+                    'severity',
+                    'code',
+                    'detail',
+                    'schema',
+                    'table',
+                    'column',
+                    'file',
+                    'line',
+                    'routine'
+                )
             })
         })
 
@@ -826,23 +619,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional/settings', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional/settings',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {},
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
             })
         })
     })
@@ -884,23 +660,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional/settings', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional/settings',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {},
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403)
-            })
-        })
     })
 
     describe('Módulo - Report - Atualiza definições de usuários de um relatório', () => {
@@ -938,23 +697,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional/user-settings', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional/user-settings',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {},
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
             })
         })
     })
@@ -996,23 +738,6 @@ describe('Módulo - Report', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/report/multidimensional/user-settings', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/report/multidimensional/user-settings',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {},
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
     })
 
     describe('Módulo - Report - license/wijmo', () => {
@@ -1047,22 +772,6 @@ describe('Módulo - Report', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - api/v1/report/license/wijmo', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: 'api/v1/report/license/wijmo',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })

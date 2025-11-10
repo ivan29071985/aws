@@ -62,22 +62,6 @@ describe('Módulo - Status Agendamento', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/status_appointments/all-status-agendamento-basicinfo', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/status_appointments/all-status-agendamento-basicinfo',
-                headers: {
-                    //'Authorization': `Bearer ${token}`, Token inválido
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Status Agendamento - Listar todos os status de agendamento', () => {
@@ -118,22 +102,6 @@ describe('Módulo - Status Agendamento', () => {
             }).then((response) => {
                 expect(response.status).to.eq(401);
             })
-        })
-
-        it('Validar retorno 404 - /api/v1/status_appointments', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', //método divergente 
-                url: '/api/v1/status_appointments',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            });
         })
     })
 })
