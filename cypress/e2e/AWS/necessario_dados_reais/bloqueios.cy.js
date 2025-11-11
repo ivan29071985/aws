@@ -6,6 +6,7 @@ describe('Módulo - Bloqueios', () => {
         cy.refreshToken();
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Cria um bloqueio', () => {
 
         it('Validar retorno 201 - /api/v1/bloqueios', () => {
@@ -90,6 +91,7 @@ describe('Módulo - Bloqueios', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Retorna uma lista de bloqueios', () => {
 
         it('Validar retorno 200 - /api/v1/bloqueios', () => {
@@ -180,6 +182,7 @@ describe('Módulo - Bloqueios', () => {
         })
         */
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Bloqueios - Deletar bloqueio', () => {
 
         it('Validar retorno 200 - /api/v1/bloqueios/{id}', () => {

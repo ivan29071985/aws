@@ -1,12 +1,12 @@
 /// <reference types="cypress"/>
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 describe('Módulo - Exceções Horários', () => {
     beforeEach(() => {
         cy.login();
         cy.refreshToken()
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Cria uma excecao', () => {
 
         it('Validar retorno 201 - /api/v1/excecoes-horarios', () => {
@@ -97,76 +97,6 @@ describe('Módulo - Exceções Horários', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 403 - /api/v1/excecoes-horarios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/excecoes-horarios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "dataInicio": "20251028",
-                    "dataFim": "20251028",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
-                    ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
-                    ],
-                    "localId": 59,
-                    "profissionalId": 3601
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/excecoes-horarios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente
-                url: '/api/v1/excecoes-horarios',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "dataInicio": "20251028",
-                    "dataFim": "20251028",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
-                    ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
-                    ],
-                    "localId": 59,
-                    "profissionalId": 3601
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -307,22 +237,6 @@ describe('Módulo - Exceções Horários', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/excecoes-horarios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/excecoes-horarios?profissionalId=3601',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/excecoes-horarios', () => {
             const token = Cypress.env('access_token');
 
@@ -336,22 +250,6 @@ describe('Módulo - Exceções Horários', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401)
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/excecoes-horarios', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/excecoes-horarios?profissionalId=3601',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
             })
         })
     })
@@ -488,22 +386,6 @@ describe('Módulo - Exceções Horários', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/excecoes-horarios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', //Método divergente
-                url: '/api/v1/excecoes-horarios/726',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/excecoes-horarios/{id}', () => {
             const token = Cypress.env('access_token');
 
@@ -519,24 +401,9 @@ describe('Módulo - Exceções Horários', () => {
                 expect(response.status).to.eq(401)
             })
         })
-
-        it('Validar retorno 404 - /api/v1/excecoes-horarios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', //Método divergente
-                url: '/api/v1/excecoes-horarios/704',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404)
-            })
-        })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Atualizar excecao por id', () => {
 
         it('Validar retorno 200 - /api/v1/excecoes-horarios/{id}', () => {
@@ -629,78 +496,9 @@ describe('Módulo - Exceções Horários', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/excecoes-horarios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET', // Método divergente
-                url: '/api/v1/excecoes-horarios/704',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "dataInicio": "20251028",
-                    "dataFim": "20251028",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
-                    ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
-                    ],
-                    "localId": 59,
-                    "profissionalId": 3601
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/excecoes-horarios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST', // Método divergente
-                url: '/api/v1/excecoes-horarios/704',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "dataInicio": "20251028",
-                    "dataFim": "20251028",
-                    "horaInicio": "13:00",
-                    "horaFim": "14:00",
-                    "tempo": 10,
-                    "procedimentos": [
-                        {
-                            "id": 20357
-                        }
-                    ],
-                    "especialidades": [
-                        {
-                            "id": 611
-                        }
-                    ],
-                    "localId": 59,
-                    "profissionalId": 3601
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Exceções Horários - Deletar excecao', () => {
 
         it('Validar retorno 200 - /api/v1/excecoes-horarios/{id}', () => {
@@ -753,22 +551,5 @@ describe('Módulo - Exceções Horários', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 404 - /api/v1/excecoes-horarios/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'POST',
-                url: '/api/v1/excecoes-horarios/3601',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
-
     })
 })

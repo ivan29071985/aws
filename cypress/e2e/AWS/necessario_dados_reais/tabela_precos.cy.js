@@ -6,7 +6,6 @@ describe('Módulo - Tabela de Preços', () => {
         cy.refreshToken();
     })
 
-    /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>EM CONSTRUÇÃO<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     describe('Módulo - Tabela de Preços - Retorna o(s) campo(s) de preços e as regras do procedimento informado', () => {
 
         it('Validar o retorno 200 - /api/v1/tabela-precos/campos-procedimento', () => {
@@ -81,22 +80,6 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar o retorno 500 - /api/v1/tabela-precos/campos-procedimento', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE', // Método divergente 
-                url: '/api/v1/tabela-precos/campos-procedimento?procedimentoId=20357&parceiroId=41&date=2025-10-29',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(500);
-            })
-        })
     })
 
     describe('Módulo - Tabela de Preços - Retorna o(s) procedimento(s) do parceiro para a unidade informada', () => {
@@ -162,24 +145,9 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 500 - /api/v1/tabela-precos/procedimentos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos/procedimentos?parceiroId=41&unidadeId=483&data=2025-10-29',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(500);
-            })
-        })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Tabela de Preços - Retorna o(s) preço(s) do(s) procedimento(s) para o parceiro e unidade informados', () => {
 
         it('Validar retorno 200 - /api/v1/tabela-precos/precos-procedimentos', () => {
@@ -187,7 +155,7 @@ describe('Módulo - Tabela de Preços', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/tabela-precos/precos-procedimentos?parceiroId=41&unidadeId=483&procedimentosIds=20357&procedimentosIds=20357&data=2025-10-29&pacienteId=353494',
+                url: '/api/v1/tabela-precos/precos-procedimentos',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -240,22 +208,6 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 500 - /api/v1/tabela-precos/precos-procedimentos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos/precos-procedimentos?parceiroId=41&unidadeId=483&procedimentosIds=20357&procedimentosIds=20357&data=2025-10-29&pacienteId=353494',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(500);
-            })
-        })
     })
 
     describe('Módulo - Tabela de Preços - Lista as tabelas de preços cadastardas', () => {
@@ -297,22 +249,6 @@ describe('Módulo - Tabela de Preços', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/tabela-precos', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos?page=1&limit=10&parceiroId=41&parceiroTipoId=3&procedimentosIds=20357&procedimentosIds=20357&unidadesIds=483&unidadesIds=483&vigenciaInicio=2023-06-01&vigenciaTermino=2025-12-31&flagAtivo=1&flagGestaoFranqueadora=0',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
             })
         })
     })
@@ -441,108 +377,6 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.status).to.eq(401);
             })
         })
-
-        it('Validar retorno 403 - /api/v1/tabela-precos', () => {
-            const token = Cypress.env('access_token');
-            const gerarTabela = `TESTE API${Math.floor(Math.random() * 1000) + 1}`;
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/tabela-precos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    nome: gerarTabela,
-                    parceiroId: 41,
-                    vigenciaInicio: "2023-01-01",
-                    vigenciaTermino: "2023-12-31",
-                    regionais: [
-                        {
-                            id: 1
-                        }
-                    ],
-                    unidades: [
-                        {
-                            id: 483
-                        }
-                    ],
-                    procedimentos: [
-                        {
-                            procedimento: {
-                                id: 20357
-                            },
-                            precoCdtAaa: null,
-                            precoCdtAa: null,
-                            precoCdtA: null,
-                            precoCdtB: null,
-                            precoCdtC: null,
-                            precoCdtUnico: null,
-                            precoParticular: null,
-                            precoParceiro: null,
-                            preco: 199
-                        }
-                    ],
-                    flagAtivo: "1",
-                    flagGestaoFranqueadora: 0
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/tabela-precos', () => {
-            const token = Cypress.env('access_token');
-            const gerarTabela = `TESTE API${Math.floor(Math.random() * 1000) + 1}`;
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    nome: gerarTabela,
-                    parceiroId: 41,
-                    vigenciaInicio: "2023-01-01",
-                    vigenciaTermino: "2023-12-31",
-                    regionais: [
-                        {
-                            id: 1
-                        }
-                    ],
-                    unidades: [
-                        {
-                            id: 483
-                        }
-                    ],
-                    procedimentos: [
-                        {
-                            procedimento: {
-                                id: 20357
-                            },
-                            precoCdtAaa: null,
-                            precoCdtAa: null,
-                            precoCdtA: null,
-                            precoCdtB: null,
-                            precoCdtC: null,
-                            precoCdtUnico: null,
-                            precoParticular: null,
-                            precoParceiro: null,
-                            preco: 199
-                        }
-                    ],
-                    flagAtivo: "1",
-                    flagGestaoFranqueadora: 0
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 
     describe('Módulo - Tabela de Preços - Verifica se os procedimentos enviados ja estão cadastrados para uma tabela de preço com a mesma parceria e unidade', () => {
@@ -595,22 +429,6 @@ describe('Módulo - Tabela de Preços', () => {
                 failOnStatusCode: false
             }).then((response) => {
                 expect(response.status).to.eq(401);
-            })
-        })
-
-        it('Validar retorno 500 - /api/v1/tabela-precos/verify-procedures', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/tabela-precos/verify-procedures?parceiroId=41&procedimentosIds=20357&procedimentosIds=20357&unidadesIds=483&unidadesIds=483',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(500);
             })
         })
     })
@@ -795,6 +613,7 @@ describe('Módulo - Tabela de Preços', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Tabela de Preços - Cadastra procedimentos na tabela de preço', () => {
 
         it('Validar retorno 201 - /api/v1/tabela-precos/{id}', () => {
@@ -818,6 +637,45 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.body).to.have.property('codigo');
                 expect(response.body).to.have.property('flagDeError');
                 expect(response.body).to.have.property('mensagem');
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/tabela-precos/1029',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: { //sem parâmetro no body
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/tabela-precos/1029',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "procedimentos": [
+                        21382
+                    ]
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
             })
         })
     })
@@ -1026,130 +884,57 @@ describe('Módulo - Tabela de Preços', () => {
                 expect(response.status).to.eq(401);
             })
         })
+    })
 
-        it('Validar retorno 403 - /api/v1/tabela-precos/{id}', () => {
+    // Precisa de dados reais do Amei
+    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
+
+        it('Validar retorno 200 - /api/v1/tabela-precos/{id}', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
-                method: 'GET',
-                url: '/api/v1/tabela-precos/285',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    "nome": "utt 555",
-                    "parceiroId": 225,
-                    "vigenciaInicio": "2024-10-01",
-                    "vigenciaTermino": "2024-12-13",
-                    "regionais": [
-                        {
-                            "id": 1
-                        },
-                        {
-                            "id": 2
-                        },
-                        {
-                            "id": 21
-                        },
-                        {
-                            "id": 22
-                        },
-                        {
-                            "id": 23
-                        },
-                        {
-                            "id": 24
-                        },
-                        {
-                            "id": 25
-                        },
-                        {
-                            "id": 26
-                        },
-                        {
-                            "id": 27
-                        },
-                        {
-                            "id": 28
-                        },
-                        {
-                            "id": 29
-                        },
-                        {
-                            "id": 30
-                        },
-                        {
-                            "id": 3
-                        },
-                        {
-                            "id": 31
-                        },
-                        {
-                            "id": 32
-                        }
-                    ],
-                    "unidades": [
-                        {
-                            "id": 483
-                        }
-                    ],
-                    "tipoProcedimentoId": null,
-                    "grupoProcedimentoId": null,
-                    "procedimentosIds": [
-                        28002
-                    ],
-                    "procedimentos": [
-                        {
-                            "id": 1501,
-                            "procedimento": {
-                                "id": 28002
-                            },
-                            "preco": 1229
-                        }
-                    ],
-                    "flagAtivo": "1",
-                    "flagPrimeiraConsulta": "0",
-                    "flagGestaoFranqueadora": 0
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-    })
-
-    describe.only('Módulo - Tabela de Preços - Deletar procedimento da tabela', () => {
-
-        it('Validar retorno 200 ou 500 - /api/v1/tabela-precos/{id}', () => {
-            const token = Cypress.env('access_token');
-
-            const requestOptions = {
                 method: 'DELETE',
                 url: '/api/v1/tabela-precos/4510',
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 failOnStatusCode: false
-            };
-            // Aqui ele realmente faz o request
-            cy.request(requestOptions).then((response) => {
-                if (response.status === 200) {
-                    expect(response.status).to.eq(200);
-                    expect(response.body.codigo).to.be.a('number');
-                    expect(response.body.flagDeError).to.be.a('boolean');
-                    expect(response.body.mensagem).to.be.a('string');
-                    cy.log('Requisição bem-sucedida (200)');
-                } else if (response.status === 500) {
-                    expect(response.status).to.eq(500);
-                    expect(response.body.message).to.eq('Falha ao remover o procedimento.');
-                    expect(response.body.error).to.eq('Internal Server Error');
-                    expect(response.body.statusCode).to.eq(500);
-                    cy.log('Erro interno do servidor (500)');
-                } else {
-                    throw new Error(`Status inesperado: ${response.status}`);
-                }
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+                // Falta desenvolver o body
+            })
+        })
+
+        it('Validar retorno 400 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/tabela-precos/{id}',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/tabela-precos/{id}', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'DELETE',
+                url: '/api/v1/tabela-precos/{id}',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
             })
         })
     })

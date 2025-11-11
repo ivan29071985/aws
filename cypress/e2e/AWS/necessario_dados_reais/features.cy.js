@@ -183,6 +183,7 @@ describe('Módulo - Features', () => {
     })
   })
 
+  // Precisa de dados reais do Amei
   describe('Módulo - Features - Atualiza uma Feature', () => {
 
     it('Validar retorno 200 - /api/v1/features/{id}', () => {
@@ -255,6 +256,7 @@ describe('Módulo - Features', () => {
     })
   })
 
+  // Precisa de dados reais do Amei
   describe('Módulo - Features - Remove uma Feature', () => {
 
     it('Validar retorno 200 - /api/v1/features/{id}', () => {

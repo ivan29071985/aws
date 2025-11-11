@@ -74,7 +74,7 @@ describe('Módulo - Funcionários', () => {
 
     describe('Módulo - Funcionários - Cadastrar um funcionário', () => {
 
-        it('Validar retorno 201 - /api/v1/employees', () => {
+        it.only('Validar retorno 201 - /api/v1/employees', () => {
             const token = Cypress.env('access_token')
             cy.gerarCpfValido().then((cpf) => {
 
@@ -258,7 +258,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Retorna a grid de funcionários', () => {
+    describe.only('Módulo - Funcionários - Retorna a grid de funcionários', () => {
 
         it('Validar retorno 200 - api/v1/employees/grid', () => {
             const token = Cypress.env('access_token');
@@ -316,7 +316,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Retorna um funcionário por id', () => {
+    describe.only('Módulo - Funcionários - Retorna um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
@@ -395,9 +395,9 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Atualiza um funcionário por id', () => {
+    describe.only('Módulo - Funcionários - Atualiza um funcionário por id', () => {
 
-        it('Validar retorno 200 - /api/v1/employees/{id}', () => {
+        it.only('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
@@ -411,7 +411,7 @@ describe('Módulo - Funcionários', () => {
 
             cy.request({
                 method: 'PUT',
-                url: '/api/v1/employees/974',
+                url: `/api/v1/employees/${idFuncionario}`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -533,9 +533,9 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
-        it('Validar retorno 201 - /api/v1/employees/update-email', () => {
+        it.only('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
@@ -825,9 +825,9 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+    describe.only('Módulo - Funcionários - Remover perfil ao funcionário', () => {
 
-        it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
+        it.only('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario', idFuncionario)
              

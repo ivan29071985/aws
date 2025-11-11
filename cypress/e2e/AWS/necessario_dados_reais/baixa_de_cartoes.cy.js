@@ -145,6 +145,7 @@ describe('Módulo - Baixa de Cartões', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Baixa de Cartões - Concializa/faz a baixa dos pagamentos selecionados ou unico', () => {
 
         it('Validar retorno 201 - /api/v1/baixa-cartao/conciliar', () => {
