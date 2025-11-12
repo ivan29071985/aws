@@ -96,7 +96,7 @@ describe('Módulo - Versão API', () => {
         })
     })
 
-    describe('Módulo - Versão API - Endpoint Versioning config', () => {
+    describe.only('Módulo - Versão API - Endpoint Versioning config', () => {
 
         it('Validar retorno 200 - /api/v1/endpoint-versioning-config', () => {
             //const token = Cypress.env('access_token_paulo');

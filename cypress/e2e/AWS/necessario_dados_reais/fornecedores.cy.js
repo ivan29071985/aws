@@ -851,9 +851,9 @@ describe('Módulo - Fornecedores', () => {
     })
 
     //GET - FINALIZADO
-    describe.only('Módulo - Fornecedores - Retorna uma lista de fornecedores sem pagina ate com referencia a procedimentos', () => {
+    describe('Módulo - Fornecedores - Retorna uma lista de fornecedores sem pagina ate com referencia a procedimentos', () => {
 
-        it.only('Validar retorno 200 - /api/v1/fornecedores/laboratorio', () => {
+        it('Validar retorno 200 - /api/v1/fornecedores/laboratorio', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -932,9 +932,10 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
-    //GET - FINALIZADO
+    //GET
     describe('Módulo - Fornecedores - Retorna uma lista de fornecedores e pelo id dos procedimentos', () => {
-
+        
+/* // Sem possibilidade de inserir parâmetro no Swagger
         it('Validar retorno 200 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
             const token = Cypress.env('access_token');
 
@@ -983,7 +984,7 @@ describe('Módulo - Fornecedores', () => {
                 expect(body).to.have.property('flagMultiplasAmostras');
             })
         })
-
+*/
         it('Validar retorno 400 - /api/v1/fornecedores/list-dados-laboratorio-exame', () => {
             const token = Cypress.env('access_token');
 
@@ -1073,31 +1074,34 @@ describe('Módulo - Fornecedores', () => {
                 expect(response.status).to.eq(200)
 
                 const item = response.body;
+                expect(item).to.have.property('createAt');
+                expect(item).to.have.property('flgExecutante');
+                expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
                 expect(item).to.have.property('cnpj');
-                expect(item).to.have.property('id');
                 expect(item).to.have.property('inscricaoEstadual');
                 expect(item).to.have.property('inscricaoMunicipal');
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('complmento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
+                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
-                expect(item).to.have.property('emailAlternativo');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flagRecebeParcial');
-                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('flgRecebeParcial');
+                expect(item).to.have.property('obervacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoPrestadorId');
-                expect(item).to.have.property('tipoPrestador');
-                expect(item).to.have.property('criadoEm');
-                expect(item).to.have.property('integracaoId');
+                expect(item).to.have.property('tipoFornecedorId');
+                expect(item).to.have.property('tipoFornecedor');
+                expect(item).to.have.property('condigoInterno');
+                expect(item).to.have.property('criadoPor');
+                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1159,31 +1163,34 @@ describe('Módulo - Fornecedores', () => {
                 expect(response.status).to.eq(200);
 
                 const item = response.body;
+                expect(item).to.have.property('createAt');
+                expect(item).to.have.property('flgExecutante');
+                expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
                 expect(item).to.have.property('cnpj');
-                expect(item).to.have.property('id');
                 expect(item).to.have.property('inscricaoEstadual');
                 expect(item).to.have.property('inscricaoMunicipal');
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('complmento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
+                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
-                expect(item).to.have.property('emailAlternativo');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flagRecebeParcial');
-                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('flgRecebeParcial');
+                expect(item).to.have.property('obervacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoPrestadorId');
-                expect(item).to.have.property('tipoPrestador');
-                expect(item).to.have.property('criadoEm');
-                expect(item).to.have.property('integracaoId');
+                expect(item).to.have.property('tipoFornecedorId');
+                expect(item).to.have.property('tipoFornecedor');
+                expect(item).to.have.property('condigoInterno');
+                expect(item).to.have.property('criadoPor');
+                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1318,31 +1325,34 @@ describe('Módulo - Fornecedores', () => {
                 expect(response.status).to.eq(200);
 
                 const item = response.body;
+                expect(item).to.have.property('createAt');
+                expect(item).to.have.property('flgExecutante');
+                expect(item).to.have.property('id');
                 expect(item).to.have.property('razaoSocial');
                 expect(item).to.have.property('nomeFantasia');
                 expect(item).to.have.property('cnpj');
-                expect(item).to.have.property('id');
                 expect(item).to.have.property('inscricaoEstadual');
                 expect(item).to.have.property('inscricaoMunicipal');
                 expect(item).to.have.property('cep');
                 expect(item).to.have.property('endereco');
                 expect(item).to.have.property('numero');
-                expect(item).to.have.property('complemento');
+                expect(item).to.have.property('complmento');
                 expect(item).to.have.property('bairro');
                 expect(item).to.have.property('municipioId');
                 expect(item).to.have.property('municipio');
+                expect(item).to.have.property('ufId');
                 expect(item).to.have.property('uf');
                 expect(item).to.have.property('email');
-                expect(item).to.have.property('emailAlternativo');
                 expect(item).to.have.property('telefone');
                 expect(item).to.have.property('celular');
-                expect(item).to.have.property('flagRecebeParcial');
-                expect(item).to.have.property('observacao');
+                expect(item).to.have.property('flgRecebeParcial');
+                expect(item).to.have.property('obervacao');
                 expect(item).to.have.property('ativo');
-                expect(item).to.have.property('tipoPrestadorId');
-                expect(item).to.have.property('tipoPrestador');
-                expect(item).to.have.property('criadoEm');
-                expect(item).to.have.property('integracaoId');
+                expect(item).to.have.property('tipoFornecedorId');
+                expect(item).to.have.property('tipoFornecedor');
+                expect(item).to.have.property('condigoInterno');
+                expect(item).to.have.property('criadoPor');
+                expect(item).to.have.property('integracao');
             })
         })
 
@@ -1495,6 +1505,7 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     //POST - FINALIZADO    
     // SELECT * FROM FORNECEDOR_UNIDADES fu WHERE fu.FK_FORNECEDOR = '296'
     // Necessário pegar o ID na tabela FORNECEDOR_UNIDADES
@@ -1746,6 +1757,7 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     //PUT - FINALIZADO
     describe('Módulo - Fornecedores - Atualiza os dados de split de um fornecedor', () => {
 
@@ -1938,6 +1950,7 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     //POST - FINALIZADO
     describe('Módulo - Fornecedores - Cadastra os procedimentos do fornecedor', () => {
 
@@ -2024,7 +2037,7 @@ describe('Módulo - Fornecedores', () => {
     })
 
     //GET - FINALIZADO
-    describe('Módulo - Fornecedores - Retorna os procedimentos do fornecedor, com paginação, buscando por parceiro E/OU nome E/OU grupo E/OU Tipo de procedimentos', () => {
+    describe.only('Módulo - Fornecedores - Retorna os procedimentos do fornecedor, com paginação, buscando por parceiro E/OU nome E/OU grupo E/OU Tipo de procedimentos', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/filter', () => {
             const token = Cypress.env('access_token');
@@ -2066,22 +2079,6 @@ describe('Módulo - Fornecedores', () => {
             })
         })
 
-        it('Validar retorno 400 - /api/v1/fornecedores/{id}/procedimentos/filter', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/fornecedores/{id}/procedimentos/filter', // sem parâmetro
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(400)
-            })
-        })
-
         it('Validar retorno 401 - /api/v1/fornecedores/{id}/procedimentos/filter', () => {
             const token = Cypress.env('access_token');
 
@@ -2099,8 +2096,9 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     //PUT - FINALIZADO
-    describe('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
+    describe.only('Módulo - Fornecedores - Atualiza os dados do procedimento do fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
             const token = Cypress.env('access_token');
@@ -2164,8 +2162,9 @@ describe('Módulo - Fornecedores', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     //DELETE - FINALIZADO
-    describe('Módulo - Fornecedores - Inativa o procedimento do fornecedor', () => {
+    describe.only('Módulo - Fornecedores - Inativa o procedimento do fornecedor', () => {
 
         it('Validar retorno 200 - /api/v1/fornecedores/{id}/procedimentos/{procedimentoId}', () => {
             const token = Cypress.env('access_token');

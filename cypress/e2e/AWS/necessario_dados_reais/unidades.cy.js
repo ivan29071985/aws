@@ -7,6 +7,7 @@ describe('Módulo - Unidades', () => {
         cy.refreshToken()
     });
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Criar uma unidade ', () => {
 
         it('Validar retorno 201 - /api/v1/unidades', () => {
@@ -374,6 +375,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Atualiza informações estáticas de uma unidade. Deve ser usado apenas para atualizações forçadas.', () => {
         
         it('Validar retorno 201 - /api/v1/unidades/static-info', () => {
@@ -434,6 +436,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Vincula uma unidade a um profissional', () => {
 
         it('Validar retorno 201 - /api/v1/unidades/link-clinic-professional', () => {
@@ -498,6 +501,7 @@ describe('Módulo - Unidades', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Unidades - Desvincular uma unidade de um profissional', () => {
 
         it('Validar retorno 201 - /api/v1/unidades/unlink-clinic-professional', () => {

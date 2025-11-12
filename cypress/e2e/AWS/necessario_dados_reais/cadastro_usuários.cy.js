@@ -1,15 +1,16 @@
 /// <reference types= "cypress" />  
 
-describe('Módulo - Cadastro de usuários - Após logar, permite criar novo usuários', () => {
+describe('Módulo - Cadastro de usuários', () => {
 
     beforeEach(() => {
         cy.login()
         cy.refreshToken()
     });
 
-    describe('Módulo - Cadastro de usuários', () => {
+    // Precisa de dados reais do Amei
+    describe('Módulo - Cadastro de usuários - Após logar, permite criar novo usuários', () => {
 
-        it('Validar retorno 201 - Usuário criado com sucesso', () => {
+        it('Validar retorno 201 - /api/v1/user/create-complete', () => {
             const token = Cypress.env('access_token');  // Obter o token de acesso do Cypress.env()
 
             // Verifique se o token está disponível
@@ -77,7 +78,7 @@ describe('Módulo - Cadastro de usuários - Após logar, permite criar novo usu�
             });
         });
 
-        it('Validar retorno 401', () => {
+        it('Validar retorno 401 - /api/v1/user/create-complete', () => {
 
             const token = Cypress.env('access_token')
             // Função para gerar um email aleatório
@@ -140,8 +141,69 @@ describe('Módulo - Cadastro de usuários - Após logar, permite criar novo usu�
                     statusCode: 401
                 });
             });
-        });
-    });
-});
+        })
+    })
+
+    // Precisa de dados reais do Amei
+    describe('Módulo - Cadastro de usuários - Após um usuário logado no sistema, permite atualizar usuário existente', () => {
+
+        it('Validar retorno 200 - /api/v1/user/update', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/user/update',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    "id": 0,
+                    "email": generateRandomEmail(),
+                    "password": "@Password",
+                    "firstName": "João",
+                    "lastName": "da Silva",
+                    "fullName": "João da Silva",
+                    "cpf": generateRandomCPF(),
+                    "isAdmin": false,
+                    "tratamento": "tratamento x",
+                    "sexo": "masculino",
+                    "data_nascimento": "19801219",
+                    "celular": generateRandomPhone(),
+                    "funcao": "Profissional de saúde - nível superior",
+                    "profissao": "Médico",
+                    "crm": generateRandomCRM(),
+                    "uf": "SP",
+                    "cidade": "São Paulo",
+                    "role": "user",
+                    "isActive": true,
+                    "createAd": "20220531",
+                    "updateAd": "20220531"
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(200);
+            })
+        })
+
+        it.only('Validar retorno 400 - /api/v1/user/update', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'PUT',
+                url: '/api/v1/user/update',
+                headers: {
+                    //'Authorization': `Bearer ${token}`, token inválido
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                },
+                failOnStatusCode: false
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
+    })
+})
 
 

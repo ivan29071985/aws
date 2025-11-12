@@ -658,6 +658,7 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Parceiros - Exibe os dados do parceiro', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
@@ -777,6 +778,7 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Parceiros - Atualiza os dados do parceiro', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}', () => {
@@ -866,6 +868,7 @@ describe('Módulo - Parceiros', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Parceiros - Exibe as unidades do parceiro', () => {
 
         it('Validar retorno 200 - /api/v1/parceiros/{id}/unidades', () => {

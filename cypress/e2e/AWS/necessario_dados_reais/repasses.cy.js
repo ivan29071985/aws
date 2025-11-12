@@ -123,7 +123,8 @@ describe('Módulo - Repasses', () => {
         })
     })
 
-    describe.only('Módulo - Repasses - Consolidar', () => {
+    // Precisa de dados reais do Amei
+    describe('Módulo - Repasses - Consolidar', () => {
 
         it('Validar retorno 201 - /api/v1/repasses/novo-consolidar', () => {
             const token = Cypress.env('access_token');
@@ -197,6 +198,7 @@ describe('Módulo - Repasses', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Repasses - Desconsolidar', () => {
 
         it('Validar retorno 201 - /api/v1/repasses/novo-desconsolidar', () => {
@@ -271,6 +273,7 @@ describe('Módulo - Repasses', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Repasses - Criar um contas a pagar pelo repasse', () => {
 
         it('validar retorno 201 - /api/v1/repasses/novo-conta-pagar-repasse', () => {

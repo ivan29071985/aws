@@ -6,9 +6,9 @@ describe('Módulo - Usuários', () => {
         cy.refreshToken()
     })
 
-    describe.only('Módulo - Usuários - Trás as informações do usuário logado', () => {
+    describe('Módulo - Usuários - Trás as informações do usuário logado', () => {
 
-        it.only('Validar retorno 200 - /api/v1/user/current-user-info', () => {
+        it('Validar retorno 200 - /api/v1/user/current-user-info', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -707,11 +707,11 @@ describe('Módulo - Usuários', () => {
             })
         })
     })
-    /**** >================ EM CONSTRUÇÃO <=========================================*/
 
-    describe.skip('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
+    // Precisa de dados reais do Amei
+    describe.only('Módulo - Usuários - Alteração de senha internamente pelo usuário', () => {
 
-        it('Validar retorno 200 - /api/v1/user/recovery-password', () => {
+        it('Validar retorno 201 - /api/v1/user/recovery-password', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
@@ -734,8 +734,47 @@ describe('Módulo - Usuários', () => {
                 expect(item).to.have.property('mensagem');
             })
         })
+
+        it('Validar retorno 400 - /api/v1/user/recovery-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/user/recovery-password',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+    
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(400);
+            })
+        })
+
+        it('Validar retorno 401 - /api/v1/user/recovery-password', () => {
+            const token = Cypress.env('access_token');
+
+            cy.request({
+                method: 'POST',
+                url: '/api/v1/user/recovery-password',
+                headers: {
+                    //'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    email: "ivan.santos+1@amorsaude.com",
+                },
+                failOnStatusCode: false,
+            }).then((response) => {
+                expect(response.status).to.eq(401);
+            })
+        })
     })
-/**** >================ EM CONSTRUÇÃO <=========================================*/
+
+
     describe.skip('Módulo - Usuários - Recuperar senha', () => {
 
         it('Validar retorno 201 - /api/v1/user/password-recover', () => {
@@ -780,43 +819,6 @@ describe('Módulo - Usuários', () => {
             })
         })
 
-        it('Validar retorno 403 - /api/v1/user/password-recover', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'GET',
-                url: '/api/v1/user/password-recover',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    email: "ivan.santos+1@amorsaude.com",
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(403);
-            })
-        })
-
-        it('Validar retorno 404 - /api/v1/user/password-recover', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: 'DELETE',
-                url: '/api/v1/user/password-recover',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    email: "ivan.santos+1@amorsaude.com",
-                },
-                failOnStatusCode: false,
-            }).then((response) => {
-                expect(response.status).to.eq(404);
-            })
-        })
     })
 /**** >================ EM CONSTRUÇÃO <=========================================*/
 

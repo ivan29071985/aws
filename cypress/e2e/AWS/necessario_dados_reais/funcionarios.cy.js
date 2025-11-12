@@ -74,7 +74,7 @@ describe('Módulo - Funcionários', () => {
 
     describe('Módulo - Funcionários - Cadastrar um funcionário', () => {
 
-        it.only('Validar retorno 201 - /api/v1/employees', () => {
+        it('Validar retorno 201 - /api/v1/employees', () => {
             const token = Cypress.env('access_token')
             cy.gerarCpfValido().then((cpf) => {
 
@@ -258,7 +258,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Retorna a grid de funcionários', () => {
+    describe('Módulo - Funcionários - Retorna a grid de funcionários', () => {
 
         it('Validar retorno 200 - api/v1/employees/grid', () => {
             const token = Cypress.env('access_token');
@@ -316,7 +316,7 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Retorna um funcionário por id', () => {
+    describe('Módulo - Funcionários - Retorna um funcionário por id', () => {
 
         it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
@@ -395,9 +395,10 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Atualiza um funcionário por id', () => {
+    // Precisa de dados reais do Amei
+    describe('Módulo - Funcionários - Atualiza um funcionário por id', () => {
 
-        it.only('Validar retorno 200 - /api/v1/employees/{id}', () => {
+        it('Validar retorno 200 - /api/v1/employees/{id}', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
@@ -417,30 +418,32 @@ describe('Módulo - Funcionários', () => {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    status: "0",
-                    nome: "asdasd",
-                    sobrenome: "Ramalho",
-                    foto: "",
-                    cpf: "75926211000",
-                    rg: "12312313",
-                    dataNascimento: null,
-                    dataDemissao: null,
-                    dataAdmissao: null,
-                    tipoFuncionario: "Externo",
-                    origemExterno: "GT7",
-                    cep: "69065-130",
-                    sexoId: 1,
-                    observacao: "",
-                    celular: "1234567890",
-                    bairro: "Cachoeirinha",
-                    email: "lucasclaudino@liv12311112e.com",
-                    endereco: "Avenida Codajás",
-                    numero: "105",
-                    complemento: "b",
-                    municipioId: 1565,
-                    usuarioUnidadeId: 483
-                }
-                ,
+                    "status": "1",
+                    "nome": "Julio",
+                    "sobrenome": "Silva",
+                    "foto": "",
+                    "cpf": "12345678900",
+                    "rg": "42.418.401-1",
+                    "dataNascimento": "1995-07-17",
+                    "dataDemissao": null,
+                    "dataAdmissao": "2025-10-01",
+                    "tipoFuncionario": "Interno",
+                    "origemExterno": "",
+                    "cep": "13580-970",
+                    "sexoId": 1,
+                    "setorId": 3,
+                    "observacao": "",
+                    "celular": "16992788783",
+                    "bairro": "Centro",
+                    "email": "julio.silva@email.com",
+                    "endereco": "Rua São Paulo",
+                    "numero": "121",
+                    "complemento": "",
+                    "funcaoId": 1,
+                    "perfilAcessoId": 1,
+                    "municipioId": 4918,
+                    "usuarioUnidadeId": 483
+                },
                 failOnStatusCode: false,
             }).then((response) => {
                 expect(response.status).to.eq(200)
@@ -533,9 +536,10 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
+    // Precisa de dados reais do Amei
+    describe('Módulo - Funcionários - Atualiza e-mail do profissional e do usuário vinculado ao profissional', () => {
 
-        it.only('Validar retorno 201 - /api/v1/employees/update-email', () => {
+        it('Validar retorno 201 - /api/v1/employees/update-email', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario'); //Reutiliza ID
 
@@ -825,12 +829,13 @@ describe('Módulo - Funcionários', () => {
         })
     })
 
-    describe.only('Módulo - Funcionários - Remover perfil ao funcionário', () => {
+    // Precisa de dados reais do Amei
+    describe('Módulo - Funcionários - Remover perfil ao funcionário', () => {
 
-        it.only('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
+        it('Validar retorno 200 - /api/v1/employees/perfil/{id}', () => {
             const token = Cypress.env('access_token');
             const idFuncionario = Cypress.env('idFuncionario', idFuncionario)
-             
+
 
             cy.request({
                 method: 'DELETE',

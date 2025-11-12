@@ -6,6 +6,7 @@ describe('Módulo - Lista Espera', () => {
         cy.refreshToken();
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Cria uma lista de espera', () => {
 
         it('Validar retorno 201 - /api/v1/lista-espera', () => {
@@ -68,6 +69,7 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Lista de Espera', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera', () => {
@@ -191,6 +193,7 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Retorna por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
@@ -280,6 +283,7 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Atualizar por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
@@ -337,6 +341,7 @@ describe('Módulo - Lista Espera', () => {
         })
     })
 
+    // Precisa de dados reais do Amei
     describe('Módulo - Lista Espera - Deletar por id', () => {
 
         it('Validar retorno 200 - /api/v1/lista-espera/{id}', () => {
