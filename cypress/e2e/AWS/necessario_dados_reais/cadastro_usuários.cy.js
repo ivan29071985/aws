@@ -186,7 +186,7 @@ describe('Módulo - Cadastro de usuários', () => {
             })
         })
 
-        it.only('Validar retorno 400 - /api/v1/user/update', () => {
+        it('Validar retorno 400 - /api/v1/user/update', () => {
             const token = Cypress.env('access_token');
 
             cy.request({
