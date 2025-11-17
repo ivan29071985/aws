@@ -449,7 +449,7 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 
-    describe.only('Módulo - Atendimentos - Listar links dos documentos', () => {
+    describe('Módulo - Atendimentos - Listar links dos documentos', () => {
         
         it('Validar retorno 201 - /api/v1/attendance/bulk-documents', () => {
             const token = Cypress.env('access_token');
@@ -500,25 +500,3 @@ describe('Módulo - Atendimentos', () => {
         })
     })
 })
-
-
-
-/**
- * // Precisa de dados reais do Amei
-
-it('Validar retorno 200 - ', () => {
-            const token = Cypress.env('access_token');
-
-            cy.request({
-                method: '',
-                url: '',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                failOnStatusCode: false
-            }).then((response) => {
-                expect(response.status).to.eq(200);
-            })
-        })
- */
