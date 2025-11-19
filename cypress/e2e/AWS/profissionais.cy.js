@@ -1157,6 +1157,7 @@ describe('Módulo - Profissionais', () => {
 
     describe('Módulo - Profissional - Listar profissionais que seja responsavel da clinica', () => {
         
+        
     })
 
     describe('Módulo - Profissional - Ativar ou Desativar profissional por id', () => {
