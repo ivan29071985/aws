@@ -122,7 +122,7 @@ describe('Módulo - Campanhas', () => {
 
             cy.request({
                 method: 'GET',
-                url: '/api/v1/campaigns',
+                url: '/api/v1/campaigns?page=1&limit=2',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
